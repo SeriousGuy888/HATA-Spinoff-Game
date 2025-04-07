@@ -1,7 +1,8 @@
-export interface MapRegionData {
+export interface MapTileData {
 	name: string
 	description?: string
 	coordinates: [number, number][] // Used to draw an SVG Path polygon
+	neighbours: string[] // IDs of neighbouring tiles
 }
 
 export const MAP_DIMENSIONS = {
@@ -16,37 +17,64 @@ export const MAP_WORLD_ORIGIN_OFFSET: [number, number] = [5001, 5001]
 // The location in the world that the camera should start centered on.
 export const DEFAULT_WORLD_LOCATION: [number, number] = [200, 1200]
 
-export const TILES: { [key: string]: MapRegionData } = {
-	hawainot_province: {
-		name: "Hawainot",
-		description: "(testing region)",
+export const TILES: { [key: string]: MapTileData } = {
+	hawainot_big_island: {
+		name: "Hawainot East Big Island",
+		description: "",
+		neighbours: ["equalsosceles"],
 		coordinates: [
-			[-337, 1275],
-			[-285, 1276],
-			[-289, 1320],
-			[-250, 1340],
-			[-158, 1324],
-			[-124, 1352],
-			[-80, 1404],
-			[-21, 1405],
-			[13, 1448],
-			[-23, 1542],
-			[-104, 1568],
-			[-119, 1610],
-			[-129, 1630],
-			[-243, 1595],
-			[-253, 1527],
-			[-324, 1534],
-			[-402, 1520],
-			[-424, 1436],
-			[-480, 1414],
-			[-489, 1366],
-			[-353, 1307],
+			[-40, 1509],
+			[-58, 1508],
+			[-61, 1499],
+			[-76, 1486],
+			[-76, 1467],
+			[-60, 1447],
+			[-48, 1455],
+			[-43, 1459],
+			[-38, 1457],
+			[-30, 1448],
+			[-33, 1443],
+			[-39, 1439],
+			[-56, 1437],
+			[-60, 1430],
+			[-60, 1412],
+			[-47, 1412],
+			[-27, 1420],
+			[-17, 1423],
+			[-11, 1435],
+			[-7, 1456],
+			[-11, 1467],
+			[-13, 1488],
+			[-19, 1502],
+		],
+	},
+	equalsosceles: {
+		name: "Equalsosceles Island",
+		description: "",
+		neighbours: ["hawainot_big_island"],
+		coordinates: [
+			[-64, 1443],
+			[-69, 1451],
+			[-81, 1457],
+			[-88, 1450],
+			[-99, 1449],
+			[-105, 1442],
+			[-115, 1442],
+			[-123, 1433],
+			[-123, 1423],
+			[-118, 1414],
+			[-109, 1408],
+			[-104, 1401],
+			[-95, 1401],
+			[-95, 1409],
+			[-77, 1418],
+			[-66, 1419],
 		],
 	},
 	sheapland: {
 		name: "Sheapland",
 		description: "testing",
+		neighbours: [],
 		coordinates: [
 			[-2, 1102],
 			[37, 1091],
