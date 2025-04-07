@@ -7,6 +7,8 @@ const ZOOM_STEP_FACTOR = 9 / 8
 export const cameraState = $state({
 	clientLeft: 0, // where the camera element is in the viewport window
 	clientTop: 0,
+	clientWidth: 0, // size of the camera element in the viewport window
+	clientHeight: 0,
 	offsetX: 0, // where the camera has been panned to
 	offsetY: 0,
 	zoom: 1, // zoom level of the camera
@@ -36,6 +38,15 @@ export function changeZoom(direction: "in" | "out", centerX: number, centerY: nu
 }
 
 /**
+ * Center the camera on a given worldspace coordinate.
+ */
+export function teleportToWorldSpace(worldX: number, worldY: number, screenWidth: number, screenHeight: number) {
+	const [screenX, screenY] = worldSpaceToScreenSpace(worldX, worldY)
+	cameraState.offsetX = screenX - screenWidth / 2
+	cameraState.offsetY = screenY - screenHeight / 2
+}
+
+/**
  * Convert from "clientspace coordinates" (coordinates relative to viewport window)
  * to "screenspace coordinates" (coordinates relative to the map camera window).
  */
@@ -49,6 +60,11 @@ export function clientStateToScreenSpace(clientX: number, clientY: number): [num
  */
 export function screenSpaceToWorldSpace(screenX: number, screenY: number): [number, number] {
 	return [screenX - MAP_WORLD_ORIGIN_OFFSET[0], screenY - MAP_WORLD_ORIGIN_OFFSET[1]]
+}
+
+
+export function worldSpaceToScreenSpace(worldX: number, worldY: number): [number, number] {
+	return [worldX + MAP_WORLD_ORIGIN_OFFSET[0], worldY + MAP_WORLD_ORIGIN_OFFSET[1]]
 }
 
 export function worldSpaceToImageSpace(worldX: number, worldY: number): [number, number] {

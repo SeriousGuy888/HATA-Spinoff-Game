@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { onMount } from "svelte"
-	import { cameraState, changeZoom, clientStateToScreenSpace } from "./coordinates.svelte"
+	import {
+		cameraState,
+		changeZoom,
+		clientStateToScreenSpace,
+		teleportToWorldSpace,
+	} from "./coordinates.svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
+	import { DEFAULT_WORLD_LOCATION } from "./map_config"
 
 	let isDragging = $state(false)
 	let lastDragPosition = $state([0, 0])
@@ -16,6 +22,15 @@
 		const boundingBox = cameraWindow.getBoundingClientRect()
 		cameraState.clientLeft = boundingBox.left
 		cameraState.clientTop = boundingBox.top
+		cameraState.clientWidth = boundingBox.width
+		cameraState.clientHeight = boundingBox.height
+
+		teleportToWorldSpace(
+			DEFAULT_WORLD_LOCATION[0],
+			DEFAULT_WORLD_LOCATION[1],
+			cameraState.clientWidth,
+			cameraState.clientHeight,
+		)
 	})
 </script>
 
