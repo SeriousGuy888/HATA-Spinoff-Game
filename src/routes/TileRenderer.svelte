@@ -2,14 +2,17 @@
 	import { cameraState, worldSpaceToImageSpace } from "./coordinates.svelte.ts"
 	import { MAP_DIMENSIONS, TILES } from "./map_config.ts"
 
-	function coordsListToPath(coordsList: [number, number][]): string {
+	function polygonListToPath(polygonList: [number, number][][]): string {
 		let path = ""
-		for (let i = 0; i < coordsList.length; i++) {
-			const [x, y] = worldSpaceToImageSpace(...coordsList[i])
-			if (i === 0) {
-				path += `M ${x} ${y} `
-			} else {
-				path += `L ${x} ${y} `
+
+		for (const polygon of polygonList) {
+			for (let i = 0; i < polygon.length; i++) {
+				const [x, y] = worldSpaceToImageSpace(...polygon[i])
+				if (i === 0) {
+					path += `M ${x} ${y} `
+				} else {
+					path += `L ${x} ${y} `
+				}
 			}
 		}
 		path += "Z"
@@ -24,8 +27,8 @@
 >
 	{#each Object.entries(TILES) as [id, region]}
 		<path
-			d={coordsListToPath(region.coordinates)}
-			style:fill="#f98"
+			d={polygonListToPath(region.polygons)}
+			style:fill={"#" + region.name}
 			style:stroke="#f9c"
 			style:stroke-width="2"
 			class="cursor-pointer outline-0"
