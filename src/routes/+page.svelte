@@ -4,12 +4,12 @@
 	import WorldRenderer from "./WorldRenderer.svelte"
 	import { DEFAULT_WORLD_LOCATION } from "./map_config"
 	import { cameraState, changeZoom, mouseState, teleportToWorldSpace } from "./ui_state.svelte"
+	import Sidebar from "./Sidebar.svelte"
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
 	// This prevents the user from accidentally dragging the camera when they just want to click.
 
 	let cameraWindow = $state<HTMLElement | null>(null)
-
 
 	onMount(() => {
 		if (!cameraWindow) {
@@ -33,13 +33,7 @@
 
 <main class="grid h-screen grid-cols-[1fr_3fr] gap-4 overflow-clip">
 	<section class="p-4">
-		<h1>Epic</h1>
-
-		<div>
-			<p>{mouseState.isDragging}</p>
-			<p>zoom: {cameraState.zoom.toFixed(2)}</p>
-			<p>offset: {cameraState.offsetX.toFixed()}, {cameraState.offsetY.toFixed()}</p>
-		</div>
+		<Sidebar />
 	</section>
 	<section
 		bind:this={cameraWindow}
@@ -53,7 +47,7 @@
 			const movedY = Math.abs(newY - mouseState.lastDragPosition[1])
 			const dragThresholdMet = movedX > DRAGGING_THRESHOLD || movedY > DRAGGING_THRESHOLD
 
-			if(e.buttons & 0b101 && dragThresholdMet) {
+			if (e.buttons & 0b101 && dragThresholdMet) {
 				// Require that the left or middle mouse button is pressed
 				// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
 
