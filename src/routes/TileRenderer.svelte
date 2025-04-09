@@ -28,7 +28,7 @@
 	{#each Object.entries(TILES) as [id, region]}
 		<path
 			d={polygonListToPath(region.polygons)}
-			style:fill={"#" + region.name}
+			style:fill={"#" + id}
 			style:stroke="#f9c"
 			style:stroke-width="2"
 			class="cursor-pointer outline-0"
