@@ -6,14 +6,17 @@
 		let path = ""
 
 		for (const polygon of polygonList) {
-			for (let i = 0; i < polygon.length; i++) {
+			const [firstPolygonX, firstPolygonY] = worldSpaceToImageSpace(...polygon[0])
+			path += `M ${firstPolygonX} ${firstPolygonY} `
+
+			for (let i = 1; i < polygon.length; i++) {
 				const [x, y] = worldSpaceToImageSpace(...polygon[i])
-				if (i === 0) {
-					path += `M ${x} ${y} `
-				} else {
-					path += `L ${x} ${y} `
-				}
+				path += `L ${x} ${y} `
 			}
+
+			// Close the polygon by connecting to the first point
+			// Otherwise there's a bit of a weird gap in the polygon's edge
+			path += `L ${firstPolygonX} ${firstPolygonY} `
 		}
 		path += "Z"
 		return path
