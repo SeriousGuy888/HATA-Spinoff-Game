@@ -21,7 +21,7 @@
 </script>
 
 <svg
-	class="absolute inset-0 bg-blue-100"
+	class="absolute inset-0 bg-gray-50"
 	viewBox={`0 0 ${MAP_DIMENSIONS.width} ${MAP_DIMENSIONS.height}`}
 	role="none"
 >
@@ -29,8 +29,9 @@
 		<path
 			d={polygonListToPath(region.polygons)}
 			style:fill={"#" + id}
-			style:stroke="#f9c"
-			style:stroke-width="2"
+			style:stroke="#000"
+			stroke-linejoin="round"
+			style:stroke-width="1.5"
 			class="cursor-pointer outline-0"
 			role="button"
 			tabindex="0"
