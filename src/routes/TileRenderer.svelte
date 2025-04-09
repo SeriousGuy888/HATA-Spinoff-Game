@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { worldSpaceToImageSpace } from "./coordinates.svelte.ts"
 	import { MAP_DIMENSIONS, TILES } from "./map_config.ts"
+	import { mouseState, tileSelectionState } from "./ui_state.svelte.ts"
 
 	function polygonListToPath(polygonList: [number, number][][]): string {
 		let path = ""
@@ -21,6 +22,14 @@
 		path += "Z"
 		return path
 	}
+
+	function selectTile(id: string) {
+		if (tileSelectionState.selectedTileId === id) {
+			tileSelectionState.selectedTileId = null
+		} else {
+			tileSelectionState.selectedTileId = id
+		}
+	}
 </script>
 
 <svg
@@ -31,13 +40,20 @@
 	{#each Object.entries(TILES) as [id, region]}
 		<path
 			d={polygonListToPath(region.polygons)}
-			style:fill={"#" + id}
+			style:fill={tileSelectionState.selectedTileId === id ? "#" + id : "#fff"}
 			style:stroke="#000"
 			stroke-linejoin="round"
 			style:stroke-width="1.5"
 			class="cursor-pointer outline-0"
 			role="button"
 			tabindex="0"
+			onkeypress={() => selectTile(id)}
+			onclick={() => {
+				if(mouseState.isDragging) {
+					return
+				}
+				selectTile(id)
+			}}
 		/>
 	{/each}
 </svg>

@@ -14,6 +14,15 @@ export const cameraState = $state({
 	zoom: 1, // zoom level of the camera
 })
 
+export const mouseState = $state({
+	isDragging: false,
+	lastDragPosition: [0, 0],
+})
+
+export const tileSelectionState = $state({
+	selectedTileId: null as string | null,
+})
+
 /**
  * @param direction Zoom in or zoom out?
  * @param centerX Screenspace x coordinate around which zooming should occur.

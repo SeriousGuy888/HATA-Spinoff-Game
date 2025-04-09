@@ -3,12 +3,13 @@
 	import { clientStateToScreenSpace } from "./coordinates.svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
 	import { DEFAULT_WORLD_LOCATION } from "./map_config"
-	import { cameraState, changeZoom, teleportToWorldSpace } from "./ui_state.svelte"
+	import { cameraState, changeZoom, mouseState, teleportToWorldSpace } from "./ui_state.svelte"
 
-	let isDragging = $state(false)
-	let lastDragPosition = $state([0, 0])
+	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
+	// This prevents the user from accidentally dragging the camera when they just want to click.
 
 	let cameraWindow = $state<HTMLElement | null>(null)
+
 
 	onMount(() => {
 		if (!cameraWindow) {
@@ -35,7 +36,7 @@
 		<h1>Epic</h1>
 
 		<div>
-			<p>{isDragging}</p>
+			<p>{mouseState.isDragging}</p>
 			<p>zoom: {cameraState.zoom.toFixed(2)}</p>
 			<p>offset: {cameraState.offsetX.toFixed()}, {cameraState.offsetY.toFixed()}</p>
 		</div>
@@ -44,26 +45,38 @@
 		bind:this={cameraWindow}
 		class="overflow-hidden bg-blue-200"
 		onmousedown={(e) => {
-			isDragging = true
-			lastDragPosition = clientStateToScreenSpace(e.clientX, e.clientY)
+			mouseState.lastDragPosition = clientStateToScreenSpace(e.clientX, e.clientY)
 		}}
 		onmousemove={(e) => {
-			if (isDragging) {
-				const [newX, newY] = clientStateToScreenSpace(e.clientX, e.clientY)
+			const [newX, newY] = clientStateToScreenSpace(e.clientX, e.clientY)
+			const movedX = Math.abs(newX - mouseState.lastDragPosition[0])
+			const movedY = Math.abs(newY - mouseState.lastDragPosition[1])
+			const dragThresholdMet = movedX > DRAGGING_THRESHOLD || movedY > DRAGGING_THRESHOLD
 
-				cameraState.offsetX -= newX - lastDragPosition[0]
-				cameraState.offsetY -= newY - lastDragPosition[1]
-				lastDragPosition = [newX, newY]
+			if(e.buttons & 0b101 && dragThresholdMet) {
+				// Require that the left or middle mouse button is pressed
+				// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+
+				// Start dragging if the user pressed the mouse button *and* moved the mouse.
+				// This prevents trouble with other mouse events like click detection, and how
+				// I want to not detect a click if the user is dragging the mouse.
+				mouseState.isDragging = true
+			}
+			if (mouseState.isDragging) {
+				cameraState.offsetX -= newX - mouseState.lastDragPosition[0]
+				cameraState.offsetY -= newY - mouseState.lastDragPosition[1]
+				mouseState.lastDragPosition = [newX, newY]
 			}
 		}}
 		onmouseup={() => {
-			isDragging = false
+			setTimeout(() => {
+				mouseState.isDragging = false
+			}, 0) // Reset the dragging state after the next event loop
 		}}
 		onwheel={(e) => {
 			e.preventDefault()
 			const [mouseX, mouseY] = clientStateToScreenSpace(e.clientX, e.clientY)
 			changeZoom(e.deltaY > 0 ? "out" : "in", mouseX, mouseY)
-			console.log(mouseX, mouseY)
 		}}
 		role="button"
 		tabindex="0"
