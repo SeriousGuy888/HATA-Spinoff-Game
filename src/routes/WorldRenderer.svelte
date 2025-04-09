@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TileRenderer from "./TileRenderer.svelte"
-	import { cameraState } from "./coordinates.svelte"
 	import { MAP_DIMENSIONS } from "./map_config"
+	import { cameraState } from "./ui_state.svelte"
 </script>
 
 <div

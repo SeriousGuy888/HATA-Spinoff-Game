@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cameraState, worldSpaceToImageSpace } from "./coordinates.svelte.ts"
+	import { worldSpaceToImageSpace } from "./coordinates.svelte.ts"
 	import { MAP_DIMENSIONS, TILES } from "./map_config.ts"
 
 	function polygonListToPath(polygonList: [number, number][][]): string {

@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte"
-	import {
-		cameraState,
-		changeZoom,
-		clientStateToScreenSpace,
-		teleportToWorldSpace,
-	} from "./coordinates.svelte"
+	import { clientStateToScreenSpace } from "./coordinates.svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
 	import { DEFAULT_WORLD_LOCATION } from "./map_config"
+	import { cameraState, changeZoom, teleportToWorldSpace } from "./ui_state.svelte"
 
 	let isDragging = $state(false)
 	let lastDragPosition = $state([0, 0])
