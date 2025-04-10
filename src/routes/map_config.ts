@@ -1,11 +1,7 @@
 import _tiles from "$lib/tile_data/tile_geometry.json"
-export const TILES: { [key: string]: MapTileData } = _tiles as any
+export const TILES: { [key: string]: TileGeometryData } = _tiles as any
 
-export interface MapTileData {
-	name: string
-	description?: string
-	neighbours: string[] // IDs of neighbouring tiles
-
+export interface TileGeometryData {
 	// an array of possibly multiple polygons. all are drawn together in one svg <path> element.
 	// Each coordinate pair is a vertex in the polygon.
 	polygons: [number, number][][]

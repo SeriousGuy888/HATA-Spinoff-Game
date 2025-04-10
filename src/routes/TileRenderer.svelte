@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { worldSpaceToImageSpace } from "./coordinates.svelte.ts"
-	import { MAP_DIMENSIONS, TILES } from "./map_config.ts"
+	import { MAP_DIMENSIONS, TILE_GEOMETRIES } from "./map_config.ts"
 	import { mouseState, tileSelectionState } from "./ui_state.svelte.ts"
 
 	function polygonListToPath(polygonList: [number, number][][]): string {
@@ -37,7 +37,7 @@
 	viewBox={`0 0 ${MAP_DIMENSIONS.width} ${MAP_DIMENSIONS.height}`}
 	role="none"
 >
-	{#each Object.entries(TILES) as [id, region]}
+	{#each Object.entries(TILE_GEOMETRIES) as [id, region]}
 		<path
 			d={polygonListToPath(region.polygons)}
 			style:fill={tileSelectionState.selectedTileId === id ? "#" + id : "#fff"}
@@ -49,7 +49,7 @@
 			tabindex="0"
 			onkeypress={() => selectTile(id)}
 			onclick={() => {
-				if(mouseState.isDragging) {
+				if (mouseState.isDragging) {
 					return
 				}
 				selectTile(id)
