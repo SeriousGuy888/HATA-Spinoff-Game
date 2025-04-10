@@ -1,3 +1,4 @@
+import { gameState } from "./game_state.svelte"
 import type { Player } from "./Player"
 
 export class Tile {
@@ -9,13 +10,24 @@ export class Tile {
 
 	controller = $state<Player | null>(null) // the player who controls this tile, or null if no one does
 
-	constructor(id: string, polygons: [number, number][][]) {
+	constructor(
+		id: string,
+		polygons: [number, number][][],
+		defaultState: ExportedTileState | null = null,
+	) {
 		this.id = id
-		this.name = id
 		this.polygons = polygons
 
 		if (polygons.length === 0) {
 			console.warn(`Tile ${id} has no polygons.`)
+		}
+
+		if (defaultState) {
+			this.name = defaultState.name
+			this.terrain = defaultState.terrain
+			this.controller = defaultState.controller ? gameState.players[defaultState.controller] : null
+		} else {
+			this.name = id
 		}
 	}
 

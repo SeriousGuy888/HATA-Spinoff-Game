@@ -1,8 +1,10 @@
-import _tile_geometries from "$lib/tile_data/tile_geometry.json"
 import { gameState } from "./game_state.svelte"
 import { Tile, type ExportedTileState } from "./Tile.svelte"
 
-const TILE_GEOMETRIES: { [key: string]: TileGeometryData } = _tile_geometries as any
+import _tile_geometries from "$lib/tile_data/tile_geometry.json"
+import _tile_states from "$lib/tile_data/tile_states.json"
+const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
+const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
 
 export const MAP_DIMENSIONS = {
 	width: 10001,
@@ -31,8 +33,13 @@ export function loadTiles() {
 			console.warn(`Tile ${id} is already loaded. Skipping.`)
 			continue
 		}
-		const tile = new Tile(id, TILE_GEOMETRIES[id].polygons)
-		tile.controller = gameState.players["player0"]
+
+		const defaultState = TILE_STATES[id] ?? null
+		if (!defaultState) {
+			console.warn(`Tile ${id} has no default state. Using empty state.`)
+		}
+
+		const tile = new Tile(id, TILE_GEOMETRIES[id].polygons, defaultState)
 		loadedTiles[id] = tile
 	}
 	return loadedTiles
