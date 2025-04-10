@@ -1,6 +1,6 @@
 import _tile_geometries from "$lib/tile_data/tile_geometry.json"
 import { gameState } from "./game_state.svelte"
-import { Tile } from "./Tile.svelte"
+import { Tile, type ExportedTileState } from "./Tile.svelte"
 
 const TILE_GEOMETRIES: { [key: string]: TileGeometryData } = _tile_geometries as any
 
@@ -36,4 +36,13 @@ export function loadTiles() {
 		loadedTiles[id] = tile
 	}
 	return loadedTiles
+}
+
+export function exportTileStates(): Record<string, ExportedTileState> {
+	const allTileStates: Record<string, ExportedTileState> = {}
+	for (const id in loadedTiles) {
+		const tile = loadedTiles[id]
+		allTileStates[id] = tile.exportState()
+	}
+	return allTileStates
 }
