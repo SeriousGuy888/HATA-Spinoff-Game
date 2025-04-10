@@ -6,7 +6,6 @@
 	function polygonListToPath(polygonList: [number, number][][]): string {
 		let path = ""
 
-		
 		for (const polygon of polygonList) {
 			const [firstPolygonX, firstPolygonY] = worldSpaceToImageSpace(...polygon[0])
 			path += `M ${firstPolygonX} ${firstPolygonY} `
@@ -45,7 +44,8 @@
 			style:stroke="#000"
 			stroke-linejoin="round"
 			style:stroke-width="1.5"
-			class="cursor-pointer outline-0"
+			class="cursor-pointer outline-0 hover:brightness-175"
+			class:brightness-150={tileSelectionState.selectedTileId === id}
 			role="button"
 			tabindex="0"
 			onkeypress={() => selectTile(id)}
