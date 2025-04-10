@@ -1,5 +1,5 @@
-import type { Country } from "$lib/Country.svelte"
-import { getCountry } from "../state/country_registry.svelte"
+import type { Country } from "$lib/entities/Country.svelte"
+import { getCountry } from "../../routes/state/country_registry.svelte"
 
 export class Tile {
 	id: string

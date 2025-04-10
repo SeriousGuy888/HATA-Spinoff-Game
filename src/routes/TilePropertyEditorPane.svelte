@@ -1,7 +1,6 @@
 <script>
-	import { gameState, getPlayer } from "./state/game_state.svelte"
 	import { exportTileStates } from "./state/map_state.svelte"
-	import { TILE_TERRAINS } from "./entities/Tile.svelte"
+	import { TILE_TERRAINS } from "$lib/entities/Tile.svelte"
 	import { getSelectedTile } from "./state/ui_state.svelte"
 	import { getCountry, loadedCountries } from "./state/country_registry.svelte"
 

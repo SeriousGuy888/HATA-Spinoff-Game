@@ -1,4 +1,4 @@
-import { Country } from "$lib/Country.svelte"
+import { Country } from "$lib/entities/Country.svelte"
 
 import _countryData from "$lib/country_data/countries.json"
 const COUNTRY_DATA: Record<string, ExportedCountryData> = _countryData as any
