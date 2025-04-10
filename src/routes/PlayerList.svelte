@@ -7,7 +7,10 @@
 		<summary class="mr-4 font-bold">Player List</summary>
 		<ul class="mt-2 flex flex-col gap-2">
 			{#each Object.values(gameState.players) as player}
-				<li class="block rounded bg-gray-200 p-2">
+				<li
+					class="block rounded border-blue-600 bg-gray-200 p-2"
+					class:border-r-6={gameState.playerControlledByUser?.id === player.id}
+				>
 					<p class="font-bold">{player}</p>
 					{#if player.controlledCountry}
 						<p>Controls {player.controlledCountry}</p>
