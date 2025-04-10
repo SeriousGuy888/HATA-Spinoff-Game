@@ -7,6 +7,7 @@ export const gameState = $state({
 	isInitialised: false,
 	players: {} as Record<string, Player>, // maps player id to player object
 	playerControlledByUser: null as Player | null,
+	clock: 0,
 })
 
 export function initGame(playerCount: number) {
@@ -59,4 +60,8 @@ export function setUserControlledPlayer(id: string) {
 	} else {
 		gameState.playerControlledByUser = null
 	}
+}
+
+export function tickGame() {
+	gameState.clock++
 }
