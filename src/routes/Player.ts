@@ -10,4 +10,8 @@ export class Player {
 		this.name = name
 		this.colour = colour
 	}
+
+	toString() {
+		return `${this.name} (${this.id})`
+	}
 }

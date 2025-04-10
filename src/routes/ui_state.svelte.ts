@@ -1,4 +1,5 @@
 import { worldSpaceToScreenSpace } from "./coordinates.svelte"
+import { loadedTiles } from "./map_state.svelte"
 
 const MIN_ZOOM = 1 / 16
 const MAX_ZOOM = 16
@@ -22,6 +23,14 @@ export const mouseState = $state({
 export const tileSelectionState = $state({
 	selectedTileId: null as string | null,
 })
+
+export function getSelectedTile() {
+	if (!tileSelectionState.selectedTileId) {
+		return null
+	}
+
+	return loadedTiles[tileSelectionState.selectedTileId] ?? null
+}
 
 /**
  * @param direction Zoom in or zoom out?

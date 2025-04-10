@@ -40,7 +40,7 @@
 	{#each Object.entries(loadedTiles) as [id, region]}
 		<path
 			d={polygonListToPath(region.polygons)}
-			style:fill={tileSelectionState.selectedTileId === id ? "#" + id : "#fff"}
+			style:fill={loadedTiles[id].controller?.colour ?? "#ddd"}
 			style:stroke="#000"
 			stroke-linejoin="round"
 			style:stroke-width="1.5"

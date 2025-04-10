@@ -1,5 +1,6 @@
 import _tile_geometries from "$lib/tile_data/tile_geometry.json"
-import { Tile } from "./Tile"
+import { gameState } from "./game_state.svelte"
+import { Tile } from "./Tile.svelte"
 
 const TILE_GEOMETRIES: { [key: string]: TileGeometryData } = _tile_geometries as any
 
@@ -31,6 +32,7 @@ export function loadTiles() {
 			continue
 		}
 		const tile = new Tile(id, TILE_GEOMETRIES[id].polygons)
+		tile.controller = gameState.players["player0"]
 		loadedTiles[id] = tile
 	}
 	return loadedTiles

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { gameState, initGame } from "./game_state.svelte"
+	import TilePropertyEditorPane from "./TilePropertyEditorPane.svelte"
 	import { tileSelectionState } from "./ui_state.svelte"
 </script>
 
@@ -33,4 +34,6 @@
 			{/each}
 		</ul>
 	</div>
+
+	<TilePropertyEditorPane />
 </div>
