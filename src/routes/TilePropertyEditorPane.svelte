@@ -58,6 +58,31 @@
 				</option>
 			{/each}
 		</select>
+
+		<br>
+
+		<label for="population-input">Population</label>
+		<input
+			id="population-input"
+			type="number"
+			class="rounded-md border px-1"
+			bind:value={selectedTile.population}
+			min="0"
+			max="1000000"
+		/>
+
+		
+		<br>
+
+		<label for="industry-input">Industry</label>
+		<input
+			id="industry-input"
+			type="number"
+			class="rounded-md border px-1"
+			bind:value={selectedTile.industry}
+			min="0"
+			max="1000000"
+		/>
 	{/if}
 
 	<button

@@ -28,6 +28,8 @@ export class Tile {
 			this.name = defaultState.name
 			this.terrain = defaultState.terrain
 			this.controller = defaultState.controller ? getCountry(defaultState.controller) : null
+			this.population = defaultState.population
+			this.industry = defaultState.industry
 		} else {
 			this.name = id
 		}

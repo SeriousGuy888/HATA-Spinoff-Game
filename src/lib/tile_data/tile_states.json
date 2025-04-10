@@ -1,35 +1,233 @@
 {
-	"774910": { "name": "Tobytown", "terrain": "land", "controller": "tobytopia" },
-	"cc7d1c": { "name": "Tobytown Harbour", "terrain": "land", "controller": "tobytopia" },
-	"4f1868": { "name": "Scammington", "terrain": "land", "controller": "remy_republic" },
-	"5fb576": { "name": "Arvi Craters", "terrain": "land", "controller": null },
-	"b75a24": { "name": "b75a24", "terrain": "land", "controller": "tobytopia" },
-	"00af8f": { "name": "Some Rocks?", "terrain": "land", "controller": "billzoplace" },
-	"001382": { "name": "Villagermeat Harbour", "terrain": "land", "controller": "billzoplace" },
-	"1f3fe0": { "name": "1f3fe0", "terrain": "land", "controller": "billzoplace" },
-	"6d57cc": { "name": "North Mangrovia", "terrain": "land", "controller": "remy_republic" },
-	"526df2": { "name": "526df2", "terrain": "land", "controller": "billzoplace" },
-	"935baf": { "name": "Hawainot East", "terrain": "land", "controller": "remy_republic" },
-	"b7612f": { "name": "Toby's Palace", "terrain": "land", "controller": "tobytopia" },
-	"41afaf": { "name": "41afaf", "terrain": "land", "controller": "billzoplace" },
-	"af6dce": { "name": "af6dce", "terrain": "land", "controller": "remy_republic" },
-	"485bc4": { "name": "Billzoplace City", "terrain": "land", "controller": "billzoplace" },
-	"80e031": { "name": "International Iron Farm Territory", "terrain": "land", "controller": null },
-	"db7439": { "name": "db7439", "terrain": "land", "controller": "tobytopia" },
-	"008970": { "name": "Billzo's House", "terrain": "land", "controller": "billzoplace" },
-	"30a590": { "name": "Sandy Villagermeat Island", "terrain": "land", "controller": "billzoplace" },
-	"9d47cc": { "name": "9d47cc", "terrain": "land", "controller": "remy_republic" },
-	"3fc658": { "name": "Forgsville", "terrain": "land", "controller": "remy_republic" },
-	"ccb657": { "name": "The Canal", "terrain": "land", "controller": "tobytopia" },
-	"4c36af": { "name": "New Mangrovia", "terrain": "land", "controller": "remy_republic" },
-	"142dbc": { "name": "142dbc", "terrain": "land", "controller": "billzoplace" },
-	"942ccc": { "name": "Hawainot West", "terrain": "land", "controller": "remy_republic" },
-	"962dc6": { "name": "962dc6", "terrain": "land", "controller": "remy_republic" },
-	"d375ff": { "name": "d375ff", "terrain": "land", "controller": "remy_republic" },
-	"e05245": { "name": "No", "terrain": "land", "controller": "remy_republic" },
-	"7b3d99": { "name": "7b3d99", "terrain": "land", "controller": "remy_republic" },
-	"2e3e91": { "name": "2e3e91", "terrain": "land", "controller": "billzoplace" },
-	"899e8f": { "name": "899e8f", "terrain": "land", "controller": null },
-	"db985e": { "name": "db985e", "terrain": "land", "controller": "tobytopia" },
-	"877b00": { "name": "Swamp of Secrets", "terrain": "impassable", "controller": null }
+	"774910": {
+		"name": "Tobytown",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 100,
+		"industry": 0
+	},
+	"cc7d1c": {
+		"name": "Tobytown Harbour",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 10,
+		"industry": 40
+	},
+	"4f1868": {
+		"name": "Scammington",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 15,
+		"industry": 0
+	},
+	"5fb576": {
+		"name": "Arvi Craters",
+		"terrain": "land",
+		"controller": null,
+		"population": 0,
+		"industry": 0
+	},
+	"b75a24": {
+		"name": "b75a24",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 0,
+		"industry": 0
+	},
+	"00af8f": {
+		"name": "Some Rocks?",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 0,
+		"industry": 0
+	},
+	"001382": {
+		"name": "Villagermeat Harbour",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 10,
+		"industry": 50
+	},
+	"1f3fe0": {
+		"name": "1f3fe0",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 0,
+		"industry": 0
+	},
+	"6d57cc": {
+		"name": "North Mangrovia",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"526df2": {
+		"name": "526df2",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 0,
+		"industry": 0
+	},
+	"935baf": {
+		"name": "Hawainot East",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 40,
+		"industry": 10
+	},
+	"b7612f": {
+		"name": "Toby's Palace",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 20,
+		"industry": 0
+	},
+	"41afaf": {
+		"name": "41afaf",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 0,
+		"industry": 0
+	},
+	"af6dce": {
+		"name": "af6dce",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"485bc4": {
+		"name": "Billzoplace City",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 300,
+		"industry": 25
+	},
+	"80e031": {
+		"name": "International Iron Farm Territory",
+		"terrain": "land",
+		"controller": null,
+		"population": 0,
+		"industry": 0
+	},
+	"db7439": {
+		"name": "db7439",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 0,
+		"industry": 0
+	},
+	"008970": {
+		"name": "Billzo's House",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 5,
+		"industry": 0
+	},
+	"30a590": {
+		"name": "Sandy Villagermeat Island",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 20,
+		"industry": 10
+	},
+	"9d47cc": {
+		"name": "9d47cc",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"3fc658": {
+		"name": "Forgsville",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 60,
+		"industry": 5
+	},
+	"ccb657": {
+		"name": "The Canal",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 0,
+		"industry": 0
+	},
+	"4c36af": {
+		"name": "New Mangrovia",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"142dbc": {
+		"name": "142dbc",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 0,
+		"industry": 0
+	},
+	"942ccc": {
+		"name": "Hawainot West",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"962dc6": {
+		"name": "962dc6",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"d375ff": {
+		"name": "d375ff",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"e05245": {
+		"name": "No",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 30,
+		"industry": 100
+	},
+	"7b3d99": {
+		"name": "7b3d99",
+		"terrain": "land",
+		"controller": "remy_republic",
+		"population": 0,
+		"industry": 0
+	},
+	"2e3e91": {
+		"name": "2e3e91",
+		"terrain": "land",
+		"controller": "billzoplace",
+		"population": 0,
+		"industry": 0
+	},
+	"899e8f": {
+		"name": "899e8f",
+		"terrain": "land",
+		"controller": null,
+		"population": 0,
+		"industry": 0
+	},
+	"db985e": {
+		"name": "db985e",
+		"terrain": "land",
+		"controller": "tobytopia",
+		"population": 0,
+		"industry": 0
+	},
+	"877b00": {
+		"name": "Swamp of Secrets",
+		"terrain": "impassable",
+		"controller": null,
+		"population": 0,
+		"industry": 0
+	}
 }
