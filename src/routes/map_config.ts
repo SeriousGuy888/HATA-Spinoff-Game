@@ -1,4 +1,4 @@
-import _tiles from "./tiles.json"
+import _tiles from "$lib/tile_data/tile_geometry.json"
 export const TILES: { [key: string]: MapTileData } = _tiles as any
 
 export interface MapTileData {
