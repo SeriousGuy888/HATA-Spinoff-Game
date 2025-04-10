@@ -31,5 +31,5 @@
 	"2e3e91": { "name": "2e3e91", "terrain": "land", "controller": "player1" },
 	"899e8f": { "name": "899e8f", "terrain": "land", "controller": null },
 	"db985e": { "name": "db985e", "terrain": "land", "controller": "player2" },
-	"877b00": { "name": "877b00", "terrain": "land", "controller": null }
+	"877b00": { "name": "Swamp of Secrets", "terrain": "impassable", "controller": null }
 }
