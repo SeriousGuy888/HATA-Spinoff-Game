@@ -1,5 +1,5 @@
 import { loadTiles } from "./map_state.svelte.ts"
-import { Player, POSSIBLE_PLAYER_COLOURS } from "$lib/entities/Player.ts"
+import { Player, POSSIBLE_PLAYER_COLOURS } from "$lib/entities/Player.svelte.ts"
 import { loadCountries } from "./country_registry.svelte.ts"
 import { loadCharacters } from "./character_registry.svelte.ts"
 
