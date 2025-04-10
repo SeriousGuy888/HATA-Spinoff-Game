@@ -1,4 +1,3 @@
-import { gameState } from "./game_state.svelte"
 import { Tile, type ExportedTileState } from "./Tile.svelte"
 
 import _tile_geometries from "$lib/tile_data/tile_geometry.json"
