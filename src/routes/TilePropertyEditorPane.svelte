@@ -21,7 +21,7 @@
 			class="rounded-md border px-1"
 			bind:value={selectedTile.name}
 		/>
-		
+
 		<br />
 
 		<label for="terrain-type-selector">Terrain Type:</label>
@@ -36,9 +36,9 @@
 				</option>
 			{/each}
 		</select>
-		
+
 		<br />
-		
+
 		<label for="controller-selector">Controller:</label>
 		<select
 			onchange={(event) => {
@@ -55,11 +55,9 @@
 			{/each}
 		</select>
 	{/if}
-</div>
 
-<div class="rounded-md bg-gray-100 p-4">
 	<button
-		class="cursor-pointer rounded-md bg-blue-500 p-2 text-white hover:bg-blue-600"
+		class="cursor-pointer rounded-md bg-blue-500 py-1 px-2 mt-2 text-white hover:bg-blue-600"
 		onclick={() => {
 			const allTiles = exportTileStates()
 			console.log(JSON.stringify(allTiles))
