@@ -2,7 +2,7 @@
 	import PlayerList from "./PlayerList.svelte"
 	import { gameState } from "./state/game_state.svelte"
 	import TileMenu from "./TileMenu.svelte"
-	import TilePropertyEditorPane from "./TilePropertyEditorPane.svelte"
+	import MapEditorMenu from "./MapEditorMenu.svelte"
 </script>
 
 <div class="flex flex-col gap-4">
@@ -17,5 +17,5 @@
 
 	<TileMenu />
 	<PlayerList />
-	<TilePropertyEditorPane />
+	<MapEditorMenu />
 </div>
