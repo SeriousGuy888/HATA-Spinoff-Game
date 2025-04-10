@@ -1,6 +1,5 @@
 import type { Country } from "$lib/Country.svelte"
 import { getCountry } from "../state/country_registry.svelte"
-import { gameState } from "../state/game_state.svelte"
 
 export class Tile {
 	id: string
