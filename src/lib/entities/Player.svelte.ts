@@ -11,6 +11,13 @@ export class Player {
 		this.name = name
 	}
 
+	setControlledCountry(country: Country | null) {
+		this.controlledCountry = country
+		if (country) {
+			country.controllingPlayer = this
+		}
+	}
+
 	toString() {
 		return `${this.name} (${this.id})`
 	}

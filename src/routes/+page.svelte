@@ -31,7 +31,7 @@
 		)
 
 		if (!gameState.isInitialised) {
-			initGame(4)
+			initGame(3)
 		}
 	})
 </script>
