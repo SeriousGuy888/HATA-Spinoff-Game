@@ -1,4 +1,4 @@
-import { gameState } from "./game_state.svelte"
+import { gameState } from "../state/game_state.svelte"
 import type { Player } from "./Player"
 
 export class Tile {
@@ -45,7 +45,7 @@ export class Tile {
 }
 
 export const TILE_TERRAINS = ["land", "impassable", "water"] as const
-export type TileTerrain = typeof TILE_TERRAINS[number]
+export type TileTerrain = (typeof TILE_TERRAINS)[number]
 
 export interface ExportedTileState {
 	name: string

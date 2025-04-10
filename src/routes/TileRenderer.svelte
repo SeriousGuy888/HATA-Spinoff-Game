@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { worldSpaceToImageSpace } from "./coordinates.svelte.ts"
-	import { MAP_DIMENSIONS, loadedTiles } from "./map_state.svelte.ts"
-	import { mouseState, tileSelectionState } from "./ui_state.svelte.ts"
+	import { MAP_DIMENSIONS, loadedTiles } from "./state/map_state.svelte.ts"
+	import { mouseState, tileSelectionState } from "./state/ui_state.svelte.ts"
 
 	function polygonListToPath(polygonList: [number, number][][]): string {
 		let path = ""
 
+		
 		for (const polygon of polygonList) {
 			const [firstPolygonX, firstPolygonY] = worldSpaceToImageSpace(...polygon[0])
 			path += `M ${firstPolygonX} ${firstPolygonY} `

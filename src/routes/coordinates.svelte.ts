@@ -1,5 +1,5 @@
-import { MAP_WORLD_ORIGIN_OFFSET } from "./map_state.svelte.ts"
-import { cameraState } from "./ui_state.svelte.ts"
+import { MAP_WORLD_ORIGIN_OFFSET } from "./state/map_state.svelte.ts"
+import { cameraState } from "./state/ui_state.svelte.ts"
 
 
 

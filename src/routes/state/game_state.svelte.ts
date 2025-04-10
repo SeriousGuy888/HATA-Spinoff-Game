@@ -1,8 +1,8 @@
 import { loadTiles } from "./map_state.svelte.ts"
-import { Player, POSSIBLE_PLAYER_COLOURS } from "./Player.ts"
+import { Player, POSSIBLE_PLAYER_COLOURS } from "../entities/Player.ts"
 
 export const gameState = $state({
-	isInitialised : false,
+	isInitialised: false,
 	players: {} as Record<string, Player>, // maps player id to player object
 })
 

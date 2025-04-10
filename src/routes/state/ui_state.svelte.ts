@@ -1,4 +1,4 @@
-import { worldSpaceToScreenSpace } from "./coordinates.svelte"
+import { worldSpaceToScreenSpace } from "../coordinates.svelte"
 import { loadedTiles } from "./map_state.svelte"
 
 const MIN_ZOOM = 1 / 16

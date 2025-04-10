@@ -1,8 +1,8 @@
 <script>
-	import { gameState, getPlayer } from "./game_state.svelte"
-	import { exportTileStates } from "./map_state.svelte"
-	import { TILE_TERRAINS } from "./Tile.svelte"
-	import { getSelectedTile } from "./ui_state.svelte"
+	import { gameState, getPlayer } from "./state/game_state.svelte"
+	import { exportTileStates } from "./state/map_state.svelte"
+	import { TILE_TERRAINS } from "./entities/Tile.svelte"
+	import { getSelectedTile } from "./state/ui_state.svelte"
 
 	let selectedTile = $derived(getSelectedTile())
 </script>

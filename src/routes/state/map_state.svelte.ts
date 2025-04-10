@@ -1,4 +1,4 @@
-import { Tile, type ExportedTileState } from "./Tile.svelte"
+import { Tile, type ExportedTileState } from "../entities/Tile.svelte"
 
 import _tile_geometries from "$lib/tile_data/tile_geometry.json"
 import _tile_states from "$lib/tile_data/tile_states.json"

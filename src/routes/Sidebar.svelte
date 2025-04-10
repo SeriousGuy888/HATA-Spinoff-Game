@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { gameState, initGame } from "./game_state.svelte"
+	import { gameState, initGame } from "./state/game_state.svelte.ts"
+	import { tileSelectionState } from "./state/ui_state.svelte.ts"
 	import TilePropertyEditorPane from "./TilePropertyEditorPane.svelte"
-	import { tileSelectionState } from "./ui_state.svelte"
 </script>
 
 <div class="flex flex-col gap-4">
