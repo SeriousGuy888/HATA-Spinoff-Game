@@ -3,6 +3,7 @@
 	import { TILE_TERRAINS } from "$lib/entities/Tile.svelte"
 	import { getSelectedTile } from "./state/ui_state.svelte"
 	import { getCountry, loadedCountries } from "./state/country_registry.svelte"
+	import CharacterPortrait from "./CharacterPortrait.svelte"
 
 	let selectedTile = $derived(getSelectedTile())
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
@@ -80,5 +81,12 @@
 			class="rounded-md border px-1"
 			bind:value={selectedCountry.name}
 		/>
+
+		{#if selectedCountry.leader}
+			<CharacterPortrait
+				frames={selectedCountry.leader.portraitFrames}
+				name={selectedCountry.leader.name}
+			/>
+		{/if}
 	</div>
 {/if}

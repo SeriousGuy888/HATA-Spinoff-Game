@@ -1,0 +1,6 @@
+{
+	"beak": {
+		"name": "Beak Beatroot",
+		"portrait_frames": ["beak1.png", "beak2.png"]
+	}
+}

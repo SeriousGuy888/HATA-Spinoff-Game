@@ -1,7 +1,8 @@
 {
 	"remy_republic": {
 		"name": "Remy Republic",
-		"colour": "#4f1868"
+		"colour": "#4f1868",
+		"leader": "beak"
 	},
 	"billzoplace": {
 		"name": "Billzoplace",
