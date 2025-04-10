@@ -36,8 +36,8 @@
 	})
 </script>
 
-<main class="grid h-screen grid-cols-[1fr_3fr] gap-4 overflow-clip">
-	<section class="p-4">
+<main class="grid h-screen grid-cols-[1fr_3fr] overflow-hidden">
+	<section class="p-4 overflow-y-scroll">
 		<Sidebar />
 	</section>
 	<section
