@@ -5,11 +5,13 @@
 </script>
 
 <details open class="rounded-md bg-gray-100 p-4">
-	<summary class="select-none">{tile}</summary>
+	<summary class="select-none">{tile ?? "No Tile Selected"}</summary>
 	{#if tile}
 		<ul class="list-disc ml-8">
 			<li>Controller: {tile.controller}</li>
 			<li>Terrain: {tile.terrain}</li>
+			<li>{tile.population} residents</li>
+			<li>{tile.industry} industry</li>
 		</ul>
 	{/if}
 </details>

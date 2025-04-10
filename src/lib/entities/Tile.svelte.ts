@@ -9,6 +9,8 @@ export class Tile {
 	terrain = $state<TileTerrain>("land") // type of terrain on this tile
 
 	controller = $state<Country | null>(null) // the player who controls this tile, or null if no one does
+	population = $state<number>(0)
+	industry = $state<number>(0)
 
 	constructor(
 		id: string,
@@ -40,6 +42,8 @@ export class Tile {
 			name: this.name,
 			terrain: this.terrain,
 			controller: this.controller?.id ?? null,
+			population: this.population,
+			industry: this.industry,
 		}
 	}
 
@@ -55,4 +59,6 @@ export interface ExportedTileState {
 	name: string
 	terrain: TileTerrain
 	controller: string | null // the id of the country that controls this tile, or null if no one does
+	population: number
+	industry: number
 }
