@@ -37,13 +37,14 @@
 	viewBox={`0 0 ${MAP_DIMENSIONS.width} ${MAP_DIMENSIONS.height}`}
 	role="none"
 >
-	{#each Object.entries(loadedTiles) as [id, region]}
+	{#each Object.entries(loadedTiles) as [id, tile]}
+		{@const colour = tile.controller?.colour ?? "#ddd"}
 		<path
-			d={polygonListToPath(region.polygons)}
-			style:fill={loadedTiles[id].controller?.colour ?? "#ddd"}
-			style:stroke="#000"
+			d={polygonListToPath(tile.polygons)}
 			stroke-linejoin="round"
-			style:stroke-width="1.5"
+			style:fill={colour}
+			style:stroke={colour}
+			style:stroke-width="0.5"
 			class="cursor-pointer outline-0 hover:brightness-175"
 			class:brightness-150={tileSelectionState.selectedTileId === id}
 			role="button"
