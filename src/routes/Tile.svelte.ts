@@ -44,7 +44,8 @@ export class Tile {
 	}
 }
 
-export type TileTerrain = "land" | "impassable" | "water"
+export const TILE_TERRAINS = ["land", "impassable", "water"] as const
+export type TileTerrain = typeof TILE_TERRAINS[number]
 
 export interface ExportedTileState {
 	name: string

@@ -1,6 +1,7 @@
 <script>
 	import { gameState, getPlayer } from "./game_state.svelte"
 	import { exportTileStates } from "./map_state.svelte"
+	import { TILE_TERRAINS } from "./Tile.svelte"
 	import { getSelectedTile } from "./ui_state.svelte"
 
 	let selectedTile = $derived(getSelectedTile())
@@ -17,18 +18,34 @@
 		<input
 			id="name-input"
 			type="text"
-			class="mt-1 mb-2 block w-full rounded-md border p-1"
+			class="rounded-md border px-1"
 			bind:value={selectedTile.name}
 		/>
+		
+		<br />
 
-		<p>Terrain Type: {selectedTile.terrain}</p>
+		<label for="terrain-type-selector">Terrain Type:</label>
+		<select
+			id="terrain-type-selector"
+			class="rounded-md border px-1"
+			bind:value={selectedTile.terrain}
+		>
+			{#each TILE_TERRAINS as terrain}
+				<option value={terrain}>
+					{terrain}
+				</option>
+			{/each}
+		</select>
+		
+		<br />
+		
 		<label for="controller-selector">Controller:</label>
 		<select
 			onchange={(event) => {
 				selectedTile.controller = getPlayer(event.currentTarget.value)
 			}}
 			id="controller-selector"
-			class="mt-1 mb-2 block w-full rounded-md border p-1"
+			class="rounded-md border px-1"
 		>
 			<option value="">(none)</option>
 			{#each Object.keys(gameState.players) as playerId}
