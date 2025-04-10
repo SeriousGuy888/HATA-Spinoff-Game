@@ -10,4 +10,9 @@
 	}, 1000)
 </script>
 
-<img src="/character_sprites/{frame}" alt="Portrait of {name}" title="Portrait of {name}" />
+<img
+	src="/character_sprites/{frame}"
+	alt="Portrait of {name}"
+	title="Portrait of {name}"
+	style:image-rendering="pixelated"
+/>
