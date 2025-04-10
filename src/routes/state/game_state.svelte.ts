@@ -1,5 +1,5 @@
 import { loadTiles } from "./map_state.svelte.ts"
-import { Player, POSSIBLE_PLAYER_COLOURS } from "$lib/entities/Player.svelte.ts"
+import { Player } from "$lib/entities/Player.svelte.ts"
 import { loadCountries } from "./country_registry.svelte.ts"
 import { loadCharacters } from "./character_registry.svelte.ts"
 
@@ -14,8 +14,7 @@ export function initGame(playerCount: number) {
 	for (let i = 0; i < playerCount; i++) {
 		const id = `player${i}`
 		const name = `Player ${i + 1}`
-		const colour = POSSIBLE_PLAYER_COLOURS[i % POSSIBLE_PLAYER_COLOURS.length]
-		createPlayer(id, name, colour)
+		createPlayer(id, name)
 	}
 
 	loadCharacters()
@@ -25,8 +24,8 @@ export function initGame(playerCount: number) {
 	gameState.isInitialised = true
 }
 
-function createPlayer(id: string, name: string, colour: string) {
-	const player = new Player(id, name, colour)
+function createPlayer(id: string, name: string) {
+	const player = new Player(id, name)
 	gameState.players[id] = player
 	return player
 }
