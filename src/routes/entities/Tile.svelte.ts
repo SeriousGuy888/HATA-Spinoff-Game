@@ -6,7 +6,7 @@ export class Tile {
 	polygons: [number, number][][] = [] // an array of possibly multiple polygons. all are drawn together in one svg <path> element.
 
 	name = $state<string>("") // name of the tile, used for display purposes
-	terrain: TileTerrain = "land" // type of terrain on this tile
+	terrain = $state<TileTerrain>("land") // type of terrain on this tile
 
 	controller = $state<Player | null>(null) // the player who controls this tile, or null if no one does
 
