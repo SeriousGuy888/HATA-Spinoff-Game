@@ -6,6 +6,7 @@
 	import { getCountry, loadedCountries } from "./state/country_registry.svelte"
 
 	let selectedTile = $derived(getSelectedTile())
+	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
 </script>
 
 <div class="rounded-md bg-gray-100 p-4">
@@ -15,9 +16,9 @@
 	{:else}
 		<p>Tile ID: {selectedTile.id}</p>
 
-		<label for="name-input">Name:</label>
+		<label for="tile-name-input">Name:</label>
 		<input
-			id="name-input"
+			id="tile-name-input"
 			type="text"
 			class="rounded-md border px-1"
 			bind:value={selectedTile.name}
@@ -58,7 +59,7 @@
 	{/if}
 
 	<button
-		class="cursor-pointer rounded-md bg-blue-500 py-1 px-2 mt-2 text-white hover:bg-blue-600"
+		class="mt-2 cursor-pointer rounded-md bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
 		onclick={() => {
 			const allTiles = exportTileStates()
 			console.log(JSON.stringify(allTiles))
@@ -68,3 +69,17 @@
 		Export All Tile States
 	</button>
 </div>
+
+{#if selectedCountry}
+	<div class="rounded-md bg-gray-100 p-4">
+		<h2 class="font-bold">Country Properties</h2>
+
+		<label for="country-name-input">Name:</label>
+		<input
+			id="country-name-input"
+			type="text"
+			class="rounded-md border px-1"
+			bind:value={selectedCountry.name}
+		/>
+	</div>
+{/if}
