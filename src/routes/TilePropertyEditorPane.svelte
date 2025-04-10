@@ -9,7 +9,9 @@
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
 </script>
 
-<div class="rounded-md bg-gray-100 p-4">
+<details class="rounded-md bg-gray-100 p-4">
+	<summary class="select-none">Editor</summary>
+
 	<h2 class="font-bold">Tile Properties</h2>
 	{#if !selectedTile}
 		<p>No tile selected.</p>
@@ -68,10 +70,10 @@
 	>
 		Export All Tile States
 	</button>
-</div>
 
-{#if selectedCountry}
-	<div class="rounded-md bg-gray-100 p-4">
+	{#if selectedCountry}
+		<hr class="my-4" />
+
 		<h2 class="font-bold">Country Properties</h2>
 
 		<label for="country-name-input">Name:</label>
@@ -88,5 +90,5 @@
 				name={selectedCountry.leader.name}
 			/>
 		{/if}
-	</div>
-{/if}
+	{/if}
+</details>
