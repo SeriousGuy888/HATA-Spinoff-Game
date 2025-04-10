@@ -44,7 +44,7 @@
 		<label for="controller-selector">Controller:</label>
 		<select
 			onchange={(event) => {
-				selectedTile.controller = getPlayer(event.currentTarget.value)
+				selectedTile.controller = getCountry(event.currentTarget.value)
 			}}
 			id="controller-selector"
 			class="rounded-md border px-1"
