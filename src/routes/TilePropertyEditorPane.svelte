@@ -3,6 +3,7 @@
 	import { exportTileStates } from "./state/map_state.svelte"
 	import { TILE_TERRAINS } from "./entities/Tile.svelte"
 	import { getSelectedTile } from "./state/ui_state.svelte"
+	import { getCountry, loadedCountries } from "./state/country_registry.svelte"
 
 	let selectedTile = $derived(getSelectedTile())
 </script>
@@ -48,9 +49,9 @@
 			class="rounded-md border px-1"
 		>
 			<option value="">(none)</option>
-			{#each Object.keys(gameState.players) as playerId}
-				<option value={playerId} selected={selectedTile.controller?.id === playerId}>
-					{gameState.players[playerId].name}
+			{#each Object.keys(loadedCountries) as countryId}
+				<option value={countryId} selected={selectedTile.controller?.id === countryId}>
+					{getCountry(countryId)?.name}
 				</option>
 			{/each}
 		</select>

@@ -1,5 +1,6 @@
+import type { Country } from "$lib/Country.svelte"
+import { getCountry } from "../state/country_registry.svelte"
 import { gameState } from "../state/game_state.svelte"
-import type { Player } from "./Player"
 
 export class Tile {
 	id: string
@@ -8,7 +9,7 @@ export class Tile {
 	name = $state<string>("") // name of the tile, used for display purposes
 	terrain = $state<TileTerrain>("land") // type of terrain on this tile
 
-	controller = $state<Player | null>(null) // the player who controls this tile, or null if no one does
+	controller = $state<Country | null>(null) // the player who controls this tile, or null if no one does
 
 	constructor(
 		id: string,
@@ -25,7 +26,7 @@ export class Tile {
 		if (defaultState) {
 			this.name = defaultState.name
 			this.terrain = defaultState.terrain
-			this.controller = defaultState.controller ? gameState.players[defaultState.controller] : null
+			this.controller = defaultState.controller ? getCountry(defaultState.controller) : null
 		} else {
 			this.name = id
 		}
@@ -50,5 +51,5 @@ export type TileTerrain = (typeof TILE_TERRAINS)[number]
 export interface ExportedTileState {
 	name: string
 	terrain: TileTerrain
-	controller: string | null // the id of the player who controls this tile, or null if no one does
+	controller: string | null // the id of the country that controls this tile, or null if no one does
 }
