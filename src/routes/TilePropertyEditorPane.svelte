@@ -1,5 +1,5 @@
 <script>
-	import { gameState } from "./game_state.svelte"
+	import { gameState, getPlayer } from "./game_state.svelte"
 	import { exportTileStates } from "./map_state.svelte"
 	import { getSelectedTile } from "./ui_state.svelte"
 
@@ -25,12 +25,12 @@
 		<label for="controller-selector">Controller:</label>
 		<select
 			onchange={(event) => {
-				selectedTile.controller = gameState.players[event.currentTarget.value]
-				console.log(event.currentTarget.value)
+				selectedTile.controller = getPlayer(event.currentTarget.value)
 			}}
 			id="controller-selector"
 			class="mt-1 mb-2 block w-full rounded-md border p-1"
 		>
+			<option value="">(none)</option>
 			{#each Object.keys(gameState.players) as playerId}
 				<option value={playerId} selected={selectedTile.controller?.id === playerId}>
 					{gameState.players[playerId].name}

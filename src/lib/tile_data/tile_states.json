@@ -2,7 +2,7 @@
 	"774910": { "name": "Tobytown", "terrain": "land", "controller": "player2" },
 	"cc7d1c": { "name": "Tobytown Harbour", "terrain": "land", "controller": "player2" },
 	"4f1868": { "name": "Scammington", "terrain": "land", "controller": "player0" },
-	"5fb576": { "name": "Arvi Craters", "terrain": "land", "controller": "player0" },
+	"5fb576": { "name": "Arvi Craters", "terrain": "land", "controller": null },
 	"b75a24": { "name": "b75a24", "terrain": "land", "controller": "player2" },
 	"00af8f": { "name": "Some Rocks?", "terrain": "land", "controller": "player1" },
 	"001382": { "name": "Villagermeat Harbour", "terrain": "land", "controller": "player1" },
@@ -14,11 +14,7 @@
 	"41afaf": { "name": "41afaf", "terrain": "land", "controller": "player1" },
 	"af6dce": { "name": "af6dce", "terrain": "land", "controller": "player0" },
 	"485bc4": { "name": "Billzoplace City", "terrain": "land", "controller": "player1" },
-	"80e031": {
-		"name": "International Iron Farm Territory",
-		"terrain": "land",
-		"controller": "player0"
-	},
+	"80e031": { "name": "International Iron Farm Territory", "terrain": "land", "controller": null },
 	"db7439": { "name": "db7439", "terrain": "land", "controller": "player2" },
 	"008970": { "name": "Billzo's House", "terrain": "land", "controller": "player1" },
 	"30a590": { "name": "Sandy Villagermeat Island", "terrain": "land", "controller": "player1" },
@@ -33,7 +29,7 @@
 	"e05245": { "name": "No", "terrain": "land", "controller": "player0" },
 	"7b3d99": { "name": "7b3d99", "terrain": "land", "controller": "player0" },
 	"2e3e91": { "name": "2e3e91", "terrain": "land", "controller": "player1" },
-	"899e8f": { "name": "899e8f", "terrain": "land", "controller": "player0" },
+	"899e8f": { "name": "899e8f", "terrain": "land", "controller": null },
 	"db985e": { "name": "db985e", "terrain": "land", "controller": "player2" },
-	"877b00": { "name": "877b00", "terrain": "land", "controller": "player2" }
+	"877b00": { "name": "877b00", "terrain": "land", "controller": null }
 }

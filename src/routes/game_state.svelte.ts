@@ -26,3 +26,7 @@ function createPlayer(id: string, name: string, colour: string) {
 	gameState.players[id] = player
 	return player
 }
+
+export function getPlayer(id: string): Player | null {
+	return gameState.players[id] ?? null
+}
