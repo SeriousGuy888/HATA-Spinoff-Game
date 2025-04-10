@@ -42,6 +42,10 @@ export class Tile {
 			controller: this.controller?.id ?? null,
 		}
 	}
+
+	toString() {
+		return this.name
+	}
 }
 
 export const TILE_TERRAINS = ["land", "impassable", "water"] as const
