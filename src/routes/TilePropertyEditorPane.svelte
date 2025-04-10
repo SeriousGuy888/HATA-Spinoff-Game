@@ -46,6 +46,7 @@
 		onclick={() => {
 			const allTiles = exportTileStates()
 			console.log(JSON.stringify(allTiles))
+			alert("Exported all tile states to console.")
 		}}
 	>
 		Export All Tile States
