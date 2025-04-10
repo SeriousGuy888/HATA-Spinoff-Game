@@ -8,8 +8,11 @@
 <div class="flex flex-col gap-4">
 	<h1 class="text-2xl font-bold">Epic HATA Spinoff Game</h1>
 
-	<div class="p-4 w-full bg-gray-100 text-center rounded">
+	<div class="p-4 w-full bg-gray-100 text-center rounded flex gap-4">
 		<p>Clock: {gameState.clock}</p>
+		{#if gameState.playerControlledByUser}
+			 <p>Balance: {gameState.playerControlledByUser.controlledCountry?.balance}</p>
+		{/if}
 	</div>
 
 	<TileMenu />

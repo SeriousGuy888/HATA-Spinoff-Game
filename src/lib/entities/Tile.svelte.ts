@@ -35,6 +35,13 @@ export class Tile {
 		}
 	}
 
+	tick() {
+		if(this.controller) {
+			const revenue = this.industry * this.population * 0.01
+			this.controller.balance += revenue
+		}
+	}
+
 	/**
 	 * Export the tile data to a format that can be saved to a file.
 	 * This data includes only the game state data -- not the tile geometry, as that is handled elsewhere.

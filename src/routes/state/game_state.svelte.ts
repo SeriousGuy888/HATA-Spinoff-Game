@@ -1,4 +1,4 @@
-import { loadTiles } from "./map_state.svelte.ts"
+import { loadedTiles, loadTiles } from "./map_state.svelte.ts"
 import { Player } from "$lib/entities/Player.svelte.ts"
 import { loadCountries, loadedCountries } from "./country_registry.svelte.ts"
 import { loadCharacters } from "./character_registry.svelte.ts"
@@ -64,4 +64,8 @@ export function setUserControlledPlayer(id: string) {
 
 export function tickGame() {
 	gameState.clock++
+
+	Object.values(loadedTiles).forEach((tile) => {
+		tile.tick()
+	})
 }

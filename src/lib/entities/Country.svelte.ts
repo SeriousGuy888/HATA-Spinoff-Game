@@ -7,6 +7,7 @@ export class Country {
 	colour: string = "#333333"
 	name = $state<string>("Unnamed Country")
 	leader = $state<Character | null>(null)
+	balance = $state<number>(0)
 
 	controllingPlayer = $state<Player | null>(null)
 
