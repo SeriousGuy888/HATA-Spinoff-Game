@@ -1,4 +1,5 @@
 <script lang="ts">
+	import StatChip from "./StatChip.svelte"
 	import { getSelectedTile } from "./state/ui_state.svelte"
 
 	let tile = $derived(getSelectedTile())
@@ -12,25 +13,18 @@
 			<li>Terrain: {tile.terrain}</li>
 		</ul>
 		<div class="mt-2 flex gap-2">
-			<button
-				class="h-8 cursor-pointer rounded-md bg-gray-200 px-2 py-1"
+			<StatChip
+				stat={tile.population}
+				iconSrc="/ui_icons/population.png"
+				description="Population"
 				onclick={() => (tile.population += 1)}
-			>
-				<span>{tile.population}</span>
-				<img
-					class="inline h-full"
-					src="/ui_icons/population.png"
-					alt="Population"
-					title="Population"
-				/>
-			</button>
-			<button
-				class="h-8 cursor-pointer rounded-md bg-gray-200 px-2 py-1"
+			/>
+			<StatChip
+				stat={tile.industry}
+				iconSrc="/ui_icons/industry.png"
+				description="Industry"
 				onclick={() => (tile.industry += 1)}
-			>
-				<span>{tile.industry}</span>
-				<img class="inline h-full" src="/ui_icons/industry.png" alt="Industry" title="Industry" />
-			</button>
+			/>
 		</div>
 	{/if}
 </details>
