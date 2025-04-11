@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gameState, setUserControlledPlayer } from "$lib/state/game_state.svelte.ts"
+	import { gameState, setPerspectivePlayer } from "$lib/state/game_state.svelte.ts"
 </script>
 
 <details open class="rounded-md bg-gray-100 p-4">
@@ -8,11 +8,11 @@
 		{#each Object.values(gameState.players) as player}
 			<li class="block">
 				<button
-					class="block w-full text-left cursor-pointer rounded border-blue-600 bg-gray-200 p-2"
-					class:border-r-6={gameState.playerControlledByUser?.id === player.id}
+					class="block w-full cursor-pointer rounded border-blue-600 bg-gray-200 p-2 text-left"
+					class:border-r-6={gameState.perspectivePlayer?.id === player.id}
 					tabindex="0"
 					onclick={() => {
-						setUserControlledPlayer(player.id)
+						setPerspectivePlayer(player.id)
 					}}
 				>
 					<p class="font-bold">{player}</p>

@@ -9,7 +9,7 @@ import type { Tile } from "$lib/entities/Tile.svelte.ts"
 export const gameState = $state({
 	isInitialised: false,
 	clock: 0,
-	playerControlledByUser: null as Player | null,
+	perspectivePlayer: null as Player | null, // player whose perspective is rendered and checked for game actions
 	players: {} as Record<string, Player>, // maps player id to player object
 	characters: {} as Record<string, Character>,
 	tiles: {} as Record<string, Tile>,
@@ -24,8 +24,8 @@ export function initGame(playerCount: number) {
 		const name = `Player ${i + 1}`
 		const player = createPlayer(id, name)
 
-		if (!gameState.playerControlledByUser) {
-			gameState.playerControlledByUser = player
+		if (!gameState.perspectivePlayer) {
+			gameState.perspectivePlayer = player
 		}
 	}
 
@@ -49,7 +49,6 @@ export function initGame(playerCount: number) {
 	gameState.isInitialised = true
 }
 
-
 function createPlayer(id: string, name: string) {
 	const player = new Player(id, name)
 	gameState.players[id] = player
@@ -60,12 +59,12 @@ export function getPlayer(id: string): Player | null {
 	return gameState.players[id] ?? null
 }
 
-export function setUserControlledPlayer(id: string) {
+export function setPerspectivePlayer(id: string) {
 	const player = getPlayer(id)
 	if (player) {
-		gameState.playerControlledByUser = player
+		gameState.perspectivePlayer = player
 	} else {
-		gameState.playerControlledByUser = null
+		gameState.perspectivePlayer = null
 	}
 }
 
@@ -78,7 +77,7 @@ export function tickGame() {
 }
 
 export function upgradeTileIndustry(tile: Tile) {
-	if (!tile.controller || gameState.playerControlledByUser?.controlledCountry != tile.controller) {
+	if (!tile.controller || gameState.perspectivePlayer?.controlledCountry != tile.controller) {
 		return
 	}
 
