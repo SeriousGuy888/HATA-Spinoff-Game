@@ -5,6 +5,7 @@ import type { Player } from "./Player.svelte"
 export class Country {
 	id: string
 	colour: string = "#333333"
+	banner: string = "default"
 	name = $state<string>("Unnamed Country")
 	leader = $state<Character | null>(null)
 	balance = $state<number>(0)

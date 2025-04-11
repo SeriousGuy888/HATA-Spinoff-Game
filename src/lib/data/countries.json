@@ -2,14 +2,17 @@
 	"remy_republic": {
 		"name": "Remy Republic",
 		"colour": "#4f1868",
+		"banner": "remy_republic",
 		"leader": "beak"
 	},
 	"billzoplace": {
 		"name": "Billzoplace",
-		"colour": "#001382"
+		"colour": "#001382",
+		"banner": "billzoplace"
 	},
 	"tobytopia": {
 		"name": "Tobytopia",
-		"colour": "#b7612f"
+		"colour": "#b7612f",
+		"banner": "tobytopia"
 	}
 }
