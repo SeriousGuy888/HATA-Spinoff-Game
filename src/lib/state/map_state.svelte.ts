@@ -1,3 +1,4 @@
+import { gameState } from "./game_state.svelte"
 import { Tile, type ExportedTileState } from "$lib/entities/Tile.svelte"
 
 import _tile_geometries from "$lib/data/tile_geometry.json"
@@ -23,12 +24,11 @@ export interface TileGeometryData {
 	polygons: [number, number][][]
 }
 
-export const loadedTiles = $state<Record<string, Tile>>({})
 
 export function loadTiles() {
 	const tileIds = Object.keys(TILE_GEOMETRIES)
 	for (const id of tileIds) {
-		if (loadedTiles[id]) {
+		if (gameState.tiles[id]) {
 			console.warn(`Tile ${id} is already loaded. Skipping.`)
 			continue
 		}
@@ -39,15 +39,14 @@ export function loadTiles() {
 		}
 
 		const tile = new Tile(id, TILE_GEOMETRIES[id].polygons, defaultState)
-		loadedTiles[id] = tile
+		gameState.tiles[id] = tile
 	}
-	return loadedTiles
 }
 
 export function exportTileStates(): Record<string, ExportedTileState> {
 	const allTileStates: Record<string, ExportedTileState> = {}
-	for (const id in loadedTiles) {
-		const tile = loadedTiles[id]
+	for (const id in gameState.tiles) {
+		const tile = gameState.tiles[id]
 		allTileStates[id] = tile.exportState()
 	}
 	return allTileStates

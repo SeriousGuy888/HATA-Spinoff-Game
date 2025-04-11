@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { worldSpaceToImageSpace } from "$lib/state/coordinates.svelte.ts"
-	import { MAP_DIMENSIONS, loadedTiles } from "$lib/state/map_state.svelte.ts"
+	import { gameState } from "$lib/state/game_state.svelte"
+	import { MAP_DIMENSIONS } from "$lib/state/map_state.svelte.ts"
 	import { mouseState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
 
 	function polygonListToPath(polygonList: [number, number][][]): string {
@@ -37,7 +38,7 @@
 	viewBox={`0 0 ${MAP_DIMENSIONS.width} ${MAP_DIMENSIONS.height}`}
 	role="none"
 >
-	{#each Object.entries(loadedTiles) as [id, tile]}
+	{#each Object.entries(gameState.tiles) as [id, tile]}
 		{@const colour = tile.controller?.colour ?? "#ddd"}
 		<path
 			d={polygonListToPath(tile.polygons)}

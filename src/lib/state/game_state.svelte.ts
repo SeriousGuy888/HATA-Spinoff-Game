@@ -1,13 +1,19 @@
-import { loadedTiles, loadTiles } from "./map_state.svelte.ts"
 import { Player } from "$lib/entities/Player.svelte.ts"
-import { loadCountries, loadedCountries } from "./country_registry.svelte.ts"
+import type { Country } from "$lib/entities/Country.svelte.ts"
+import type { Character } from "$lib/entities/Character.svelte.ts"
+import { loadTiles } from "./map_state.svelte.ts"
+import { loadCountries } from "./country_registry.svelte.ts"
 import { loadCharacters } from "./character_registry.svelte.ts"
+import type { Tile } from "$lib/entities/Tile.svelte.ts"
 
 export const gameState = $state({
 	isInitialised: false,
-	players: {} as Record<string, Player>, // maps player id to player object
-	playerControlledByUser: null as Player | null,
 	clock: 0,
+	playerControlledByUser: null as Player | null,
+	players: {} as Record<string, Player>, // maps player id to player object
+	characters: {} as Record<string, Character>,
+	tiles: {} as Record<string, Tile>,
+	countries: {} as Record<string, Country>,
 })
 
 export function initGame(playerCount: number) {
@@ -27,7 +33,7 @@ export function initGame(playerCount: number) {
 	loadCountries()
 	loadTiles()
 
-	const countries = Object.values(loadedCountries)
+	const countries = Object.values(gameState.countries)
 	const players = Object.values(gameState.players)
 	for (let i = 0; i < players.length; i++) {
 		if (i >= countries.length) {
@@ -65,7 +71,7 @@ export function setUserControlledPlayer(id: string) {
 export function tickGame() {
 	gameState.clock++
 
-	Object.values(loadedTiles).forEach((tile) => {
+	Object.values(gameState.tiles).forEach((tile) => {
 		tile.tick()
 	})
 }

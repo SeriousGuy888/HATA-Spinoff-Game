@@ -1,6 +1,7 @@
 import { Country } from "$lib/entities/Country.svelte"
 
 import _countryData from "$lib/data/countries.json"
+import { gameState } from "./game_state.svelte"
 const COUNTRY_DATA: Record<
 	string,
 	{
@@ -10,8 +11,6 @@ const COUNTRY_DATA: Record<
 	}
 > = _countryData as any
 
-export const loadedCountries = $state<Record<string, Country>>({})
-
 export function loadCountries() {
 	for (const countryId in COUNTRY_DATA) {
 		const country = new Country(
@@ -20,10 +19,10 @@ export function loadCountries() {
 			COUNTRY_DATA[countryId].colour,
 			COUNTRY_DATA[countryId].leader,
 		)
-		loadedCountries[countryId] = country
+		gameState.countries[countryId] = country
 	}
 }
 
 export function getCountry(id: string): Country | null {
-	return loadedCountries[id] ?? null
+	return gameState.countries[id] ?? null
 }

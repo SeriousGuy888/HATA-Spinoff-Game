@@ -1,5 +1,5 @@
 import { worldSpaceToScreenSpace } from "./coordinates.svelte"
-import { loadedTiles } from "./map_state.svelte"
+import { gameState } from "./game_state.svelte"
 
 const MIN_ZOOM = 1 / 16
 const MAX_ZOOM = 16
@@ -29,7 +29,7 @@ export function getSelectedTile() {
 		return null
 	}
 
-	return loadedTiles[tileSelectionState.selectedTileId] ?? null
+	return gameState.tiles[tileSelectionState.selectedTileId] ?? null
 }
 
 /**

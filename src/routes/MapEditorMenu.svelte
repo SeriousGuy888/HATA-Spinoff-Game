@@ -2,8 +2,9 @@
 	import { exportTileStates } from "$lib/state/map_state.svelte"
 	import { TILE_TERRAINS } from "$lib/entities/Tile.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
-	import { getCountry, loadedCountries } from "$lib/state/country_registry.svelte"
+	import { getCountry } from "$lib/state/country_registry.svelte"
 	import CharacterPortrait from "./CharacterPortrait.svelte"
+	import { gameState } from "$lib/state/game_state.svelte"
 
 	let selectedTile = $derived(getSelectedTile())
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
@@ -52,7 +53,7 @@
 			class="rounded-md border px-1"
 		>
 			<option value="">(none)</option>
-			{#each Object.keys(loadedCountries) as countryId}
+			{#each Object.keys(gameState.countries) as countryId}
 				<option value={countryId} selected={selectedTile.controller?.id === countryId}>
 					{getCountry(countryId)?.name}
 				</option>
