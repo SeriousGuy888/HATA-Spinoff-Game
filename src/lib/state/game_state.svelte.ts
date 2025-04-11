@@ -49,6 +49,7 @@ export function initGame(playerCount: number) {
 	gameState.isInitialised = true
 }
 
+
 function createPlayer(id: string, name: string) {
 	const player = new Player(id, name)
 	gameState.players[id] = player
@@ -74,4 +75,13 @@ export function tickGame() {
 	Object.values(gameState.tiles).forEach((tile) => {
 		tile.tick()
 	})
+}
+
+export function upgradeTileIndustry(tile: Tile) {
+	if (!tile.controller || gameState.playerControlledByUser?.controlledCountry != tile.controller) {
+		return
+	}
+
+	tile.industry++
+	tile.controller.balance -= 100
 }

@@ -36,7 +36,7 @@ export class Tile {
 	}
 
 	tick() {
-		if(this.controller) {
+		if (this.controller) {
 			const revenue = this.industry * this.population * 0.01
 			this.controller.balance += revenue
 		}

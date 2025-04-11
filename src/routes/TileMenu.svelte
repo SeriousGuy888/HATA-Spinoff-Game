@@ -1,6 +1,7 @@
 <script lang="ts">
 	import StatChip from "./StatChip.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
+	import { upgradeTileIndustry } from "$lib/state/game_state.svelte"
 
 	let tile = $derived(getSelectedTile())
 </script>
@@ -23,7 +24,7 @@
 				stat={tile.industry}
 				iconSrc="/ui_icons/industry.png"
 				description="Industry"
-				onclick={() => (tile.industry += 1)}
+				onclick={() => upgradeTileIndustry(tile)}
 			/>
 		</div>
 	{/if}
