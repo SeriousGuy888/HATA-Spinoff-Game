@@ -1,6 +1,6 @@
 <script lang="ts">
 	import StatChip from "./StatChip.svelte"
-	import { getSelectedTile } from "./state/ui_state.svelte"
+	import { getSelectedTile } from "$lib/state/ui_state.svelte"
 
 	let tile = $derived(getSelectedTile())
 </script>

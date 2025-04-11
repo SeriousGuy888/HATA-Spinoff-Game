@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gameState, setUserControlledPlayer } from "./state/game_state.svelte.ts"
+	import { gameState, setUserControlledPlayer } from "$lib/state/game_state.svelte.ts"
 </script>
 
 <details open class="rounded-md bg-gray-100 p-4">

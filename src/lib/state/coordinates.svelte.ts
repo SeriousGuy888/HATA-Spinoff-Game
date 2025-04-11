@@ -1,7 +1,5 @@
-import { MAP_WORLD_ORIGIN_OFFSET } from "./state/map_state.svelte.ts"
-import { cameraState } from "./state/ui_state.svelte.ts"
-
-
+import { MAP_WORLD_ORIGIN_OFFSET } from "$lib/state/map_state.svelte.ts"
+import { cameraState } from "$lib/state/ui_state.svelte.ts"
 
 /**
  * Convert from "clientspace coordinates" (coordinates relative to viewport window)
@@ -18,7 +16,6 @@ export function clientStateToScreenSpace(clientX: number, clientY: number): [num
 export function screenSpaceToWorldSpace(screenX: number, screenY: number): [number, number] {
 	return [screenX - MAP_WORLD_ORIGIN_OFFSET[0], screenY - MAP_WORLD_ORIGIN_OFFSET[1]]
 }
-
 
 export function worldSpaceToScreenSpace(worldX: number, worldY: number): [number, number] {
 	return [worldX + MAP_WORLD_ORIGIN_OFFSET[0], worldY + MAP_WORLD_ORIGIN_OFFSET[1]]

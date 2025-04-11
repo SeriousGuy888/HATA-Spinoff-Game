@@ -1,8 +1,8 @@
 <script>
-	import { exportTileStates } from "./state/map_state.svelte"
+	import { exportTileStates } from "$lib/state/map_state.svelte"
 	import { TILE_TERRAINS } from "$lib/entities/Tile.svelte"
-	import { getSelectedTile } from "./state/ui_state.svelte"
-	import { getCountry, loadedCountries } from "./state/country_registry.svelte"
+	import { getSelectedTile } from "$lib/state/ui_state.svelte"
+	import { getCountry, loadedCountries } from "$lib/state/country_registry.svelte"
 	import CharacterPortrait from "./CharacterPortrait.svelte"
 
 	let selectedTile = $derived(getSelectedTile())

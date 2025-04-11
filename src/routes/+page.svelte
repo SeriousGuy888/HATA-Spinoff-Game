@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from "svelte"
-	import { clientStateToScreenSpace } from "./coordinates.svelte"
+	import { clientStateToScreenSpace } from "$lib/state/coordinates.svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
-	import { DEFAULT_WORLD_LOCATION } from "./state/map_state.svelte"
-	import { cameraState, changeZoom, mouseState, teleportToWorldSpace } from "./state/ui_state.svelte"
+	import { DEFAULT_WORLD_LOCATION } from "$lib/state/map_state.svelte"
+	import { cameraState, changeZoom, mouseState, teleportToWorldSpace } from "$lib/state/ui_state.svelte"
 	import Sidebar from "./Sidebar.svelte"
-	import { gameState, initGame, tickGame } from "./state/game_state.svelte"
+	import { gameState, initGame, tickGame } from "$lib/state/game_state.svelte"
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
 	// This prevents the user from accidentally dragging the camera when they just want to click.

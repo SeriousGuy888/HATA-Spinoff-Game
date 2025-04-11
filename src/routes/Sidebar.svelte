@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PlayerList from "./PlayerList.svelte"
-	import { gameState } from "./state/game_state.svelte"
+	import { gameState } from "$lib/state/game_state.svelte"
 	import TileMenu from "./TileMenu.svelte"
 	import MapEditorMenu from "./MapEditorMenu.svelte"
 	import StatChip from "./StatChip.svelte"

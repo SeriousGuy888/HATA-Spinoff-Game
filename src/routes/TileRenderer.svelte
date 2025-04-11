@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { worldSpaceToImageSpace } from "./coordinates.svelte.ts"
-	import { MAP_DIMENSIONS, loadedTiles } from "./state/map_state.svelte.ts"
-	import { mouseState, tileSelectionState } from "./state/ui_state.svelte.ts"
+	import { worldSpaceToImageSpace } from "$lib/state/coordinates.svelte.ts"
+	import { MAP_DIMENSIONS, loadedTiles } from "$lib/state/map_state.svelte.ts"
+	import { mouseState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
 
 	function polygonListToPath(polygonList: [number, number][][]): string {
 		let path = ""

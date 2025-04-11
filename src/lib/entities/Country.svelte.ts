@@ -1,4 +1,4 @@
-import { getCharacter } from "../../routes/state/character_registry.svelte"
+import { getCharacter } from "../state/character_registry.svelte"
 import { Character } from "./Character.svelte"
 import type { Player } from "./Player.svelte"
 
