@@ -12,10 +12,14 @@ export class Country {
 
 	controllingPlayer = $state<Player | null>(null)
 
-	constructor(id: string, name: string, colour: string, leaderId: string | null) {
+	constructor(id: string, name: string, colour: string, banner: string | null, leaderId: string | null) {
 		this.id = id
 		this.name = name
 		this.colour = colour
+
+		if (banner) {
+			this.banner = banner
+		}
 
 		if (leaderId) {
 			this.leader = getCharacter(leaderId)

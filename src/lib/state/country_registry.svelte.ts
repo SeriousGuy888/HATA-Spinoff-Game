@@ -7,6 +7,7 @@ const COUNTRY_DATA: Record<
 	{
 		name: string
 		colour: string
+		banner: string | null
 		leader: string | null
 	}
 > = _countryData as any
@@ -17,6 +18,7 @@ export function loadCountries() {
 			countryId,
 			COUNTRY_DATA[countryId].name,
 			COUNTRY_DATA[countryId].colour,
+			COUNTRY_DATA[countryId].banner ?? null,
 			COUNTRY_DATA[countryId].leader,
 		)
 		gameState.countries[countryId] = country

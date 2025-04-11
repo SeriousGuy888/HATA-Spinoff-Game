@@ -4,6 +4,7 @@
 	import TileMenu from "./TileMenu.svelte"
 	import MapEditorMenu from "./MapEditorMenu.svelte"
 	import StatChip from "./StatChip.svelte"
+	import CountryMenu from "./CountryMenu.svelte"
 </script>
 
 <div class="flex flex-col gap-4">
@@ -20,6 +21,7 @@
 		{/if}
 	</div>
 
+	<CountryMenu />
 	<TileMenu />
 	<PlayerList />
 	<MapEditorMenu />
