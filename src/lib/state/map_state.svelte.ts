@@ -1,7 +1,7 @@
 import { Tile, type ExportedTileState } from "$lib/entities/Tile.svelte"
 
-import _tile_geometries from "$lib/tile_data/tile_geometry.json"
-import _tile_states from "$lib/tile_data/tile_states.json"
+import _tile_geometries from "$lib/data/tile_geometry.json"
+import _tile_states from "$lib/data/tile_states.json"
 const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
 const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
 

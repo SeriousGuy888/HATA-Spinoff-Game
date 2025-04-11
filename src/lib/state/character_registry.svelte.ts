@@ -1,6 +1,6 @@
 import { Character } from "$lib/entities/Character.svelte"
 
-import _characterData from "$lib/character_data/characters.json"
+import _characterData from "$lib/data/characters.json"
 const CHARACTER_DATA: Record<
 	string,
 	{
