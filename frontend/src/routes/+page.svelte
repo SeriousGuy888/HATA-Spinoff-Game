@@ -6,11 +6,23 @@
 	import { cameraState, changeZoom, mouseState, teleportToWorldSpace } from "$lib/state/ui_state.svelte"
 	import Sidebar from "./Sidebar.svelte"
 	import { gameState, initGame, tickGame } from "$lib/state/game_state.svelte"
+	import { Socket, io } from "socket.io-client"
+
+
+	let socket: Socket
+	onMount(() => {
+		socket = io("http://localhost:3000")
+
+		socket.on("connect", () => {
+			console.log("Connected to server")
+		})
+	})
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
 	// This prevents the user from accidentally dragging the camera when they just want to click.
 
 	let cameraWindow = $state<HTMLElement | null>(null)
+
 
 	onMount(() => {
 		if (!cameraWindow) {

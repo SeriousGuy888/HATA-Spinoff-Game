@@ -1,6 +1,7 @@
 import express from "express"
 import { createServer } from "http"
 import { Server } from "socket.io"
+import { startSocketListener } from "./backend/socket_listener.js"
 
 const app = express()
 const httpServer = createServer(app)
@@ -20,13 +21,7 @@ const io = new Server(httpServer, {
 	},
 })
 
-io.on("connection", (socket) => {
-	console.log("Player connected:", socket.id)
-
-	socket.on("disconnect", () => {
-		console.log("Player disconnected:", socket.id)
-	})
-})
+startSocketListener(io)
 
 httpServer.listen(3000, () => {
 	console.log("HTTP server listening at http://localhost:3000")
