@@ -1,4 +1,4 @@
-import { ClientPlayer } from "$lib/entities/ClientPlayer.ts"
+import { ClientPlayer } from "$lib/entities/ClientPlayer.svelte.ts"
 import type { ClientCountry } from "$lib/entities/ClientCountry.svelte.ts"
 import type { ClientCharacter } from "$lib/entities/ClientCharacter.svelte.ts"
 import { loadTiles } from "./map_state.svelte.ts"
