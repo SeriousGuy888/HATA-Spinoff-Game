@@ -8,7 +8,6 @@ export function startSocketListener(io: Server) {
 	game = new Game(io)
 	game.init()
 
-
 	// Listen for incoming connections from clients
 	io.on("connection", (socket) => {
 		console.log("Player connected:", socket.id)
@@ -18,7 +17,11 @@ export function startSocketListener(io: Server) {
 		game.announcer.youAre(player)
 
 		socket.on("disconnect", () => {
-			console.log("Player disconnected:", socket.id)
+			if (game.removePlayer(socket.id)) {
+				console.log("Player disconnected:", socket.id, "and removed from game")
+			} else {
+				console.log("Player disconnected:", socket.id)
+			}
 		})
 	})
 }

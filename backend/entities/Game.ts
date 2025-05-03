@@ -71,6 +71,14 @@ export default class Game {
 		return player
 	}
 
+	removePlayer(playerId: string): boolean {
+		if(playerId in this.players) {
+			delete this.players[playerId]
+			return true
+		}
+		return false
+	}
+
 	getCharacter(id: string): Character | null {
 		return this.characters[id] ?? null
 	}
