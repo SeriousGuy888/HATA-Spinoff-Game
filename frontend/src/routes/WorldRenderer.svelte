@@ -8,8 +8,7 @@
 	class="relative"
 	style:width={`${MAP_DIMENSIONS.width * cameraState.zoom}px`}
 	style:height={`${MAP_DIMENSIONS.height * cameraState.zoom}px`}
-	style:left="{-cameraState.offsetX}px"
-	style:top="{-cameraState.offsetY}px"
+	style:transform="translate({-cameraState.offsetX}px, {-cameraState.offsetY}px)"
 >
 	<TileRenderer />
 </div>
