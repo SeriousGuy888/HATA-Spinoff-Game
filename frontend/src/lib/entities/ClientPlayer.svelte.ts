@@ -34,13 +34,6 @@ export class ClientPlayer {
 		this.partial = false
 	}
 
-	setControlledCountry(country: ClientCountry | null) {
-		this.controlledCountry = country
-		if (country) {
-			country.controllingPlayer = this
-		}
-	}
-
 	toString() {
 		return this.name
 	}
