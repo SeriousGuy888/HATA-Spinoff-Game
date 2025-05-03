@@ -40,16 +40,6 @@
 			cameraState.clientWidth,
 			cameraState.clientHeight,
 		)
-
-		// if (!gameState.isInitialised) {
-		// 	initGame(3)
-
-		// 	setInterval(() => {
-		// 		if (gameState.isInitialised) {
-		// 			tickGame()
-		// 		}
-		// 	}, 1000) // tick every second
-		// }
 	})
 </script>
 

@@ -5,7 +5,7 @@
 <details open class="rounded-md bg-gray-100 p-4">
 	<summary class="select-none">Player List</summary>
 	<ul class="mt-2 flex flex-col gap-2">
-		{#each Object.values(localState.players) as player}
+		{#each localState.game ? Object.values(localState.game.players) : [] as player}
 			<li class="block">
 				<button
 					class="block w-full cursor-pointer rounded border-blue-600 bg-gray-200 p-2 text-left"
