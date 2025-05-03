@@ -11,7 +11,7 @@
 	<h1 class="text-2xl font-bold">Epic HATA Spinoff Game</h1>
 
 	<div class="flex w-full gap-4 rounded bg-gray-100 p-4 text-center">
-		<p>Clock: {localState.clock}</p>
+		<p>Clock: {localState.game ? localState.game.clock : "..."}</p>
 		{#if localState.perspectivePlayer?.controlledCountry?.balance}
 			<StatChip
 				stat={localState.perspectivePlayer.controlledCountry?.balance.toFixed(2)}

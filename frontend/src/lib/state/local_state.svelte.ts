@@ -10,7 +10,6 @@ import type { GameData } from "#shared/types/entities.ts"
 
 export const localState = $state({
 	game: null as ClientGame | null,
-	clock: 0,
 	perspectivePlayer: null as ClientPlayer | null, // player whose perspective is rendered and checked for game actions
 	characters: {} as Record<string, ClientCharacter>,
 	tiles: {} as Record<string, ClientTile>,
