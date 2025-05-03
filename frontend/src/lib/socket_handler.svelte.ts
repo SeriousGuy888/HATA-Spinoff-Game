@@ -1,7 +1,7 @@
 import { ClientboundPacket } from "#shared/protocol/packet_names"
 import type { PlayerData, GameData } from "#shared/types/entities"
 import { io, Socket } from "socket.io-client"
-import { initGame } from "./state/local_state.svelte"
+import { initGame, setPerspectivePlayer } from "./state/local_state.svelte"
 
 export const socket: Socket = io("http://localhost:3000")
 
@@ -11,6 +11,7 @@ socket.on("connect", () => {
 
 socket.on(ClientboundPacket.YOU_ARE, (pData: PlayerData) => {
 	console.log("You are", pData)
+	setPerspectivePlayer(pData.id)
 })
 
 socket.on(ClientboundPacket.FULL_GAME_STATE, (gameData: GameData) => {
