@@ -9,19 +9,6 @@ export const localState = $state({
 
 export function initGame(gameData: GameData) {
 	localState.game = new ClientGame(gameData)
-
-	const countries = Object.values(localState.game.countries)
-	const players = Object.values(localState.game.players)
-	for (let i = 0; i < players.length; i++) {
-		if (i >= countries.length) {
-			break
-		}
-
-		const player = players[i]
-		const country = countries[i]
-
-		player.setControlledCountry(country)
-	}
 }
 
 export function getPlayer(id: string): ClientPlayer | null {
