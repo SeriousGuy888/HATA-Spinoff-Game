@@ -18,7 +18,12 @@ export default class ClientGame {
 		this.players = Object.fromEntries(
 			Object.entries(data.players).map(([id, playerData]) => [id, new ClientPlayer(playerData)]),
 		)
-		// this.characters = data.characters
+		this.characters = Object.fromEntries(
+			Object.entries(data.characters).map(([id, characterData]) => [
+				id,
+				new ClientCharacter(characterData),
+			]),
+		)
 
 		this.loadCountries(data.countries)
 		this.loadTiles(data.tiles)
@@ -33,6 +38,7 @@ export default class ClientGame {
 
 			const tileData = tileIds2TileData[id]
 			this.tiles[id] = new ClientTile(id, tileData)
+			console.log(this.tiles[id])
 		}
 	}
 
