@@ -22,6 +22,6 @@ export class ClientPlayer {
 	}
 
 	toString() {
-		return `${this.name} (${this.id})`
+		return this.name
 	}
 }
