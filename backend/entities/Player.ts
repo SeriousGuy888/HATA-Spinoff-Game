@@ -1,25 +1,33 @@
 import { Socket } from "socket.io"
 import { Country } from "./Country"
 import { PlayerData } from "#shared/types/entities.ts"
+import Game from "./Game"
 
 export class Player {
+	game: Game
 	socket: Socket
 	id: string
 	name: string = "Unnamed Player"
 
 	controlledCountry: Country | null = null
 
-	constructor(socket: Socket, id: string, name: string) {
+	constructor(game: Game, socket: Socket, id: string, name: string) {
+		this.game = game
 		this.socket = socket
 		this.id = id
 		this.name = name
 	}
 
-	setControlledCountry(country: Country | null) {
-		this.controlledCountry = country
-		if (country) {
-			country.controllingPlayer = this
+	setControlledCountry(newCountry: Country | null) {
+		const oldCountry = this.controlledCountry
+		this.controlledCountry = newCountry
+		if (oldCountry) {
+			oldCountry.controllingPlayer = null
 		}
+		if (newCountry) {
+			newCountry.controllingPlayer = this
+		}
+		this.game.announcer.playerSwitchedCountries(this, oldCountry, newCountry)
 	}
 
 	toString() {
