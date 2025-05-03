@@ -1,9 +1,9 @@
 import type { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types"
 import type { ClientCountry } from "$lib/entities/ClientCountry.svelte"
-import { getCountry } from "../state/country_registry.svelte"
 
 import _tile_geometries from "#shared/data/tile_geometry.json"
 import type { TileData } from "#shared/types/entities"
+import type ClientGame from "./ClientGame.svelte"
 const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
 
 export class ClientTile {
@@ -17,7 +17,7 @@ export class ClientTile {
 	population = $state<number>(0)
 	industry = $state<number>(0)
 
-	constructor(id: string, tileData: TileData) {
+	constructor(game: ClientGame, id: string, tileData: TileData) {
 		this.id = id
 
 		// Load the tile geometry from the JSON file
@@ -30,7 +30,7 @@ export class ClientTile {
 		if (tileData) {
 			this.name = tileData.name
 			this.terrain = tileData.terrain
-			this.controller = tileData.controllerId ? getCountry(tileData.controllerId) : null
+			this.controller = tileData.controllerId ? game.getCountry(tileData.controllerId) : null
 			this.population = tileData.population
 			this.industry = tileData.industry
 		} else {

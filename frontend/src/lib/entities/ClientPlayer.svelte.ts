@@ -1,6 +1,6 @@
 import type { PlayerData } from "#shared/types/entities"
-import { getCountry } from "$lib/state/country_registry.svelte"
 import { ClientCountry } from "./ClientCountry.svelte"
+import type ClientGame from "./ClientGame.svelte"
 
 export class ClientPlayer {
 	id: string
@@ -8,10 +8,10 @@ export class ClientPlayer {
 
 	controlledCountry = $state<ClientCountry | null>(null)
 
-	constructor(data: PlayerData) {
+	constructor(game: ClientGame, data: PlayerData) {
 		this.id = data.id
 		this.name = data.name ?? this.name
-		this.controlledCountry = (data.countryId ? getCountry(data.countryId) : null) ?? null
+		this.controlledCountry = game.getCountry(data.countryId) ?? null
 	}
 
 	setControlledCountry(country: ClientCountry | null) {

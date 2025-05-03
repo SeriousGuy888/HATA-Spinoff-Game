@@ -2,7 +2,6 @@
 	import { exportTileStates } from "$lib/state/map_state.svelte"
 	import { TILE_TERRAINS } from "$lib/entities/ClientTile.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
-	import { getCountry } from "$lib/state/country_registry.svelte"
 	import { localState } from "$lib/state/local_state.svelte"
 	let selectedTile = $derived(getSelectedTile())
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
@@ -46,7 +45,7 @@
 			<label for="controller-selector">Controller:</label>
 			<select
 				onchange={(event) => {
-					selectedTile.controller = getCountry(event.currentTarget.value)
+					selectedTile.controller = localState.game?.getCountry(event.currentTarget.value) ?? null
 				}}
 				id="controller-selector"
 				class="rounded-md border px-1"
@@ -54,7 +53,7 @@
 				<option value="">(none)</option>
 				{#each Object.keys(localState.game.countries) as countryId}
 					<option value={countryId} selected={selectedTile.controller?.id === countryId}>
-						{getCountry(countryId)?.name}
+						{localState.game.getCountry(countryId)?.name}
 					</option>
 				{/each}
 			</select>

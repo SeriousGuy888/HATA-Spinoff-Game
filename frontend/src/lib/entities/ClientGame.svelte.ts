@@ -16,7 +16,10 @@ export default class ClientGame {
 		this.isInitialised = data.isInitialised
 		this.clock = data.clock
 		this.players = Object.fromEntries(
-			Object.entries(data.players).map(([id, playerData]) => [id, new ClientPlayer(playerData)]),
+			Object.entries(data.players).map(([id, playerData]) => [
+				id,
+				new ClientPlayer(this, playerData),
+			]),
 		)
 		this.characters = Object.fromEntries(
 			Object.entries(data.characters).map(([id, characterData]) => [
@@ -37,7 +40,7 @@ export default class ClientGame {
 			}
 
 			const tileData = tileIds2TileData[id]
-			this.tiles[id] = new ClientTile(id, tileData)
+			this.tiles[id] = new ClientTile(this, id, tileData)
 		}
 	}
 
@@ -49,7 +52,13 @@ export default class ClientGame {
 		}
 	}
 
-	getCharacter(id: string): ClientCharacter | null {
+	getCharacter(id: string | null): ClientCharacter | null {
+		if (id === null) return null
 		return this.characters[id] ?? null
+	}
+
+	getCountry(id: string | null): ClientCountry | null {
+		if (id === null) return null
+		return this.countries[id] ?? null
 	}
 }
