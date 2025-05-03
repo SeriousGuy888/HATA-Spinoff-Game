@@ -1,8 +1,9 @@
+import type { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types"
 import { gameState } from "./game_state.svelte"
-import { Tile, type ExportedTileState } from "$lib/entities/Tile.svelte"
+import { Tile } from "$lib/entities/Tile.svelte"
 
-import _tile_geometries from "$shared/data/tile_geometry.json"
-import _tile_states from "$shared/data/tile_states.json"
+import _tile_geometries from "#shared/data/tile_geometry.json"
+import _tile_states from "#shared/data/tile_states.json"
 const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
 const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
 
@@ -17,13 +18,6 @@ export const MAP_WORLD_ORIGIN_OFFSET: [number, number] = [5001, 5001]
 
 // The location in the world that the camera should start centered on.
 export const DEFAULT_WORLD_LOCATION: [number, number] = [200, 1200]
-
-export interface TileGeometryData {
-	// an array of possibly multiple polygons. all are drawn together in one svg <path> element.
-	// Each coordinate pair is a vertex in the polygon.
-	polygons: [number, number][][]
-}
-
 
 export function loadTiles() {
 	const tileIds = Object.keys(TILE_GEOMETRIES)

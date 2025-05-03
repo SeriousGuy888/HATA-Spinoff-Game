@@ -13,7 +13,7 @@ const config = {
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 		adapter: adapter(),
 		alias: {
-			$shared: "../shared", // This folder stores code shared between frontend and backend
+			"#shared": "../shared", // This folder stores code shared between frontend and backend
 		},
 	},
 }

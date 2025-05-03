@@ -12,6 +12,8 @@
 	import Sidebar from "./Sidebar.svelte"
 	import { gameState, initGame, tickGame } from "$lib/state/game_state.svelte"
 	import { Socket, io } from "socket.io-client"
+	import { EventName } from "#shared/protocol/events"
+	import type { PlayerData } from "#shared/types/entity_types"
 
 	let socket: Socket
 	onMount(() => {
@@ -19,6 +21,10 @@
 
 		socket.on("connect", () => {
 			console.log("Connected to server")
+		})
+
+		socket.on(EventName.YOU_ARE, (pData: PlayerData) => {
+			console.log("You are", pData)
 		})
 	})
 

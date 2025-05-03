@@ -1,6 +1,6 @@
 import { Character } from "$lib/entities/Character.svelte"
 
-import _characterData from "$shared/data/characters.json"
+import _characterData from "#shared/data/characters.json"
 import { gameState } from "./game_state.svelte"
 const CHARACTER_DATA: Record<
 	string,

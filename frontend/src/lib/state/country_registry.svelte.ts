@@ -1,6 +1,6 @@
 import { Country } from "$lib/entities/Country.svelte"
 
-import _countryData from "$shared/data/countries.json"
+import _countryData from "#shared/data/countries.json"
 import { gameState } from "./game_state.svelte"
 const COUNTRY_DATA: Record<
 	string,

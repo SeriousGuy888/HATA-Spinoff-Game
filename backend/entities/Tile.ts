@@ -1,19 +1,19 @@
-import type { ExportedTileState } from "#shared/types/tile_data_types"
-import type { Country } from "$lib/entities/Country.svelte"
-import { getCountry } from "../state/country_registry.svelte"
+import { ExportedTileState, TileTerrain } from "#shared/types/tile_data_types.ts"
+import { Country } from "./Country"
+import Game from "./Game"
 
 export class Tile {
 	id: string
 	polygons: [number, number][][] = [] // an array of possibly multiple polygons. all are drawn together in one svg <path> element.
 
-	name = $state<string>("") // name of the tile, used for display purposes
-	terrain = $state<TileTerrain>("land") // type of terrain on this tile
-
-	controller = $state<Country | null>(null) // the player who controls this tile, or null if no one does
-	population = $state<number>(0)
-	industry = $state<number>(0)
+	name: string = "" // name of the tile, used for display purposes
+	terrain: TileTerrain = "land" // type of terrain on this tile
+	controller: Country | null = null // the player who controls this tile, or null if no one does
+	population: number = 0
+	industry: number = 0
 
 	constructor(
+		game: Game,
 		id: string,
 		polygons: [number, number][][],
 		defaultState: ExportedTileState | null = null,
@@ -28,7 +28,7 @@ export class Tile {
 		if (defaultState) {
 			this.name = defaultState.name
 			this.terrain = defaultState.terrain
-			this.controller = defaultState.controller ? getCountry(defaultState.controller) : null
+			this.controller = defaultState.controller ? game.getCountry(defaultState.controller) : null
 			this.population = defaultState.population
 			this.industry = defaultState.industry
 		} else {
@@ -61,8 +61,3 @@ export class Tile {
 		return this.name
 	}
 }
-
-export const TILE_TERRAINS = ["land", "impassable", "water"] as const
-export type TileTerrain = (typeof TILE_TERRAINS)[number]
-
-

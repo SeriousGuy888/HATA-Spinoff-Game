@@ -1,0 +1,133 @@
+import { Character } from "./Character"
+import { Country } from "./Country"
+import { Tile } from "./Tile"
+
+import _characterData from "#shared/data/characters.json"
+const CHARACTER_DATA: Record<
+	string,
+	{
+		name: string
+		portrait_frames: string[]
+	}
+> = _characterData as any
+
+import _countryData from "#shared/data/countries.json"
+const COUNTRY_DATA: Record<
+	string,
+	{
+		name: string
+		colour: string
+		banner: string | null
+		leader: string | null
+	}
+> = _countryData as any
+
+import _tile_geometries from "#shared/data/tile_geometry.json"
+import _tile_states from "#shared/data/tile_states.json"
+import { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types.ts"
+import { Player } from "./Player"
+import GameAnnouncer from "./GameAnnouncer"
+import { Server, Socket } from "socket.io"
+const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
+const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
+
+export default class Game {
+	announcer: GameAnnouncer
+
+	isInitialised: boolean
+	clock: number = 0
+	players: Record<string, Player> = {}
+	characters: Record<string, Character> = {}
+	tiles: Record<string, Tile> = {}
+	countries: Record<string, Country> = {}
+
+	constructor(io: Server) {
+		this.announcer = new GameAnnouncer(io, this)
+		this.isInitialised = false
+		this.clock = 0
+	}
+
+	init() {
+		this.loadCharacters()
+		this.loadCountries()
+		this.loadTiles()
+
+		this.clock = 0
+		this.isInitialised = true
+	}
+
+	tick() {
+		Object.values(this.tiles).forEach((tile) => {
+			tile.tick()
+		})
+
+		this.clock++
+	}
+
+	addPlayer(socket: Socket, name: string): Player {
+		const player = new Player(socket, socket.id, name)
+		this.players[socket.id] = player
+		return player
+	}
+
+	getCharacter(id: string): Character | null {
+		return this.characters[id] ?? null
+	}
+
+	getCountry(id: string): Country | null {
+		return this.countries[id] ?? null
+	}
+
+	/**
+	 * Load characters from JSON data.
+	 */
+	loadCharacters() {
+		for (const characterId in CHARACTER_DATA) {
+			const char = new Character(
+				characterId,
+				CHARACTER_DATA[characterId].name,
+				CHARACTER_DATA[characterId].portrait_frames,
+			)
+
+			this.characters[characterId] = char
+		}
+	}
+
+	/**
+	 * Load countries from JSON data.
+	 */
+	loadCountries() {
+		for (const countryId in COUNTRY_DATA) {
+			const country = new Country(
+				this,
+				countryId,
+				COUNTRY_DATA[countryId].name,
+				COUNTRY_DATA[countryId].colour,
+				COUNTRY_DATA[countryId].banner ?? null,
+				COUNTRY_DATA[countryId].leader,
+			)
+			this.countries[countryId] = country
+		}
+	}
+
+	/**
+	 * Load tiles from JSON data.
+	 */
+	loadTiles() {
+		const tileIds = Object.keys(TILE_GEOMETRIES)
+		for (const id of tileIds) {
+			if (this.tiles[id]) {
+				console.warn(`Tile ${id} is already loaded. Skipping.`)
+				continue
+			}
+
+			const defaultState = TILE_STATES[id] ?? null
+			if (!defaultState) {
+				console.warn(`Tile ${id} has no default state. Using empty state.`)
+			}
+
+			const tile = new Tile(this, id, TILE_GEOMETRIES[id].polygons, defaultState)
+			this.tiles[id] = tile
+		}
+	}
+}
