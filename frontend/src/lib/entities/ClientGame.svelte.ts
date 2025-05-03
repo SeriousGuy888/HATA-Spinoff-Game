@@ -1,4 +1,4 @@
-import type { GameData, TileData } from "#shared/types/entities"
+import type { CountryData, GameData, TileData } from "#shared/types/entities"
 import { ClientCharacter } from "./ClientCharacter.svelte"
 import { ClientCountry } from "./ClientCountry.svelte"
 import { ClientPlayer } from "./ClientPlayer.svelte"
@@ -19,20 +19,28 @@ export default class ClientGame {
 			Object.entries(data.players).map(([id, playerData]) => [id, new ClientPlayer(playerData)]),
 		)
 		// this.characters = data.characters
-		// this.countries = data.countries
 
+		this.loadCountries(data.countries)
 		this.loadTiles(data.tiles)
 	}
 
-	loadTiles(tileIds2tileData: Record<string, TileData>) {
-		for (const id in tileIds2tileData) {
+	loadTiles(tileIds2TileData: Record<string, TileData>) {
+		for (const id in tileIds2TileData) {
 			if (this.tiles[id]) {
 				console.warn(`Tile ${id} is already loaded. Skipping.`)
 				continue
 			}
 
-			const tileData = tileIds2tileData[id]
+			const tileData = tileIds2TileData[id]
 			this.tiles[id] = new ClientTile(id, tileData)
+		}
+	}
+
+	loadCountries(countryIds2CountryData: Record<string, CountryData>) {
+		for (const countryId in countryIds2CountryData) {
+			const { name, colour, banner, leaderId } = countryIds2CountryData[countryId]
+			const country = new ClientCountry(countryId, name, colour, banner ?? null, leaderId)
+			this.countries[countryId] = country
 		}
 	}
 }

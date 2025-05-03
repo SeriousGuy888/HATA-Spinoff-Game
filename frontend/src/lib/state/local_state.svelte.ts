@@ -1,7 +1,5 @@
 import { ClientPlayer } from "$lib/entities/ClientPlayer.svelte.ts"
-import type { ClientCountry } from "$lib/entities/ClientCountry.svelte.ts"
 import type { ClientCharacter } from "$lib/entities/ClientCharacter.svelte.ts"
-import { loadCountries } from "./country_registry.svelte.ts"
 import { loadCharacters } from "./character_registry.svelte.ts"
 import ClientGame from "$lib/entities/ClientGame.svelte.ts"
 import type { GameData } from "#shared/types/entities.ts"
@@ -10,16 +8,14 @@ export const localState = $state({
 	game: null as ClientGame | null,
 	perspectivePlayer: null as ClientPlayer | null, // player whose perspective is rendered and checked for game actions
 	characters: {} as Record<string, ClientCharacter>,
-	countries: {} as Record<string, ClientCountry>,
 })
 
 export function initGame(gameData: GameData) {
 	localState.game = new ClientGame(gameData)
 
 	loadCharacters()
-	loadCountries()
 
-	const countries = Object.values(localState.countries)
+	const countries = Object.values(localState.game.countries)
 	const players = Object.values(localState.game.players)
 	for (let i = 0; i < players.length; i++) {
 		if (i >= countries.length) {
