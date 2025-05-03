@@ -3,4 +3,5 @@ export enum ClientboundPacket {
 	FULL_GAME_STATE = "full_game_state",
 	PLAYER_JOINED = "player_joined",
 	PLAYER_LEFT = "player_left",
+	PLAYER_SWITCHED_COUNTRIES = "player_switched_countries",
 }

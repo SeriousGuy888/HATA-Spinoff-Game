@@ -2,6 +2,8 @@ import { Server } from "socket.io"
 import Game from "./Game"
 import { Player } from "./Player"
 import { ClientboundPacket } from "#shared/protocol/packet_names.ts"
+import { Country } from "./Country"
+import { PlayerSwitchedCountriesPayload } from "#shared/protocol/packet_payloads.ts"
 
 /**
  * GameAnnouncer handles broadcasting game events to all connected
@@ -49,5 +51,14 @@ export default class GameAnnouncer {
 	 */
 	announcePlayerLeft(player: Player) {
 		player.socket.broadcast.emit(ClientboundPacket.PLAYER_LEFT, player.id)
+	}
+
+	playerSwitchedCountries(player: Player, oldCountry: Country | null, newCountry: Country | null) {
+		const payload: PlayerSwitchedCountriesPayload = {
+			playerId: player.id,
+			oldCountryId: oldCountry?.id ?? null,
+			newCountryId: newCountry?.id ?? null,
+		}
+		this.io.emit(ClientboundPacket.PLAYER_SWITCHED_COUNTRIES, payload)
 	}
 }

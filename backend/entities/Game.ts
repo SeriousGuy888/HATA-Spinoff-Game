@@ -68,16 +68,17 @@ export default class Game {
 		const player = new Player(socket, socket.id, name)
 		this.players[socket.id] = player
 
-		
 		this.announcer.sendFullGameState(player)
 		this.announcer.youAre(player)
 		this.announcer.announcePlayerJoined(player)
+
+		this.assignAvailableCountryToPlayer(player)
 
 		return player
 	}
 
 	removePlayer(playerId: string): boolean {
-		if(playerId in this.players) {
+		if (playerId in this.players) {
 			const player = this.players[playerId]
 			this.announcer.announcePlayerLeft(player)
 			delete this.players[playerId]
@@ -92,6 +93,23 @@ export default class Game {
 
 	getCountry(id: string): Country | null {
 		return this.countries[id] ?? null
+	}
+
+	assignAvailableCountryToPlayer(player: Player): Country | null {
+		const availableCountries = Object.values(this.countries).filter((c) => !c.controllingPlayer)
+		if (!availableCountries.length) {
+			return null
+		}
+
+		const oldCountry = player.controlledCountry
+
+		const newCountry = availableCountries[Math.floor(Math.random() * availableCountries.length)]
+		newCountry.controllingPlayer = player
+		player.controlledCountry = newCountry
+
+		this.announcer.playerSwitchedCountries(player, oldCountry, newCountry)
+
+		return newCountry
 	}
 
 	/**

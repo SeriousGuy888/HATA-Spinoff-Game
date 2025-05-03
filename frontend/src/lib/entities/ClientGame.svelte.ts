@@ -52,6 +52,11 @@ export default class ClientGame {
 		}
 	}
 
+	getPlayer(id: string | null): ClientPlayer | null {
+		if (id === null) return null
+		return this.players[id] ?? null
+	}
+
 	getCharacter(id: string | null): ClientCharacter | null {
 		if (id === null) return null
 		return this.characters[id] ?? null

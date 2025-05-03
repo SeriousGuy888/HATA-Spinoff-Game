@@ -1,3 +1,4 @@
+import type { PlayerSwitchedCountriesPayload } from "#shared/protocol/packet_payloads.ts"
 import { ClientboundPacket } from "#shared/protocol/packet_names"
 import type { GameData, PlayerData } from "#shared/types/entities"
 import { io, Socket } from "socket.io-client"
@@ -35,3 +36,30 @@ socket.on(ClientboundPacket.PLAYER_LEFT, (playerId: string) => {
 	}
 	delete localState.game.players[playerId]
 })
+
+socket.on(
+	ClientboundPacket.PLAYER_SWITCHED_COUNTRIES,
+	(payload: PlayerSwitchedCountriesPayload) => {
+		if (!localState.game) {
+			return
+		}
+
+		const { playerId, oldCountryId, newCountryId } = payload
+		const player = localState.game.getPlayer(playerId)
+		const oldCountry = localState.game.getCountry(oldCountryId)
+		const newCountry = localState.game.getCountry(newCountryId)
+		if (!player) {
+			console.error(`Server sent PLAYER_SWITCHED_COUNTRIES for unknown player id ${playerId}`)
+			return
+		}
+		player.controlledCountry = newCountry
+		if (oldCountry) {
+			oldCountry.controllingPlayer = null
+		}
+		if (newCountry) {
+			newCountry.controllingPlayer = player
+		}
+
+		console.log(`'${player}' is now controlling '${newCountry}'.`)
+	},
+)
