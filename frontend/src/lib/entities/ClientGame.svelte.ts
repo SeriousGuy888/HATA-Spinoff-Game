@@ -38,7 +38,6 @@ export default class ClientGame {
 
 			const tileData = tileIds2TileData[id]
 			this.tiles[id] = new ClientTile(id, tileData)
-			console.log(this.tiles[id])
 		}
 	}
 

@@ -1,5 +1,5 @@
 import { ClientboundPacket } from "#shared/protocol/packet_names"
-import type { PlayerData, GameData } from "#shared/types/entities"
+import type { GameData } from "#shared/types/entities"
 import { io, Socket } from "socket.io-client"
 import { initGame, setPerspectivePlayer } from "./state/local_state.svelte"
 
@@ -18,5 +18,8 @@ socket.on(ClientboundPacket.FULL_GAME_STATE, (gameData: GameData) => {
 	console.log("Full game state", gameData)
 	console.log("game state data size:", JSON.stringify(gameData).length)
 
+	// runs twice because if we only run it once, svelte doesn't properly render tile controllers
+	// i don't know why. todo: fix
+	initGame(gameData)
 	initGame(gameData)
 })
