@@ -29,7 +29,7 @@ export default class ClientGame {
 		this.loadTiles(data.tiles)
 	}
 
-	loadTiles(tileIds2TileData: Record<string, TileData>) {
+	private loadTiles(tileIds2TileData: Record<string, TileData>) {
 		for (const id in tileIds2TileData) {
 			if (this.tiles[id]) {
 				console.warn(`Tile ${id} is already loaded. Skipping.`)
@@ -41,11 +41,15 @@ export default class ClientGame {
 		}
 	}
 
-	loadCountries(countryIds2CountryData: Record<string, CountryData>) {
+	private loadCountries(countryIds2CountryData: Record<string, CountryData>) {
 		for (const countryId in countryIds2CountryData) {
 			const { name, colour, banner, leaderId } = countryIds2CountryData[countryId]
-			const country = new ClientCountry(countryId, name, colour, banner ?? null, leaderId)
+			const country = new ClientCountry(this, countryId, name, colour, banner ?? null, leaderId)
 			this.countries[countryId] = country
 		}
+	}
+
+	getCharacter(id: string): ClientCharacter | null {
+		return this.characters[id] ?? null
 	}
 }

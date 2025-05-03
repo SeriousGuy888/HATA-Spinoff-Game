@@ -2,7 +2,6 @@
 	import StatChip from "./StatChip.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
 	import { localState } from "$lib/state/local_state.svelte"
-localState
 	let tile = $derived(getSelectedTile())
 </script>
 

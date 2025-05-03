@@ -1,5 +1,5 @@
-import { getCharacter } from "../state/character_registry.svelte"
 import { ClientCharacter } from "./ClientCharacter.svelte"
+import type ClientGame from "./ClientGame.svelte"
 import type { ClientPlayer } from "./ClientPlayer.svelte"
 
 export class ClientCountry {
@@ -13,6 +13,7 @@ export class ClientCountry {
 	controllingPlayer = $state<ClientPlayer | null>(null)
 
 	constructor(
+		game: ClientGame,
 		id: string,
 		name: string,
 		colour: string,
@@ -28,7 +29,7 @@ export class ClientCountry {
 		}
 
 		if (leaderId) {
-			this.leader = getCharacter(leaderId)
+			this.leader = game.getCharacter(leaderId)
 		}
 	}
 
