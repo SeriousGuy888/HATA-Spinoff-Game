@@ -38,25 +38,27 @@
 	viewBox={`0 0 ${MAP_DIMENSIONS.width} ${MAP_DIMENSIONS.height}`}
 	role="none"
 >
-	{#each Object.entries(localState.tiles) as [id, tile]}
-		{@const colour = tile.controller?.colour ?? "#ddd"}
-		<path
-			d="{polygonListToPath(tile.polygons)}localState"
-			stroke-linejoin="round"
-			style:fill={colour}
-			style:stroke={colour}
-			style:stroke-width="0.5"
-			class="hover:brightness-175 cursor-pointer outline-0"
-			class:brightness-150={tileSelectionState.selectedTileId === id}
-			role="button"
-			tabindex="0"
-			onkeypress={() => selectTile(id)}
-			onclick={() => {
-				if (mouseState.isDragging) {
-					return
-				}
-				selectTile(id)
-			}}
-		/>
-	{/each}
+	{#if localState.game}
+		{#each Object.entries(localState.game.tiles) as [id, tile]}
+			{@const colour = tile.controller?.colour ?? "#ddd"}
+			<path
+				d={polygonListToPath(tile.polygons)}
+				stroke-linejoin="round"
+				style:fill={colour}
+				style:stroke={colour}
+				style:stroke-width="0.5"
+				class="hover:brightness-175 cursor-pointer outline-0"
+				class:brightness-150={tileSelectionState.selectedTileId === id}
+				role="button"
+				tabindex="0"
+				onkeypress={() => selectTile(id)}
+				onclick={() => {
+					if (mouseState.isDragging) {
+						return
+					}
+					selectTile(id)
+				}}
+			/>
+		{/each}
+	{/if}
 </svg>

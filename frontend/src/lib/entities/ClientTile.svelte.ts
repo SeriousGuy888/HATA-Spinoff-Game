@@ -1,6 +1,10 @@
-import type { ExportedTileState } from "#shared/types/tile_data_types"
+import type { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types"
 import type { ClientCountry } from "$lib/entities/ClientCountry.svelte"
 import { getCountry } from "../state/country_registry.svelte"
+
+import _tile_geometries from "#shared/data/tile_geometry.json"
+import type { TileData } from "#shared/types/entities"
+const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
 
 export class ClientTile {
 	id: string
@@ -13,24 +17,22 @@ export class ClientTile {
 	population = $state<number>(0)
 	industry = $state<number>(0)
 
-	constructor(
-		id: string,
-		polygons: [number, number][][],
-		defaultState: ExportedTileState | null = null,
-	) {
+	constructor(id: string, tileData: TileData) {
 		this.id = id
-		this.polygons = polygons
 
-		if (polygons.length === 0) {
+		// Load the tile geometry from the JSON file
+		// This is not given by the server, but instead loaded statically on the client.
+		this.polygons = TILE_GEOMETRIES[id]?.polygons ?? []
+		if (this.polygons.length === 0) {
 			console.warn(`Tile ${id} has no polygons.`)
 		}
 
-		if (defaultState) {
-			this.name = defaultState.name
-			this.terrain = defaultState.terrain
-			this.controller = defaultState.controller ? getCountry(defaultState.controller) : null
-			this.population = defaultState.population
-			this.industry = defaultState.industry
+		if (tileData) {
+			this.name = tileData.name
+			this.terrain = tileData.terrain
+			this.controller = tileData.controllerId ? getCountry(tileData.controllerId) : null
+			this.population = tileData.population
+			this.industry = tileData.industry
 		} else {
 			this.name = id
 		}

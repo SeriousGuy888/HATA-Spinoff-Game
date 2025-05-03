@@ -1,4 +1,4 @@
-import type { GameData } from "#shared/types/entities"
+import type { GameData, TileData } from "#shared/types/entities"
 import { ClientCharacter } from "./ClientCharacter.svelte"
 import { ClientCountry } from "./ClientCountry.svelte"
 import { ClientPlayer } from "./ClientPlayer.svelte"
@@ -19,7 +19,20 @@ export default class ClientGame {
 			Object.entries(data.players).map(([id, playerData]) => [id, new ClientPlayer(playerData)]),
 		)
 		// this.characters = data.characters
-		// this.tiles = data.tiles
 		// this.countries = data.countries
+
+		this.loadTiles(data.tiles)
+	}
+
+	loadTiles(tileIds2tileData: Record<string, TileData>) {
+		for (const id in tileIds2tileData) {
+			if (this.tiles[id]) {
+				console.warn(`Tile ${id} is already loaded. Skipping.`)
+				continue
+			}
+
+			const tileData = tileIds2tileData[id]
+			this.tiles[id] = new ClientTile(id, tileData)
+		}
 	}
 }

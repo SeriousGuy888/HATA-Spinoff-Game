@@ -29,7 +29,11 @@ export function getSelectedTile() {
 		return null
 	}
 
-	return localState.tiles[tileSelectionState.selectedTileId] ?? null
+	if (!localState.game) {
+		return null
+	}
+	
+	return localState.game.tiles[tileSelectionState.selectedTileId] ?? null
 }
 
 /**

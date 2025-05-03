@@ -22,15 +22,14 @@ const COUNTRY_DATA: Record<
 	}
 > = _countryData as any
 
-import _tile_geometries from "#shared/data/tile_geometry.json"
 import _tile_states from "#shared/data/tile_states.json"
-import { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types.ts"
+const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
+
+import { ExportedTileState } from "#shared/types/tile_data_types.ts"
 import { Player } from "./Player"
 import GameAnnouncer from "./GameAnnouncer"
 import { Server, Socket } from "socket.io"
 import { GameData } from "#shared/types/entities.ts"
-const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
-const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
 
 export default class Game {
 	announcer: GameAnnouncer
@@ -121,9 +120,10 @@ export default class Game {
 
 	/**
 	 * Load tiles from JSON data.
+	 * Does not include tile geometry, which is only needed on the client side.
 	 */
 	loadTiles() {
-		const tileIds = Object.keys(TILE_GEOMETRIES)
+		const tileIds = Object.keys(TILE_STATES)
 		for (const id of tileIds) {
 			if (this.tiles[id]) {
 				console.warn(`Tile ${id} is already loaded. Skipping.`)
@@ -135,7 +135,7 @@ export default class Game {
 				console.warn(`Tile ${id} has no default state. Using empty state.`)
 			}
 
-			const tile = new Tile(this, id, TILE_GEOMETRIES[id].polygons, defaultState)
+			const tile = new Tile(this, id, defaultState)
 			this.tiles[id] = tile
 		}
 	}
