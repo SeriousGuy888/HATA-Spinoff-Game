@@ -1,6 +1,6 @@
 import { getCharacter } from "../state/character_registry.svelte"
 import { ClientCharacter } from "./ClientCharacter.svelte"
-import type { ClientPlayer } from "./ClientPlayer"
+import type { ClientPlayer } from "./ClientPlayer.svelte"
 
 export class ClientCountry {
 	id: string

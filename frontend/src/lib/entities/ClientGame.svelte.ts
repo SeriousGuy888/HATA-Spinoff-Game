@@ -1,6 +1,6 @@
 import type { ClientCharacter } from "./ClientCharacter.svelte"
 import type { ClientCountry } from "./ClientCountry.svelte"
-import type { ClientPlayer } from "./ClientPlayer"
+import type { ClientPlayer } from "./ClientPlayer.svelte"
 import type { ClientTile } from "./ClientTile.svelte"
 
 export default class ClientGame {
