@@ -1,7 +1,7 @@
-import { Country } from "$lib/entities/Country.svelte"
+import { ClientCountry } from "$lib/entities/ClientCountry.svelte"
 
 import _countryData from "#shared/data/countries.json"
-import { gameState } from "./game_state.svelte"
+import { localState } from "./local_state.svelte"
 const COUNTRY_DATA: Record<
 	string,
 	{
@@ -14,17 +14,17 @@ const COUNTRY_DATA: Record<
 
 export function loadCountries() {
 	for (const countryId in COUNTRY_DATA) {
-		const country = new Country(
+		const country = new ClientCountry(
 			countryId,
 			COUNTRY_DATA[countryId].name,
 			COUNTRY_DATA[countryId].colour,
 			COUNTRY_DATA[countryId].banner ?? null,
 			COUNTRY_DATA[countryId].leader,
 		)
-		gameState.countries[countryId] = country
+		localState.countries[countryId] = country
 	}
 }
 
-export function getCountry(id: string): Country | null {
-	return gameState.countries[id] ?? null
+export function getCountry(id: string): ClientCountry | null {
+	return localState.countries[id] ?? null
 }

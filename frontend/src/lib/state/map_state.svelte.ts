@@ -1,6 +1,6 @@
 import type { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types"
-import { gameState } from "./game_state.svelte"
-import { Tile } from "$lib/entities/Tile.svelte"
+import { localState } from "./local_state.svelte"
+import { ClientTile } from "$lib/entities/ClientTile.svelte"
 
 import _tile_geometries from "#shared/data/tile_geometry.json"
 import _tile_states from "#shared/data/tile_states.json"
@@ -22,7 +22,7 @@ export const DEFAULT_WORLD_LOCATION: [number, number] = [200, 1200]
 export function loadTiles() {
 	const tileIds = Object.keys(TILE_GEOMETRIES)
 	for (const id of tileIds) {
-		if (gameState.tiles[id]) {
+		if (localState.tiles[id]) {
 			console.warn(`Tile ${id} is already loaded. Skipping.`)
 			continue
 		}
@@ -32,15 +32,15 @@ export function loadTiles() {
 			console.warn(`Tile ${id} has no default state. Using empty state.`)
 		}
 
-		const tile = new Tile(id, TILE_GEOMETRIES[id].polygons, defaultState)
-		gameState.tiles[id] = tile
+		const tile = new ClientTile(id, TILE_GEOMETRIES[id].polygons, defaultState)
+		localState.tiles[id] = tile
 	}
 }
 
 export function exportTileStates(): Record<string, ExportedTileState> {
 	const allTileStates: Record<string, ExportedTileState> = {}
-	for (const id in gameState.tiles) {
-		const tile = gameState.tiles[id]
+	for (const id in localState.tiles) {
+		const tile = localState.tiles[id]
 		allTileStates[id] = tile.exportState()
 	}
 	return allTileStates

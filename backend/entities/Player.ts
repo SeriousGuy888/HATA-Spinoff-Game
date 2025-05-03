@@ -1,6 +1,6 @@
 import { Socket } from "socket.io"
 import { Country } from "./Country"
-import { PlayerData } from "#shared/types/entity_types.ts"
+import { PlayerData } from "#shared/types/entities.ts"
 
 export class Player {
 	socket: Socket

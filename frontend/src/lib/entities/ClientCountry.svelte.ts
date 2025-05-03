@@ -1,18 +1,24 @@
 import { getCharacter } from "../state/character_registry.svelte"
-import { Character } from "./Character.svelte"
-import type { Player } from "./Player.svelte"
+import { ClientCharacter } from "./ClientCharacter.svelte"
+import type { ClientPlayer } from "./ClientPlayer"
 
-export class Country {
+export class ClientCountry {
 	id: string
 	colour: string = "#333333"
 	banner: string = "default"
 	name = $state<string>("Unnamed Country")
-	leader = $state<Character | null>(null)
+	leader = $state<ClientCharacter | null>(null)
 	balance = $state<number>(0)
 
-	controllingPlayer = $state<Player | null>(null)
+	controllingPlayer = $state<ClientPlayer | null>(null)
 
-	constructor(id: string, name: string, colour: string, banner: string | null, leaderId: string | null) {
+	constructor(
+		id: string,
+		name: string,
+		colour: string,
+		banner: string | null,
+		leaderId: string | null,
+	) {
 		this.id = id
 		this.name = name
 		this.colour = colour

@@ -1,7 +1,7 @@
 import { Server } from "socket.io"
 import Game from "./Game"
 import { Player } from "./Player"
-import { EventName } from "#shared/protocol/events.ts"
+import { ClientboundPacket } from "#shared/protocol/packet_names.ts"
 
 /**
  * GameAnnouncer handles broadcasting game events to all connected
@@ -21,6 +21,11 @@ export default class GameAnnouncer {
 	 * @param player The player to send the event to.
 	 */
 	youAre(player: Player) {
-		player.socket.emit(EventName.YOU_ARE, player.toJson())
+		player.socket.emit(ClientboundPacket.YOU_ARE, player.toJson())
+	}
+
+	sendFullGameState(player: Player) {
+		const gameData = this.game.toJson()
+		player.socket.emit(ClientboundPacket.FULL_GAME_STATE, gameData)
 	}
 }

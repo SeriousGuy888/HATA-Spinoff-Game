@@ -15,6 +15,7 @@ export function startSocketListener(io: Server) {
 
 		const player = game.addPlayer(socket, "Player " + socket.id)
 		game.announcer.youAre(player)
+		game.announcer.sendFullGameState(player)
 
 		socket.on("disconnect", () => {
 			console.log("Player disconnected:", socket.id)

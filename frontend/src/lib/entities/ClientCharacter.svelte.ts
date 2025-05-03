@@ -1,4 +1,4 @@
-export class Character {
+export class ClientCharacter {
 	id: string
 	name = $state<string>("Unnamed Character")
 	portraitFrames = $state<string[]>([])

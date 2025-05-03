@@ -1,8 +1,8 @@
 <script lang="ts">
 	import StatChip from "./StatChip.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
-	import { gameState, upgradeTileIndustry } from "$lib/state/game_state.svelte"
-
+	import { localState } from "$lib/state/local_state.svelte"
+localState
 	let tile = $derived(getSelectedTile())
 </script>
 
@@ -10,7 +10,7 @@
 	<summary class="select-none">{tile ?? "No Tile Selected"}</summary>
 	{#if tile}
 		{@const tileIsOwnedByPlayer =
-			tile.controller === gameState.perspectivePlayer?.controlledCountry}
+			tile.controller === localState.perspectivePlayer?.controlledCountry}
 		<p>{tile.terrain}</p>
 		<div class="mt-2 flex gap-2">
 			<StatChip
@@ -23,7 +23,7 @@
 				stat={tileIsOwnedByPlayer ? tile.industry : "?"}
 				iconSrc="/ui_icons/industry.png"
 				description="Industry"
-				onclick={() => upgradeTileIndustry(tile)}
+				onclick={() => console.log(tile)}
 			/>
 			<p>a</p>
 		</div>

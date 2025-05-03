@@ -1,10 +1,9 @@
 <script>
 	import { exportTileStates } from "$lib/state/map_state.svelte"
-	import { TILE_TERRAINS } from "$lib/entities/Tile.svelte"
+	import { TILE_TERRAINS } from "$lib/entities/ClientTile.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
 	import { getCountry } from "$lib/state/country_registry.svelte"
-	import { gameState } from "$lib/state/game_state.svelte"
-
+	import { localState } from "$lib/state/local_state.svelte"
 	let selectedTile = $derived(getSelectedTile())
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
 </script>
@@ -33,7 +32,7 @@
 			id="terrain-type-selector"
 			class="rounded-md border px-1"
 			bind:value={selectedTile.terrain}
-		>
+			>localState
 			{#each TILE_TERRAINS as terrain}
 				<option value={terrain}>
 					{terrain}
@@ -52,14 +51,14 @@
 			class="rounded-md border px-1"
 		>
 			<option value="">(none)</option>
-			{#each Object.keys(gameState.countries) as countryId}
+			{#each Object.keys(localState.countries) as countryId}
 				<option value={countryId} selected={selectedTile.controller?.id === countryId}>
 					{getCountry(countryId)?.name}
 				</option>
 			{/each}
 		</select>
 
-		<br>
+		<br />
 
 		<label for="population-input">Population</label>
 		<input
@@ -71,8 +70,7 @@
 			max="1000000"
 		/>
 
-		
-		<br>
+		<br />
 
 		<label for="industry-input">Industry</label>
 		<input

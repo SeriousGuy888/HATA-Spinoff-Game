@@ -1,7 +1,7 @@
-import { Character } from "$lib/entities/Character.svelte"
+import { ClientCharacter } from "$lib/entities/ClientCharacter.svelte"
 
 import _characterData from "#shared/data/characters.json"
-import { gameState } from "./game_state.svelte"
+import { localState } from "./local_state.svelte"
 const CHARACTER_DATA: Record<
 	string,
 	{
@@ -12,16 +12,16 @@ const CHARACTER_DATA: Record<
 
 export function loadCharacters() {
 	for (const characterId in CHARACTER_DATA) {
-		const char = new Character(
+		const char = new ClientCharacter(
 			characterId,
 			CHARACTER_DATA[characterId].name,
 			CHARACTER_DATA[characterId].portrait_frames,
 		)
 
-		gameState.characters[characterId] = char
+		localState.characters[characterId] = char
 	}
 }
 
-export function getCharacter(id: string): Character | null {
-	return gameState.characters[id] ?? null
+export function getCharacter(id: string): ClientCharacter | null {
+	return localState.characters[id] ?? null
 }

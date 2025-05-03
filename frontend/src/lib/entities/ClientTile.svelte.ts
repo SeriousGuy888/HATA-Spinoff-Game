@@ -1,15 +1,15 @@
 import type { ExportedTileState } from "#shared/types/tile_data_types"
-import type { Country } from "$lib/entities/Country.svelte"
+import type { ClientCountry } from "$lib/entities/ClientCountry.svelte"
 import { getCountry } from "../state/country_registry.svelte"
 
-export class Tile {
+export class ClientTile {
 	id: string
 	polygons: [number, number][][] = [] // an array of possibly multiple polygons. all are drawn together in one svg <path> element.
 
 	name = $state<string>("") // name of the tile, used for display purposes
 	terrain = $state<TileTerrain>("land") // type of terrain on this tile
 
-	controller = $state<Country | null>(null) // the player who controls this tile, or null if no one does
+	controller = $state<ClientCountry | null>(null) // the player who controls this tile, or null if no one does
 	population = $state<number>(0)
 	industry = $state<number>(0)
 
@@ -64,5 +64,3 @@ export class Tile {
 
 export const TILE_TERRAINS = ["land", "impassable", "water"] as const
 export type TileTerrain = (typeof TILE_TERRAINS)[number]
-
-

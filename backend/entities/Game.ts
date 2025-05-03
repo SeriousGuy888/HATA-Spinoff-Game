@@ -28,6 +28,7 @@ import { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_typ
 import { Player } from "./Player"
 import GameAnnouncer from "./GameAnnouncer"
 import { Server, Socket } from "socket.io"
+import { GameData } from "#shared/types/entities.ts"
 const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
 const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
 
@@ -128,6 +129,19 @@ export default class Game {
 
 			const tile = new Tile(this, id, TILE_GEOMETRIES[id].polygons, defaultState)
 			this.tiles[id] = tile
+		}
+	}
+
+	toJson(): GameData {
+		return {
+			isInitialised: this.isInitialised,
+			clock: this.clock,
+			players: Object.fromEntries(
+				Object.entries(this.players).map(([id, player]) => [id, player.toJson()]),
+			),
+			characters: {},
+			tiles: {},
+			countries: {},
 		}
 	}
 }

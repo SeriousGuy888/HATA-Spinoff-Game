@@ -10,23 +10,7 @@
 		teleportToWorldSpace,
 	} from "$lib/state/ui_state.svelte"
 	import Sidebar from "./Sidebar.svelte"
-	import { gameState, initGame, tickGame } from "$lib/state/game_state.svelte"
-	import { Socket, io } from "socket.io-client"
-	import { EventName } from "#shared/protocol/events"
-	import type { PlayerData } from "#shared/types/entity_types"
-
-	let socket: Socket
-	onMount(() => {
-		socket = io("http://localhost:3000")
-
-		socket.on("connect", () => {
-			console.log("Connected to server")
-		})
-
-		socket.on(EventName.YOU_ARE, (pData: PlayerData) => {
-			console.log("You are", pData)
-		})
-	})
+	import { socket } from "../lib/socket_handler.svelte.ts"
 
 	onDestroy(() => {
 		if (socket) {
@@ -57,15 +41,15 @@
 			cameraState.clientHeight,
 		)
 
-		if (!gameState.isInitialised) {
-			initGame(3)
+		// if (!gameState.isInitialised) {
+		// 	initGame(3)
 
-			setInterval(() => {
-				if (gameState.isInitialised) {
-					tickGame()
-				}
-			}, 1000) // tick every second
-		}
+		// 	setInterval(() => {
+		// 		if (gameState.isInitialised) {
+		// 			tickGame()
+		// 		}
+		// 	}, 1000) // tick every second
+		// }
 	})
 </script>
 

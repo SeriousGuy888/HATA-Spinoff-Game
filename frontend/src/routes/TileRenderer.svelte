@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { worldSpaceToImageSpace } from "$lib/state/coordinates.svelte.ts"
-	import { gameState } from "$lib/state/game_state.svelte"
+	import { localState } from "$lib/state/local_state.svelte"
 	import { MAP_DIMENSIONS } from "$lib/state/map_state.svelte.ts"
 	import { mouseState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
 
@@ -38,15 +38,15 @@
 	viewBox={`0 0 ${MAP_DIMENSIONS.width} ${MAP_DIMENSIONS.height}`}
 	role="none"
 >
-	{#each Object.entries(gameState.tiles) as [id, tile]}
+	{#each Object.entries(localState.tiles) as [id, tile]}
 		{@const colour = tile.controller?.colour ?? "#ddd"}
 		<path
-			d={polygonListToPath(tile.polygons)}
+			d="{polygonListToPath(tile.polygons)}localState"
 			stroke-linejoin="round"
 			style:fill={colour}
 			style:stroke={colour}
 			style:stroke-width="0.5"
-			class="cursor-pointer outline-0 hover:brightness-175"
+			class="hover:brightness-175 cursor-pointer outline-0"
 			class:brightness-150={tileSelectionState.selectedTileId === id}
 			role="button"
 			tabindex="0"

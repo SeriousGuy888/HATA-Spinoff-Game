@@ -1,17 +1,17 @@
-import { Country } from "./Country.svelte"
+import { ClientCountry } from "./ClientCountry.svelte"
 
-export class Player {
+export class ClientPlayer {
 	id: string
 	name = $state<string>("Unnamed Player")
 
-	controlledCountry = $state<Country | null>(null)
+	controlledCountry = $state<ClientCountry | null>(null)
 
 	constructor(id: string, name: string) {
 		this.id = id
 		this.name = name
 	}
 
-	setControlledCountry(country: Country | null) {
+	setControlledCountry(country: ClientCountry | null) {
 		this.controlledCountry = country
 		if (country) {
 			country.controllingPlayer = this
