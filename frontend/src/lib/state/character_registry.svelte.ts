@@ -1,4 +1,4 @@
-import { ClientCharacter } from "$lib/entities/ClientCharacter.svelte"
+import { Character } from "$lib/entities/Character.svelte"
 
 import _characterData from "$shared/data/characters.json"
 import { gameState } from "./game_state.svelte"
