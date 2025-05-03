@@ -15,6 +15,11 @@ export default class ClientGame {
 	constructor(data: GameData) {
 		this.isInitialised = data.isInitialised
 		this.clock = data.clock
+
+		// Round 1 of initialisations.
+		// Create all the game entities.
+		// If entities reference other game entities, these references are not yet guaranteed to exist.
+
 		this.players = Object.fromEntries(
 			Object.entries(data.players).map(([id, playerData]) => [
 				id,
@@ -30,6 +35,13 @@ export default class ClientGame {
 
 		this.loadCountries(data.countries)
 		this.loadTiles(data.tiles)
+
+		// Round 2 of initialisations.
+		// Resolve any pending references between game entities.
+
+		Object.values(this.players).forEach((player) => {
+			player.resolve(data.players[player.id])
+		})
 	}
 
 	private loadTiles(tileIds2TileData: Record<string, TileData>) {
