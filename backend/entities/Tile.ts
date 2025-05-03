@@ -1,3 +1,4 @@
+import { TileData } from "#shared/types/entities.ts"
 import { ExportedTileState, TileTerrain } from "#shared/types/tile_data_types.ts"
 import { Country } from "./Country"
 import Game from "./Game"
@@ -59,5 +60,17 @@ export class Tile {
 
 	toString() {
 		return this.name
+	}
+
+	toJson(): TileData {
+		return {
+			id: this.id,
+			name: this.name,
+			terrain: this.terrain,
+			controllerId: this.controller?.id ?? null,
+			population: this.population,
+			industry: this.industry,
+			polygons: this.polygons, // todo: not send this from server, since the client can load it itself
+		}
 	}
 }

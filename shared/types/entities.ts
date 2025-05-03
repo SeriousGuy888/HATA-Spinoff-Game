@@ -1,4 +1,4 @@
-import { TileTerrain } from "./tile_data_types"
+import type { TileTerrain } from "./tile_data_types"
 
 export type GameData = {
 	isInitialised: boolean

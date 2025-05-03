@@ -139,9 +139,15 @@ export default class Game {
 			players: Object.fromEntries(
 				Object.entries(this.players).map(([id, player]) => [id, player.toJson()]),
 			),
-			characters: {},
-			tiles: {},
-			countries: {},
+			characters: Object.fromEntries(
+				Object.entries(this.characters).map(([id, character]) => [id, character.toJson()]),
+			),
+			tiles: Object.fromEntries(
+				Object.entries(this.tiles).map(([id, tile]) => [id, tile.toJson()]),
+			),
+			countries: Object.fromEntries(
+				Object.entries(this.countries).map(([id, country]) => [id, country.toJson()]),
+			),
 		}
 	}
 }

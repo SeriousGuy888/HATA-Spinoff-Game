@@ -1,3 +1,4 @@
+import { CountryData } from "#shared/types/entities.ts"
 import { Character } from "./Character"
 import Game from "./Game"
 import { Player } from "./Player"
@@ -36,5 +37,17 @@ export class Country {
 
 	toString() {
 		return this.name + " (" + this.id + ")"
+	}
+
+	toJson(): CountryData {
+		return {
+			id: this.id,
+			name: this.name,
+			colour: this.colour,
+			banner: this.banner,
+			leaderId: this.leader?.id ?? null,
+			balance: this.balance,
+			controllingPlayerId: this.controllingPlayer?.id ?? null,
+		}
 	}
 }

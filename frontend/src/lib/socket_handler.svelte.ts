@@ -14,5 +14,5 @@ socket.on(ClientboundPacket.YOU_ARE, (pData: PlayerData) => {
 
 socket.on(ClientboundPacket.FULL_GAME_STATE, (gameData: GameData) => {
 	console.log("Full game state", gameData)
-	// console.log(JSON.stringify(gameData, null, 2))
+	console.log("game state data size:", JSON.stringify(gameData).length)
 })
