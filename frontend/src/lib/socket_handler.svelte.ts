@@ -18,8 +18,5 @@ socket.on(ClientboundPacket.FULL_GAME_STATE, (gameData: GameData) => {
 	console.log("Full game state", gameData)
 	console.log("game state data size:", JSON.stringify(gameData).length)
 
-	// runs twice because if we only run it once, svelte doesn't properly render tile controllers
-	// i don't know why. todo: fix
-	initGame(gameData)
 	initGame(gameData)
 })
