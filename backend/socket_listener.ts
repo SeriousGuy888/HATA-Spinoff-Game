@@ -13,8 +13,6 @@ export function startSocketListener(io: Server) {
 		console.log("Player connected:", socket.id)
 
 		const player = game.addPlayer(socket, "Player " + socket.id)
-		game.announcer.sendFullGameState(player)
-		game.announcer.youAre(player)
 
 		socket.on("disconnect", () => {
 			if (game.removePlayer(socket.id)) {

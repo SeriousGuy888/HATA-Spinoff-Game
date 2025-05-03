@@ -25,8 +25,29 @@ export default class GameAnnouncer {
 		player.socket.emit(ClientboundPacket.YOU_ARE, player.id)
 	}
 
+	/**
+	 * Send to this player a copy of the entire up to date game state.
+	 * @param player The player to send it to.
+	 */
 	sendFullGameState(player: Player) {
 		const gameData = this.game.toJson()
 		player.socket.emit(ClientboundPacket.FULL_GAME_STATE, gameData)
+	}
+
+	/**
+	 * Announce to all players except the player that joined,
+	 * that a new player has joined.
+	 * @param player The player that joined.
+	 */
+	announcePlayerJoined(player: Player) {
+		player.socket.broadcast.emit(ClientboundPacket.PLAYER_JOINED, player.toJson())
+	}
+
+	/**
+	 * Announce to all other players that a player has left the game.
+	 * @param player The player that left.
+	 */
+	announcePlayerLeft(player: Player) {
+		player.socket.broadcast.emit(ClientboundPacket.PLAYER_LEFT, player.id)
 	}
 }

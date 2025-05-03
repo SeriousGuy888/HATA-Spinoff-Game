@@ -67,11 +67,19 @@ export default class Game {
 	addPlayer(socket: Socket, name: string): Player {
 		const player = new Player(socket, socket.id, name)
 		this.players[socket.id] = player
+
+		
+		this.announcer.sendFullGameState(player)
+		this.announcer.youAre(player)
+		this.announcer.announcePlayerJoined(player)
+
 		return player
 	}
 
 	removePlayer(playerId: string): boolean {
 		if(playerId in this.players) {
+			const player = this.players[playerId]
+			this.announcer.announcePlayerLeft(player)
 			delete this.players[playerId]
 			return true
 		}
