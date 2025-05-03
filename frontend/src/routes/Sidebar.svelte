@@ -12,7 +12,7 @@
 
 	<div class="flex w-full gap-4 rounded bg-gray-100 p-4 text-center">
 		<p>Clock: {localState.game ? localState.game.clock : "..."}</p>
-		{#if localState.perspectivePlayer?.controlledCountry?.balance}
+		{#if localState.perspectivePlayer?.controlledCountry?.balance !== undefined}
 			<StatChip
 				stat={localState.perspectivePlayer.controlledCountry?.balance.toFixed(2)}
 				iconSrc="/ui_icons/money.png"
