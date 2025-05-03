@@ -12,7 +12,7 @@ export function startSocketListener(io: Server) {
 	io.on("connection", (socket) => {
 		console.log("Player connected:", socket.id)
 
-		game.addPlayer(socket, "Player " + socket.id)
+		game.addPlayer(socket, "Player " + socket.id.substring(0, 5))
 
 		socket.on("disconnect", () => {
 			if (game.removePlayer(socket.id)) {
