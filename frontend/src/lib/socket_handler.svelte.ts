@@ -9,9 +9,9 @@ socket.on("connect", () => {
 	console.log("Connected to server")
 })
 
-socket.on(ClientboundPacket.YOU_ARE, (pData: PlayerData) => {
-	console.log("You are", pData)
-	setPerspectivePlayer(pData.id)
+socket.on(ClientboundPacket.YOU_ARE, (playerId: string) => {
+	console.log("You are", playerId)
+	setPerspectivePlayer(playerId)
 })
 
 socket.on(ClientboundPacket.FULL_GAME_STATE, (gameData: GameData) => {

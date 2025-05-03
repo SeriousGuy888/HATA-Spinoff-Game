@@ -17,11 +17,12 @@ export default class GameAnnouncer {
 	}
 
 	/**
-	 * Send a player their own player data.
+	 * Send a player the id of the player they are controlling.
+	 * This is for the client to know whose perspective to display.
 	 * @param player The player to send the event to.
 	 */
 	youAre(player: Player) {
-		player.socket.emit(ClientboundPacket.YOU_ARE, player.toJson())
+		player.socket.emit(ClientboundPacket.YOU_ARE, player.id)
 	}
 
 	sendFullGameState(player: Player) {
