@@ -44,6 +44,11 @@ export default class ClientGame {
 		})
 	}
 
+	getTotalPopulation(country: ClientCountry) {
+		const controlledTiles = Object.values(this.tiles).filter(tile => tile.controller === country)
+		return controlledTiles.reduce((acc, cur) => acc + cur.population, 0)
+	}
+
 	private loadTiles(tileIds2TileData: Record<string, TileData>) {
 		for (const id in tileIds2TileData) {
 			if (this.tiles[id]) {
