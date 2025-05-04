@@ -1,4 +1,5 @@
 import { CountryData } from "#shared/types/entities.ts"
+import { ResourceMap } from "#shared/types/resources.ts"
 import { Character } from "./Character"
 import Game from "./Game"
 import { Player } from "./Player"
@@ -10,9 +11,8 @@ export class Country {
 	banner: string = "default"
 	name: string = "Unnamed Country"
 	leader: Character | null = null
-	balance: number = 0
-
 	controllingPlayer: Player | null = null
+	resources: ResourceMap
 
 	constructor(
 		game: Game,
@@ -33,6 +33,14 @@ export class Country {
 		if (leaderId) {
 			this.leader = game.getCharacter(leaderId)
 		}
+
+		this.resources = {
+			money: 0,
+			wood: 0,
+			stone: 0,
+			coal: 0,
+			livestock: 0,
+		}
 	}
 
 	toString() {
@@ -46,8 +54,8 @@ export class Country {
 			colour: this.colour,
 			banner: this.banner,
 			leaderId: this.leader?.id ?? null,
-			balance: this.balance,
 			controllingPlayerId: this.controllingPlayer?.id ?? null,
+			resources: this.resources,
 		}
 	}
 }

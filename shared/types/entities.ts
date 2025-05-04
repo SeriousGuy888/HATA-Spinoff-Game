@@ -1,3 +1,4 @@
+import type { ResourceMap } from "./resources"
 import type { TileTerrain } from "./tile_data_types"
 
 export type GameData = {
@@ -36,6 +37,6 @@ export type CountryData = {
 	banner: string
 	name: string
 	leaderId: string | null // id of the character that is the leader of this country
-	balance: number
 	controllingPlayerId: string | null // id of the player that controls this country
+	resources: ResourceMap
 }

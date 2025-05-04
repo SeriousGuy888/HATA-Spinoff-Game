@@ -58,8 +58,8 @@ export default class ClientGame {
 
 	private loadCountries(countryIds2CountryData: Record<string, CountryData>) {
 		for (const countryId in countryIds2CountryData) {
-			const { name, colour, banner, leaderId } = countryIds2CountryData[countryId]
-			const country = new ClientCountry(this, countryId, name, colour, banner ?? null, leaderId)
+			const countryData = countryIds2CountryData[countryId]
+			const country = new ClientCountry(this, countryData)
 			this.countries[countryId] = country
 		}
 	}
