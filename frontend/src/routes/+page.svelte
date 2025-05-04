@@ -23,7 +23,7 @@
 
 	let cameraWindow = $state<HTMLElement | null>(null)
 
-	onMount(() => {
+	function handleWindowResize() {
 		if (!cameraWindow) {
 			console.error("Camera window is not defined")
 			return
@@ -33,6 +33,10 @@
 		cameraState.clientTop = boundingBox.top
 		cameraState.clientWidth = boundingBox.width
 		cameraState.clientHeight = boundingBox.height
+	}
+
+	onMount(() => {
+		handleWindowResize()
 
 		teleportToWorldSpace(
 			DEFAULT_WORLD_LOCATION[0],
@@ -42,6 +46,8 @@
 		)
 	})
 </script>
+
+<svelte:window onresize={handleWindowResize} />
 
 <main class="grid h-screen grid-cols-[1fr_3fr] overflow-hidden">
 	<section class="overflow-y-scroll p-4">
