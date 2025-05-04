@@ -1,4 +1,7 @@
-import type { PlayerSwitchedCountriesPayload } from "#shared/protocol/packet_payloads.ts"
+import type {
+	PlayerSwitchedCountriesPayload,
+	TickPayload,
+} from "#shared/protocol/packet_payloads.ts"
 import { ClientboundPacket } from "#shared/protocol/packet_names"
 import type { GameData, PlayerData } from "#shared/types/entities"
 import { io, Socket } from "socket.io-client"
@@ -21,6 +24,24 @@ socket.on(ClientboundPacket.FULL_GAME_STATE, (gameData: GameData) => {
 	console.log("game state data size:", JSON.stringify(gameData).length)
 
 	initGame(gameData)
+})
+
+socket.on(ClientboundPacket.TICK, (tickData: TickPayload) => {
+	if (!localState.game) {
+		console.error("Received game tick while client has no active game")
+		return
+	}
+
+	const oldClockTime = localState.game.clock
+	const newClockTime = tickData.currClockTime
+	if (newClockTime != oldClockTime + 1) {
+		console.error(
+			`Expected new clock time to be one tick after old clock time, but received new=${newClockTime}; old=${oldClockTime}.`,
+		)
+	}
+
+	localState.game.clock = newClockTime
+	console.debug("tick", newClockTime, "// last received tick:", oldClockTime)
 })
 
 socket.on(ClientboundPacket.PLAYER_JOINED, (pData: PlayerData) => {

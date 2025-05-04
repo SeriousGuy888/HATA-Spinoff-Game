@@ -3,7 +3,7 @@ import Game from "./Game"
 import { Player } from "./Player"
 import { ClientboundPacket } from "#shared/protocol/packet_names.ts"
 import { Country } from "./Country"
-import { PlayerSwitchedCountriesPayload } from "#shared/protocol/packet_payloads.ts"
+import { PlayerSwitchedCountriesPayload, TickPayload } from "#shared/protocol/packet_payloads.ts"
 
 /**
  * GameAnnouncer handles broadcasting game events to all connected
@@ -34,6 +34,11 @@ export default class GameAnnouncer {
 	sendFullGameState(player: Player) {
 		const gameData = this.game.toJson()
 		player.socket.emit(ClientboundPacket.FULL_GAME_STATE, gameData)
+	}
+
+	tick(currClockTime: number) {
+		const payload: TickPayload = { currClockTime }
+		this.io.emit(ClientboundPacket.TICK, payload)
 	}
 
 	/**

@@ -54,6 +54,8 @@ export default class Game {
 
 		this.clock = 0
 		this.isInitialised = true
+
+		setInterval(() => this.tick(), 1000)
 	}
 
 	tick() {
@@ -62,6 +64,7 @@ export default class Game {
 		})
 
 		this.clock++
+		this.announcer.tick(this.clock)
 	}
 
 	addPlayer(socket: Socket, name: string): Player {
