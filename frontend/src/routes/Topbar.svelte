@@ -6,8 +6,18 @@
 <nav class="flex h-full w-full items-stretch justify-between bg-gray-300 p-4">
 	<section class="flex h-full items-center justify-start gap-4">
 		{#if localState.perspectivePlayer?.controlledCountry}
-			{@const balance = localState.perspectivePlayer.controlledCountry.resources?.money ?? 0}
-			<StatChip stat={balance.toFixed(2)} iconSrc="/ui_icons/money.png" description="Money" />
+			{@const resources = localState.perspectivePlayer.controlledCountry.resources}
+			{#if resources}
+				<StatChip
+					stat={resources.money.toFixed(2)}
+					iconSrc="/ui_icons/money.png"
+					description="Money"
+				/>
+				<StatChip stat={resources.wood} description="Wood" />
+				<StatChip stat={resources.stone} description="Stone" />
+				<StatChip stat={resources.coal} description="Coal" />
+				<StatChip stat={resources.livestock} description="Livestock" />
+			{/if}
 		{/if}
 	</section>
 	<section class="flex h-full items-center justify-end gap-4">
