@@ -28,10 +28,6 @@
 				/>
 			{/if} -->
 			<StatChip
-			stat={`camera offset: left=${canvasState.clientLeft}; top=${canvasState.clientTop}`}
-			description="Camera offset"
-		/>
-			<StatChip
 				stat={`${canvasState.offsetX.toFixed(0)}, ${canvasState.offsetY.toFixed(0)}`}
 				description="Camera offset"
 			/>

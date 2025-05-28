@@ -6,10 +6,7 @@ const MAX_ZOOM = 16
 const ZOOM_STEP_FACTOR = 9 / 8
 
 export const canvasState = $state({
-	clientLeft: 0, // where the camera element is in the viewport window
-	clientTop: 0,
-	clientWidth: 0, // size of the camera element in the viewport window
-	clientHeight: 0,
+	canvas: null as HTMLCanvasElement | null,
 	offsetX: 0, // where the camera has been panned to
 	offsetY: 0,
 	zoom: 1, // zoom level of the camera

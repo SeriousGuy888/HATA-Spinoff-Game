@@ -5,7 +5,15 @@ import { canvasState } from "$lib/state/ui_state.svelte.ts"
  * to canvasspace coordinates (coordinates relative to the canvas element).
  */
 export function clientSpaceToCanvasSpace(clientX: number, clientY: number): [number, number] {
-	return [clientX - canvasState.clientLeft, clientY - canvasState.clientTop]
+	const boundingBox = canvasState.canvas?.getBoundingClientRect()
+	if (!boundingBox) {
+		console.error("Attempted to convert client space to canvas space, but was unable to retrieve the canvas bounding box, possibly because the canvas is currently undefined. Using 0,0 for the offset instead.")
+	}
+	
+	const offsetLeft = boundingBox?.left ?? 0
+	const offsetTop = boundingBox?.top ?? 0
+
+	return [clientX - offsetLeft, clientY - offsetTop]
 }
 
 /**

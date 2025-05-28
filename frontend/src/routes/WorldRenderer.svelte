@@ -10,38 +10,49 @@
 	// This prevents the user from accidentally dragging the camera when they just want to click.
 
 	let canvasParent: HTMLDivElement
-	let canvas: HTMLCanvasElement
 	let gameCanvas: GameCanvas
 
 	function updateCanvasDimensions() {
-		canvas.width = canvasParent.clientWidth
-		canvas.height = canvasParent.clientHeight
+		if(!canvasState.canvas) {
+			console.error("Canvas is not defined??")
+			return
+		}
+
+		canvasState.canvas.width = canvasParent.clientWidth
+		canvasState.canvas.height = canvasParent.clientHeight
 	}
 
 	onMount(() => {
-		let ctx = canvas.getContext("2d")
-		if (ctx == null) {
-			console.error("Canvas 2D context failed to load??")
+		const { canvas } = canvasState
+		if(canvas) {
+			let ctx = canvas.getContext("2d")
+			if (ctx == null) {
+				console.error("Canvas 2D context failed to load??")
+			} else {
+				gameCanvas = new GameCanvas(canvas, ctx)
+			}
+	
+			updateCanvasDimensions()
 		} else {
-			gameCanvas = new GameCanvas(canvas, ctx)
+			console.error("Canvas is not defined??")
 		}
 
-		// Make sure that the <canvas> element's width & height always match the actual space it has,
-		// to avoid any issues with the image getting stretched (as would happen if I scaled the canvas using CSS)
-		updateCanvasDimensions()
-		window.addEventListener("resize", updateCanvasDimensions)
-
-		// Cancel a bunch of stuff when unmounted
+		
 		return () => {
-			window.removeEventListener("resize", updateCanvasDimensions)
 			gameCanvas.destroy()
 		}
 	})
 </script>
 
+<!--
+ Make sure that the <canvas> element's width & height always match the actual space it has,
+ to avoid any issues with the image getting stretched (as would happen if I scaled the canvas using CSS)
+-->
+<svelte:window onresize={updateCanvasDimensions} />
+
 <div class="h-full w-full" bind:this={canvasParent}>
 	<canvas
-		bind:this={canvas}
+		bind:this={canvasState.canvas}
 		onmousedown={(e) => {
 			mouseState.lastDragPosition = clientSpaceToCanvasSpace(e.clientX, e.clientY)
 		}}
