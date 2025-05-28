@@ -1,27 +1,27 @@
-import { cameraState } from "$lib/state/ui_state.svelte.ts"
+import { canvasState } from "$lib/state/ui_state.svelte.ts"
 
 /**
- * Convert from "clientspace coordinates" (coordinates relative to viewport window)
- * to "screenspace coordinates" (coordinates relative to the map camera window).
+ * Convert from clientspace coordinates (coordinates relative to viewport window)
+ * to canvasspace coordinates (coordinates relative to the canvas element).
  */
-export function clientSpaceToScreenSpace(clientX: number, clientY: number): [number, number] {
-	return [clientX - cameraState.clientLeft, clientY - cameraState.clientTop]
+export function clientSpaceToCanvasSpace(clientX: number, clientY: number): [number, number] {
+	return [clientX - canvasState.clientLeft, clientY - canvasState.clientTop]
 }
 
 /**
- * Convert from screenspace coordinates (coordinates relative to the map camera window)
+ * Convert from canvasspace coordinates (coordinates relative to the canvas window)
  * to worldspace coordinates (coordinates relative to the map world origin).
  */
-export function screenSpaceToWorldSpace(screenX: number, screenY: number): [number, number] {
+export function canvasSpaceToWorldSpace(canvasX: number, canvasY: number): [number, number] {
 	return [
-		(screenX + cameraState.offsetX) / cameraState.zoom,
-		(screenY + cameraState.offsetY) / cameraState.zoom,
+		(canvasX + canvasState.offsetX) / canvasState.zoom,
+		(canvasY + canvasState.offsetY) / canvasState.zoom,
 	]
 }
 
-export function worldSpaceToScreenSpace(worldX: number, worldY: number): [number, number] {
+export function worldSpaceToCanvasSpace(worldX: number, worldY: number): [number, number] {
 	return [
-		worldX * cameraState.zoom - cameraState.offsetX,
-		worldY * cameraState.zoom - cameraState.offsetY,
+		worldX * canvasState.zoom - canvasState.offsetX,
+		worldY * canvasState.zoom - canvasState.offsetY,
 	]
 }

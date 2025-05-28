@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { localState } from "$lib/state/local_state.svelte"
-	import { cameraState } from "$lib/state/ui_state.svelte"
+	import { canvasState } from "$lib/state/ui_state.svelte"
 	import StatChip from "./StatChip.svelte"
 </script>
 
@@ -28,15 +28,15 @@
 				/>
 			{/if} -->
 			<StatChip
-			stat={`camera offset: left=${cameraState.clientLeft}; top=${cameraState.clientTop}`}
+			stat={`camera offset: left=${canvasState.clientLeft}; top=${canvasState.clientTop}`}
 			description="Camera offset"
 		/>
 			<StatChip
-				stat={`${cameraState.offsetX.toFixed(0)}, ${cameraState.offsetY.toFixed(0)}`}
+				stat={`${canvasState.offsetX.toFixed(0)}, ${canvasState.offsetY.toFixed(0)}`}
 				description="Camera offset"
 			/>
 			<StatChip
-				stat={`${cameraState.zoom.toFixed(2)}x`}
+				stat={`${canvasState.zoom.toFixed(2)}x`}
 				description="Zoom"
 			/>
 		{:else}

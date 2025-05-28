@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
-	import { cameraState } from "$lib/state/ui_state.svelte"
+	import { canvasState } from "$lib/state/ui_state.svelte"
 	import Sidebar from "./Sidebar.svelte"
 	import { socket } from "../lib/socket_handler.svelte.ts"
 	import Topbar from "./Topbar.svelte"
@@ -20,10 +20,10 @@
 			return
 		}
 		const boundingBox = cameraWindow.getBoundingClientRect()
-		cameraState.clientLeft = boundingBox.left
-		cameraState.clientTop = boundingBox.top
-		cameraState.clientWidth = boundingBox.width
-		cameraState.clientHeight = boundingBox.height
+		canvasState.clientLeft = boundingBox.left
+		canvasState.clientTop = boundingBox.top
+		canvasState.clientWidth = boundingBox.width
+		canvasState.clientHeight = boundingBox.height
 	}
 
 	onMount(() => {
@@ -32,8 +32,8 @@
 		// teleportToWorldSpace(
 		// 	DEFAULT_WORLD_LOCATION[0],
 		// 	DEFAULT_WORLD_LOCATION[1],
-		// 	cameraState.clientWidth,
-		// 	cameraState.clientHeight,
+		// 	canvasState.clientWidth,
+		// 	canvasState.clientHeight,
 		// )
 	})
 </script>

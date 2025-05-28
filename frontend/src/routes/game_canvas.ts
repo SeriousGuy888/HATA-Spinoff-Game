@@ -1,5 +1,5 @@
-import { screenSpaceToWorldSpace, worldSpaceToScreenSpace } from "$lib/state/coordinates.svelte"
-import { cameraState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
+import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/state/coordinates.svelte"
+import { canvasState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
 
 const hexes = Array.from({ length: 20 }, () => Array(20).fill(1))
 
@@ -112,7 +112,7 @@ export class GameCanvas {
 	}
 
 	public click(canvasX: number, canvasY: number) {
-		const [worldX, worldY] = screenSpaceToWorldSpace(canvasX, canvasY)
+		const [worldX, worldY] = canvasSpaceToWorldSpace(canvasX, canvasY)
 		const [p, q] = worldSpaceToAxialInt(worldX, worldY)
 		tileSelectionState.selectedHex = [p, q]
 	}
@@ -125,7 +125,7 @@ export class GameCanvas {
 	) {
 		const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
 			const [x, y] = offset
-			return worldSpaceToScreenSpace(centerWorldX + x, centerWorldY + y)
+			return worldSpaceToCanvasSpace(centerWorldX + x, centerWorldY + y)
 		})
 
 		this.ctx.strokeStyle = "black"
@@ -146,8 +146,8 @@ export class GameCanvas {
 			this.ctx.fillStyle = "black"
 			this.ctx.textBaseline = "middle"
 			this.ctx.textAlign = "center"
-			this.ctx.font = `${48 * cameraState.zoom}px monospace`
-			this.ctx.fillText(label, ...worldSpaceToScreenSpace(centerWorldX, centerWorldY))
+			this.ctx.font = `${48 * canvasState.zoom}px monospace`
+			this.ctx.fillText(label, ...worldSpaceToCanvasSpace(centerWorldX, centerWorldY))
 		}
 	}
 

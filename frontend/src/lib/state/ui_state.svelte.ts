@@ -1,11 +1,11 @@
-import { worldSpaceToScreenSpace } from "./coordinates.svelte"
+import { worldSpaceToCanvasSpace } from "./coordinates.svelte"
 import { localState } from "./local_state.svelte"
 
 const MIN_ZOOM = 1 / 16
 const MAX_ZOOM = 16
 const ZOOM_STEP_FACTOR = 9 / 8
 
-export const cameraState = $state({
+export const canvasState = $state({
 	clientLeft: 0, // where the camera element is in the viewport window
 	clientTop: 0,
 	clientWidth: 0, // size of the camera element in the viewport window
@@ -43,21 +43,21 @@ export function getSelectedTile() {
  * @param centerY Screenspace y coordinate around which zooming should occur.
  */
 export function changeZoom(direction: "in" | "out", centerX: number, centerY: number) {
-	const oldZoom = cameraState.zoom
+	const oldZoom = canvasState.zoom
 
 	if (direction == "in") {
-		cameraState.zoom = Math.min(cameraState.zoom * ZOOM_STEP_FACTOR, MAX_ZOOM)
+		canvasState.zoom = Math.min(canvasState.zoom * ZOOM_STEP_FACTOR, MAX_ZOOM)
 	} else if (direction == "out") {
-		cameraState.zoom = Math.max(cameraState.zoom / ZOOM_STEP_FACTOR, MIN_ZOOM)
+		canvasState.zoom = Math.max(canvasState.zoom / ZOOM_STEP_FACTOR, MIN_ZOOM)
 	}
 
 	// Adjust offset to make sure that the zooming is happening around the cursor location.
-	cameraState.offsetX =
-		cameraState.zoom *
-		(cameraState.offsetX / oldZoom + centerX / oldZoom - centerX / cameraState.zoom)
-	cameraState.offsetY =
-		cameraState.zoom *
-		(cameraState.offsetY / oldZoom + centerY / oldZoom - centerY / cameraState.zoom)
+	canvasState.offsetX =
+		canvasState.zoom *
+		(canvasState.offsetX / oldZoom + centerX / oldZoom - centerX / canvasState.zoom)
+	canvasState.offsetY =
+		canvasState.zoom *
+		(canvasState.offsetY / oldZoom + centerY / oldZoom - centerY / canvasState.zoom)
 }
 
 /**
@@ -69,7 +69,7 @@ export function teleportToWorldSpace(
 	screenWidth: number,
 	screenHeight: number,
 ) {
-	const [screenX, screenY] = worldSpaceToScreenSpace(worldX, worldY)
-	cameraState.offsetX = screenX - screenWidth / 2
-	cameraState.offsetY = screenY - screenHeight / 2
+	const [screenX, screenY] = worldSpaceToCanvasSpace(worldX, worldY)
+	canvasState.offsetX = screenX - screenWidth / 2
+	canvasState.offsetY = screenY - screenHeight / 2
 }

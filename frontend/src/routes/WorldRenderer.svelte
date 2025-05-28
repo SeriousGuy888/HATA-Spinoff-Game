@@ -1,10 +1,10 @@
 <script lang="ts">
 	import TileRenderer from "./TileRenderer.svelte"
 	import { MAP_DIMENSIONS } from "$lib/state/map_state.svelte.ts"
-	import { cameraState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
+	import { canvasState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
 	import { GameCanvas } from "./game_canvas.ts"
-	import { clientSpaceToScreenSpace } from "$lib/state/coordinates.svelte.ts"
+	import { clientSpaceToCanvasSpace } from "$lib/state/coordinates.svelte.ts"
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
 	// This prevents the user from accidentally dragging the camera when they just want to click.
@@ -43,10 +43,10 @@
 	<canvas
 		bind:this={canvas}
 		onmousedown={(e) => {
-			mouseState.lastDragPosition = clientSpaceToScreenSpace(e.clientX, e.clientY)
+			mouseState.lastDragPosition = clientSpaceToCanvasSpace(e.clientX, e.clientY)
 		}}
 		onmousemove={(e) => {
-			const [newX, newY] = clientSpaceToScreenSpace(e.clientX, e.clientY)
+			const [newX, newY] = clientSpaceToCanvasSpace(e.clientX, e.clientY)
 			const movedX = Math.abs(newX - mouseState.lastDragPosition[0])
 			const movedY = Math.abs(newY - mouseState.lastDragPosition[1])
 			const dragThresholdMet = movedX > DRAGGING_THRESHOLD || movedY > DRAGGING_THRESHOLD
@@ -61,8 +61,8 @@
 				mouseState.isDragging = true
 			}
 			if (mouseState.isDragging) {
-				cameraState.offsetX -= newX - mouseState.lastDragPosition[0]
-				cameraState.offsetY -= newY - mouseState.lastDragPosition[1]
+				canvasState.offsetX -= newX - mouseState.lastDragPosition[0]
+				canvasState.offsetY -= newY - mouseState.lastDragPosition[1]
 				mouseState.lastDragPosition = [newX, newY]
 			}
 		}}
@@ -72,13 +72,13 @@
 					mouseState.isDragging = false
 				}, 0) // Reset the dragging state after the next event loop
 			} else {
-				const [screenX, screenY] = clientSpaceToScreenSpace(e.clientX, e.clientY)
+				const [screenX, screenY] = clientSpaceToCanvasSpace(e.clientX, e.clientY)
 				gameCanvas.click(screenX, screenY)
 			}
 		}}
 		onwheel={(e) => {
 			e.preventDefault()
-			const [mouseX, mouseY] = clientSpaceToScreenSpace(e.clientX, e.clientY)
+			const [mouseX, mouseY] = clientSpaceToCanvasSpace(e.clientX, e.clientY)
 			changeZoom(e.deltaY > 0 ? "out" : "in", mouseX, mouseY)
 		}}
 	></canvas>
