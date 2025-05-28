@@ -11,7 +11,7 @@
 			{@const player = localState.perspectivePlayer}
 			{@const country = player.controlledCountry!}
 			{@const resources = country.resources}
-			{#if resources}
+			<!-- {#if resources}
 				<StatChip
 					stat={resources.money.toFixed(2)}
 					iconSrc="/ui_icons/money.png"
@@ -26,10 +26,14 @@
 					iconSrc="/ui_icons/population.png"
 					description="Total Population"
 				/>
-			{/if}
+			{/if} -->
 			<StatChip
 				stat={`${cameraState.offsetX.toFixed(0)}, ${cameraState.offsetY.toFixed(0)}`}
 				description="Camera offset"
+			/>
+			<StatChip
+				stat={`${cameraState.zoom.toFixed(2)}x`}
+				description="Zoom"
 			/>
 		{:else}
 			<p>spectating i guess</p>

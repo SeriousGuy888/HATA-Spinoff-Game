@@ -1,9 +1,13 @@
 <script lang="ts">
 	import TileRenderer from "./TileRenderer.svelte"
 	import { MAP_DIMENSIONS } from "$lib/state/map_state.svelte.ts"
-	import { cameraState } from "$lib/state/ui_state.svelte.ts"
+	import { cameraState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
 	import { GameCanvas } from "./game_canvas.ts"
+	import { clientStateToScreenSpace } from "$lib/state/coordinates.svelte.ts"
+
+	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
+	// This prevents the user from accidentally dragging the camera when they just want to click.
 
 	let canvasParent: HTMLDivElement
 	let canvas: HTMLCanvasElement
@@ -36,5 +40,41 @@
 </script>
 
 <div class="h-full w-full" bind:this={canvasParent}>
-	<canvas bind:this={canvas}></canvas>
+	<canvas
+		bind:this={canvas}
+		onmousedown={(e) => {
+			mouseState.lastDragPosition = clientStateToScreenSpace(e.clientX, e.clientY)
+		}}
+		onmousemove={(e) => {
+			const [newX, newY] = clientStateToScreenSpace(e.clientX, e.clientY)
+			const movedX = Math.abs(newX - mouseState.lastDragPosition[0])
+			const movedY = Math.abs(newY - mouseState.lastDragPosition[1])
+			const dragThresholdMet = movedX > DRAGGING_THRESHOLD || movedY > DRAGGING_THRESHOLD
+
+			if (e.buttons & 0b101 && dragThresholdMet) {
+				// Require that the left or middle mouse button is pressed
+				// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+
+				// Start dragging if the user pressed the mouse button *and* moved the mouse.
+				// This prevents trouble with other mouse events like click detection, and how
+				// I want to not detect a click if the user is dragging the mouse.
+				mouseState.isDragging = true
+			}
+			if (mouseState.isDragging) {
+				cameraState.offsetX -= newX - mouseState.lastDragPosition[0]
+				cameraState.offsetY -= newY - mouseState.lastDragPosition[1]
+				mouseState.lastDragPosition = [newX, newY]
+			}
+		}}
+		onmouseup={() => {
+			setTimeout(() => {
+				mouseState.isDragging = false
+			}, 0) // Reset the dragging state after the next event loop
+		}}
+		onwheel={(e) => {
+			e.preventDefault()
+			const [mouseX, mouseY] = clientStateToScreenSpace(e.clientX, e.clientY)
+			changeZoom(e.deltaY > 0 ? "out" : "in", mouseX, mouseY)
+		}}
+	></canvas>
 </div>
