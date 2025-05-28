@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { worldSpaceToImageSpace } from "$lib/state/coordinates.svelte.ts"
 	import { localState } from "$lib/state/local_state.svelte"
 	import { MAP_DIMENSIONS } from "$lib/state/map_state.svelte.ts"
 	import { mouseState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"

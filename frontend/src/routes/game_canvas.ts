@@ -1,3 +1,4 @@
+import { worldSpaceToScreenSpace } from "$lib/state/coordinates.svelte"
 import { cameraState, changeZoom } from "$lib/state/ui_state.svelte.ts"
 
 const animationFrameInterval = 1000 / 60
@@ -20,10 +21,6 @@ function axialToWorldSpace(p: number, q: number): [number, number] {
 	return [x, y]
 }
 
-function worldSpaceToImageSpace(worldX: number, worldY: number): [number, number] {
-	return [worldX * cameraState.zoom - cameraState.offsetX, worldY * cameraState.zoom - cameraState.offsetY]
-}
-
 export class GameCanvas {
 	private readonly canvas: HTMLCanvasElement
 	private readonly ctx: CanvasRenderingContext2D
@@ -43,7 +40,7 @@ export class GameCanvas {
 	private drawHexagon(centerWorldX: number, centerWorldY: number, label?: string) {
 		const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
 			const [x, y] = offset
-			return worldSpaceToImageSpace(centerWorldX + x, centerWorldY + y)
+			return worldSpaceToScreenSpace(centerWorldX + x, centerWorldY + y)
 		})
 
 		this.ctx.strokeStyle = "black"
@@ -59,7 +56,7 @@ export class GameCanvas {
 			this.ctx.textBaseline = "middle"
 			this.ctx.textAlign = "center"
 			this.ctx.font = `${48 * cameraState.zoom}px monospace`
-			this.ctx.fillText(label, ...worldSpaceToImageSpace(centerWorldX, centerWorldY))
+			this.ctx.fillText(label, ...worldSpaceToScreenSpace(centerWorldX, centerWorldY))
 		}
 	}
 

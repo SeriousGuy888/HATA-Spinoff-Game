@@ -1,12 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte"
-	import { clientStateToScreenSpace } from "$lib/state/coordinates.svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
-	import {
-		cameraState,
-		changeZoom,
-		mouseState,
-	} from "$lib/state/ui_state.svelte"
+	import { cameraState } from "$lib/state/ui_state.svelte"
 	import Sidebar from "./Sidebar.svelte"
 	import { socket } from "../lib/socket_handler.svelte.ts"
 	import Topbar from "./Topbar.svelte"
@@ -16,7 +11,6 @@
 			socket.disconnect()
 		}
 	})
-
 
 	let cameraWindow = $state<HTMLElement | null>(null)
 
@@ -53,10 +47,7 @@
 	<section class="overflow-y-scroll p-4">
 		<Sidebar />
 	</section>
-	<section
-		bind:this={cameraWindow}
-		class="overflow-hidden bg-blue-200"
-	>
+	<section bind:this={cameraWindow} class="overflow-hidden bg-blue-200">
 		<WorldRenderer />
 	</section>
 </main>

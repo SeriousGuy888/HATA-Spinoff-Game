@@ -4,7 +4,7 @@
 	import { cameraState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
 	import { GameCanvas } from "./game_canvas.ts"
-	import { clientStateToScreenSpace } from "$lib/state/coordinates.svelte.ts"
+	import { clientSpaceToScreenSpace } from "$lib/state/coordinates.svelte.ts"
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
 	// This prevents the user from accidentally dragging the camera when they just want to click.
@@ -43,10 +43,10 @@
 	<canvas
 		bind:this={canvas}
 		onmousedown={(e) => {
-			mouseState.lastDragPosition = clientStateToScreenSpace(e.clientX, e.clientY)
+			mouseState.lastDragPosition = clientSpaceToScreenSpace(e.clientX, e.clientY)
 		}}
 		onmousemove={(e) => {
-			const [newX, newY] = clientStateToScreenSpace(e.clientX, e.clientY)
+			const [newX, newY] = clientSpaceToScreenSpace(e.clientX, e.clientY)
 			const movedX = Math.abs(newX - mouseState.lastDragPosition[0])
 			const movedY = Math.abs(newY - mouseState.lastDragPosition[1])
 			const dragThresholdMet = movedX > DRAGGING_THRESHOLD || movedY > DRAGGING_THRESHOLD
@@ -73,7 +73,7 @@
 		}}
 		onwheel={(e) => {
 			e.preventDefault()
-			const [mouseX, mouseY] = clientStateToScreenSpace(e.clientX, e.clientY)
+			const [mouseX, mouseY] = clientSpaceToScreenSpace(e.clientX, e.clientY)
 			changeZoom(e.deltaY > 0 ? "out" : "in", mouseX, mouseY)
 		}}
 	></canvas>
