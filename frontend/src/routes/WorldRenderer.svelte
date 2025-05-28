@@ -66,10 +66,15 @@
 				mouseState.lastDragPosition = [newX, newY]
 			}
 		}}
-		onmouseup={() => {
-			setTimeout(() => {
-				mouseState.isDragging = false
-			}, 0) // Reset the dragging state after the next event loop
+		onmouseup={(e) => {
+			if (mouseState.isDragging) {
+				setTimeout(() => {
+					mouseState.isDragging = false
+				}, 0) // Reset the dragging state after the next event loop
+			} else {
+				const [screenX, screenY] = clientSpaceToScreenSpace(e.clientX, e.clientY)
+				gameCanvas.click(screenX, screenY)
+			}
 		}}
 		onwheel={(e) => {
 			e.preventDefault()

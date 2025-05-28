@@ -21,7 +21,8 @@ export const mouseState = $state({
 })
 
 export const tileSelectionState = $state({
-	selectedTileId: null as string | null,
+	selectedTileId: null as string | null, // legacy
+	selectedHex: null as [number, number] | null, // new
 })
 
 export function getSelectedTile() {
@@ -32,7 +33,7 @@ export function getSelectedTile() {
 	if (!localState.game) {
 		return null
 	}
-	
+
 	return localState.game.tiles[tileSelectionState.selectedTileId] ?? null
 }
 
