@@ -48,7 +48,10 @@ export class GameCanvas {
 	private drawHexagonAt(centerWorldX: number, centerWorldY: number) {
 		const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
 			const [x, y] = offset
-			return [centerWorldX - cameraState.offsetX + x, centerWorldY - cameraState.offsetY + y]
+			return [
+				(centerWorldX + x) * cameraState.zoom - cameraState.offsetX,
+				(centerWorldY + y) * cameraState.zoom - cameraState.offsetY,
+			]
 		})
 
 		this.ctx.strokeStyle = "black"
