@@ -15,7 +15,7 @@ const hexagonVertexOffsets = Array.from({ length: 6 }, (_, i) => {
 })
 
 /**
- * Converts from the p,q axial coordinate system of the hexagonal gameboard to
+ * Convert from the p,q axial coordinate system of the hexagonal gameboard to
  * the x,y cartesian coordinate system of worldspace.
  */
 function axialToWorldSpace(p: number, q: number): [number, number] {
@@ -33,8 +33,11 @@ function axialToWorldSpace(p: number, q: number): [number, number] {
 }
 
 /**
- * Converts from the x,y cartesian coordinate system of worldspace to the axial
+ * Convert from the x,y cartesian coordinate system of worldspace to the axial
  * coordinate system of the hexagonal gameboard.
+ * 
+ * The resulting axial coordinates are NOT INTEGERS.
+ * To get the actual hexagon clicked, use worldSpaceToAxialInt instead.
  */
 function worldSpaceToAxial(x: number, y: number): [number, number] {
 	/**
@@ -51,9 +54,45 @@ function worldSpaceToAxial(x: number, y: number): [number, number] {
 	return [p, q]
 }
 
+/**
+ * Convert from the x,y cartesian coordinate system of worldspace to the axial
+ * coordinate system of the hexagonal gameboard.
+ * 
+ * Return the integer axial coordinates of the hexagon clicked.
+ */
 function worldSpaceToAxialInt(x: number, y: number): [number, number] {
 	const [p, q] = worldSpaceToAxial(x, y)
-	return [Math.round(p), Math.round(q)]
+
+	// convert axial coordinates to cube coordinates
+	// (all valid cube coordinates lie on the plane x+y+z=0)
+	const cubeX = p
+	const cubeY = q
+	const cubeZ = -cubeX - cubeY
+
+	// round each of the cube coordinates
+	let rx = Math.round(cubeX)
+	let ry = Math.round(cubeY)
+	let rz = Math.round(cubeZ)
+
+	// Using the strategy from
+	// - https://www.redblobgames.com/grids/hexagons/#rounding
+	// - https://blocks.roadtolarissa.com/patricksurry/0603b407fa0a0071b59366219c67abca
+	// fix the coordinate with the largest error
+	const dx = Math.abs(rx - cubeX)
+	const dy = Math.abs(ry - cubeY)
+	const dz = Math.abs(rz - cubeZ)
+
+	if (dx > dy && dx > dz) {
+		rx = -ry - rz
+	} else if (dy > dz) {
+		ry = -rx - rz
+	} else {
+		// rz = -rx - ry
+		// not actually used
+	}
+
+	// convert back to axial
+	return [rx, ry]
 }
 
 export class GameCanvas {
