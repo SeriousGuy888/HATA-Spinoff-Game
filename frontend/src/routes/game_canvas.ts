@@ -1,15 +1,8 @@
-import { cameraState } from "$lib/state/ui_state.svelte.ts"
+import { cameraState, changeZoom } from "$lib/state/ui_state.svelte.ts"
 
 const animationFrameInterval = 1000 / 60
 
-const hexes = [
-	[1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1],
-]
+const hexes = Array.from({ length: 20 }, () => Array(20).fill(1))
 
 const sideLength = 100
 const innerRadius = (sideLength * Math.sqrt(3)) / 2
@@ -27,11 +20,13 @@ function axialToWorldSpace(p: number, q: number): [number, number] {
 	return [x, y]
 }
 
+function worldSpaceToImageSpace(worldX: number, worldY: number): [number, number] {
+	return [worldX * cameraState.zoom - cameraState.offsetX, worldY * cameraState.zoom - cameraState.offsetY]
+}
+
 export class GameCanvas {
 	private readonly canvas: HTMLCanvasElement
 	private readonly ctx: CanvasRenderingContext2D
-
-	private previousAnimationFrameTimestamp = 0
 	private nextAnimationFrameId: number
 
 	constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
@@ -45,13 +40,10 @@ export class GameCanvas {
 		cancelAnimationFrame(this.nextAnimationFrameId)
 	}
 
-	private drawHexagonAt(centerWorldX: number, centerWorldY: number) {
+	private drawHexagon(centerWorldX: number, centerWorldY: number, label?: string) {
 		const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
 			const [x, y] = offset
-			return [
-				(centerWorldX + x) * cameraState.zoom - cameraState.offsetX,
-				(centerWorldY + y) * cameraState.zoom - cameraState.offsetY,
-			]
+			return worldSpaceToImageSpace(centerWorldX + x, centerWorldY + y)
 		})
 
 		this.ctx.strokeStyle = "black"
@@ -61,11 +53,18 @@ export class GameCanvas {
 			this.ctx.lineTo(...vert)
 		}
 		this.ctx.stroke()
+
+		if (label) {
+			this.ctx.fillStyle = "black"
+			this.ctx.textBaseline = "middle"
+			this.ctx.textAlign = "center"
+			this.ctx.font = `${48 * cameraState.zoom}px monospace`
+			this.ctx.fillText(label, ...worldSpaceToImageSpace(centerWorldX, centerWorldY))
+		}
 	}
 
 	private draw(currTimestamp: DOMHighResTimeStamp) {
 		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
-		// const deltaTime = currTimestamp - this.previousAnimationFrameTimestamp
 
 		this.ctx.fillStyle = "#fff"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
@@ -73,12 +72,8 @@ export class GameCanvas {
 		for (let p = 0; p < hexes.length; p++) {
 			for (let q = 0; q < hexes[p].length; q++) {
 				const [x, y] = axialToWorldSpace(p, q)
-				this.drawHexagonAt(x, y)
+				this.drawHexagon(x, y, `${p},${q}`)
 			}
 		}
-
-		// console.log(deltaTime)
-
-		this.previousAnimationFrameTimestamp = currTimestamp
 	}
 }
