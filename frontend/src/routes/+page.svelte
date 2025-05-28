@@ -2,12 +2,10 @@
 	import { onDestroy, onMount } from "svelte"
 	import { clientStateToScreenSpace } from "$lib/state/coordinates.svelte"
 	import WorldRenderer from "./WorldRenderer.svelte"
-	import { DEFAULT_WORLD_LOCATION } from "$lib/state/map_state.svelte"
 	import {
 		cameraState,
 		changeZoom,
 		mouseState,
-		teleportToWorldSpace,
 	} from "$lib/state/ui_state.svelte"
 	import Sidebar from "./Sidebar.svelte"
 	import { socket } from "../lib/socket_handler.svelte.ts"
@@ -39,12 +37,12 @@
 	onMount(() => {
 		handleWindowResize()
 
-		teleportToWorldSpace(
-			DEFAULT_WORLD_LOCATION[0],
-			DEFAULT_WORLD_LOCATION[1],
-			cameraState.clientWidth,
-			cameraState.clientHeight,
-		)
+		// teleportToWorldSpace(
+		// 	DEFAULT_WORLD_LOCATION[0],
+		// 	DEFAULT_WORLD_LOCATION[1],
+		// 	cameraState.clientWidth,
+		// 	cameraState.clientHeight,
+		// )
 	})
 </script>
 

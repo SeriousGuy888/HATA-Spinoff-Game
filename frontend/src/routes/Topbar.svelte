@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { localState } from "$lib/state/local_state.svelte"
+	import { cameraState } from "$lib/state/ui_state.svelte"
 	import StatChip from "./StatChip.svelte"
 </script>
 
@@ -26,6 +27,10 @@
 					description="Total Population"
 				/>
 			{/if}
+			<StatChip
+				stat={`${cameraState.offsetX.toFixed(0)}, ${cameraState.offsetY.toFixed(0)}`}
+				description="Camera offset"
+			/>
 		{:else}
 			<p>spectating i guess</p>
 		{/if}

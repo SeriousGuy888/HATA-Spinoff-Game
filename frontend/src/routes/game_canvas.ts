@@ -1,3 +1,5 @@
+import { cameraState } from "$lib/state/ui_state.svelte.ts"
+
 const animationFrameInterval = 1000 / 60
 
 const hexes = [
@@ -43,10 +45,10 @@ export class GameCanvas {
 		cancelAnimationFrame(this.nextAnimationFrameId)
 	}
 
-	private drawHexagonAt(centerX: number, centerY: number) {
+	private drawHexagonAt(centerWorldX: number, centerWorldY: number) {
 		const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
 			const [x, y] = offset
-			return [centerX + x, centerY + y]
+			return [centerWorldX - cameraState.offsetX + x, centerWorldY - cameraState.offsetY + y]
 		})
 
 		this.ctx.strokeStyle = "black"
@@ -60,10 +62,7 @@ export class GameCanvas {
 
 	private draw(currTimestamp: DOMHighResTimeStamp) {
 		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
-		const deltaTime = currTimestamp - this.previousAnimationFrameTimestamp
-		if (deltaTime < animationFrameInterval) {
-			return
-		}
+		// const deltaTime = currTimestamp - this.previousAnimationFrameTimestamp
 
 		this.ctx.fillStyle = "#fff"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
@@ -74,6 +73,8 @@ export class GameCanvas {
 				this.drawHexagonAt(x, y)
 			}
 		}
+
+		// console.log(deltaTime)
 
 		this.previousAnimationFrameTimestamp = currTimestamp
 	}
