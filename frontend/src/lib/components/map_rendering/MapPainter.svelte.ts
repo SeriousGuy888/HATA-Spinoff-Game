@@ -9,7 +9,7 @@ export type MapPainterTool = (typeof MAP_PAINTER_TOOLS)[number]
 export class MapPainter {
 	enabled = $state(true)
 	tool = $state<MapPainterTool>("brush")
-	terrainType = $state<TileTerrain>("water")
+	terrainType = $state<TileTerrain>("grass")
 
 	public handleDrag(newX: number, newY: number, oldX: number, oldY: number) {
 		if (this.tool == "brush") {
