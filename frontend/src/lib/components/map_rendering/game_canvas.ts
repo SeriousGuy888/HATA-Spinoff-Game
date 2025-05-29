@@ -216,7 +216,7 @@ export class GameCanvas {
 			this.drawHexagon(x, y, null, p == selectedP && q == selectedQ)
 		}
 
-		this.drawCullingBoundary()
+		// this.drawCullingBoundary()
 
 		const elapsed = performance.now() - start
 		canvasState.millisecondsElapsedForPreviousFrame = elapsed
@@ -238,10 +238,10 @@ export class GameCanvas {
 		const { width: canvasWidth, height: canvasHeight } = this.canvas
 
 		this.cullingBoundCanvasSpace = {
-			minX: canvasWidth * 0.1,
-			minY: canvasHeight * 0.1,
-			maxX: canvasWidth * 0.9,
-			maxY: canvasHeight * 0.9,
+			minX: 0, // canvasWidth * 0.1,
+			minY: 0, // canvasHeight * 0.1,
+			maxX: canvasWidth, // * 0.9,
+			maxY: canvasHeight, // * 0.9,
 		}
 
 		this.recalculateWorldCullingBoundary()
