@@ -1,7 +1,8 @@
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
-import { TileAsset, TilePalette } from "./tile_palette"
+import { TileSprite, TilePalette } from "./tile_palette"
+import type { ClientTile } from "$lib/entities/ClientTile.svelte"
 
 const sideLength = 50 // This is also the hexagon's circumcircle radius
 const circumcircleRadius = sideLength
@@ -145,7 +146,40 @@ export class GameCanvas {
 		this.recalculateWorldCullingBoundary()
 	}
 
-	private drawHexagon(
+	private draw() {
+		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
+
+		const start = performance.now()
+
+		this.ctx.fillStyle = "#fff"
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+
+		const game = localState.game
+		if (!game) {
+			return
+		}
+
+		const [selectedP, selectedQ] = getSelectedTileCoords() ?? [null, null]
+		this.ctx.lineWidth = 1
+		for (const tile of Object.values(game.tiles)) {
+			const { p, q } = tile.coordinates
+			const [x, y] = axialToWorldSpace(p, q)
+
+			if (!this.isHexWithinCullingBoundary(p, q)) {
+				continue
+			}
+
+			this.drawTile(tile, x, y, null, p == selectedP && q == selectedQ)
+		}
+
+		// this.drawCullingBoundary()
+
+		const elapsed = performance.now() - start
+		canvasState.millisecondsElapsedForPreviousFrame = elapsed
+	}
+
+	private drawTile(
+		tile: ClientTile,
 		centerWorldX: number,
 		centerWorldY: number,
 		label?: string | null,
@@ -157,9 +191,10 @@ export class GameCanvas {
 			centerWorldX - circumcircleRadius,
 			centerWorldY - incircleRadius,
 		)
+
 		this.palette.paint(
 			this.ctx,
-			TileAsset.WATER,
+			this.palette.getTileSprite(tile),
 			x,
 			y,
 			circumcircleDiameter * zoom,
@@ -188,38 +223,6 @@ export class GameCanvas {
 			this.ctx.font = `${(sideLength / 3) * zoom}px monospace`
 			this.ctx.fillText(label, ...worldSpaceToCanvasSpace(centerWorldX, centerWorldY))
 		}
-	}
-
-	private draw() {
-		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
-
-		const start = performance.now()
-
-		this.ctx.fillStyle = "#fff"
-		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
-
-		const game = localState.game
-		if (!game) {
-			return
-		}
-
-		const [selectedP, selectedQ] = getSelectedTileCoords() ?? [null, null]
-		this.ctx.lineWidth = 1
-		for (const tile of Object.values(game.tiles)) {
-			const { p, q } = tile.coordinates
-			const [x, y] = axialToWorldSpace(p, q)
-
-			if (!this.isHexWithinCullingBoundary(p, q)) {
-				continue
-			}
-
-			this.drawHexagon(x, y, null, p == selectedP && q == selectedQ)
-		}
-
-		// this.drawCullingBoundary()
-
-		const elapsed = performance.now() - start
-		canvasState.millisecondsElapsedForPreviousFrame = elapsed
 	}
 
 	private isHexWithinCullingBoundary(p: number, q: number) {
