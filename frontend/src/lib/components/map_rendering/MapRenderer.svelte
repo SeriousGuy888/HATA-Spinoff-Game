@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { canvasState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
+	import { canvasState, changeZoom, deselectTile, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
 	import { GameCanvas } from "./game_canvas.ts"
 	import { clientSpaceToCanvasSpace } from "$lib/util/coordinates.svelte.ts"
@@ -18,7 +18,7 @@
 		canvasState.canvas.width = canvasParent.clientWidth
 		canvasState.canvas.height = canvasParent.clientHeight
 
-		if(!canvasState.gameCanvas) {
+		if (!canvasState.gameCanvas) {
 			console.error("Game canvas not initialised??")
 			return
 		}
@@ -57,7 +57,14 @@
  Make sure that the <canvas> element's width & height always match the actual space it has,
  to avoid any issues with the image getting stretched (as would happen if I scaled the canvas using CSS)
 -->
-<svelte:window onresize={updateCanvasDimensions} />
+<svelte:window
+	onresize={updateCanvasDimensions}
+	onkeyup={(e) => {
+		if (e.key === "Escape") {
+			deselectTile()
+		}
+	}}
+/>
 
 <div class="h-full w-full" bind:this={canvasParent}>
 	<canvas
@@ -86,7 +93,7 @@
 					newY,
 					mouseState.lastDragPosition[0],
 					mouseState.lastDragPosition[1],
-					e.buttons
+					e.buttons,
 				)
 
 				mouseState.lastDragPosition = [newX, newY]
