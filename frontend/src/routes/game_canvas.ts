@@ -1,5 +1,5 @@
 import type { TileAxialCoordinateKey } from "#shared/types/tile_data_types"
-import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/state/coordinates.svelte"
+import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
 

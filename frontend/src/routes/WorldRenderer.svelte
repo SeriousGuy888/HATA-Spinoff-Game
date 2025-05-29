@@ -4,7 +4,7 @@
 	import { canvasState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
 	import { GameCanvas } from "./game_canvas.ts"
-	import { clientSpaceToCanvasSpace } from "$lib/state/coordinates.svelte.ts"
+	import { clientSpaceToCanvasSpace } from "$lib/util/coordinates.svelte.ts"
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
 	// This prevents the user from accidentally dragging the camera when they just want to click.

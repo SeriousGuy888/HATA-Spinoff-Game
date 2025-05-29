@@ -1,4 +1,4 @@
-import { worldSpaceToCanvasSpace } from "./coordinates.svelte"
+import { worldSpaceToCanvasSpace } from "../util/coordinates.svelte"
 import { localState } from "./local_state.svelte"
 
 const MIN_ZOOM = 1 / 16
