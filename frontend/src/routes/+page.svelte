@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte"
 	import MapRenderer from "../lib/components/map_rendering/MapRenderer.svelte"
-	import Sidebar from "../lib/components/Sidebar.svelte"
+	import Sidebar from "../lib/components/sidebar/Sidebar.svelte"
 	import { socket } from "../lib/socket_handler.svelte.ts"
 	import Topbar from "../lib/components/Topbar.svelte"
 

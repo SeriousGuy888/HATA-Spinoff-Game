@@ -1,7 +1,7 @@
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
-import { TileSprite, TilePalette } from "./tile_palette"
+import { TilePalette } from "./tile_palette"
 import type { ClientTile } from "$lib/entities/ClientTile.svelte"
 
 const sideLength = 50 // This is also the hexagon's circumcircle radius

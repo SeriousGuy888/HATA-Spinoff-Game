@@ -1,5 +1,5 @@
 <script lang="ts">
-	import StatChip from "./StatChip.svelte"
+	import StatChip from "../common/StatChip.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
 	import { localState } from "$lib/state/local_state.svelte"
 	let tile = $derived(getSelectedTile())

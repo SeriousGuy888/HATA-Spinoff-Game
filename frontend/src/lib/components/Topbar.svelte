@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { localState } from "$lib/state/local_state.svelte"
 	import { canvasState } from "$lib/state/ui_state.svelte"
-	import StatChip from "./StatChip.svelte"
+	import StatChip from "./common/StatChip.svelte"
 </script>
 
 <nav class="flex h-full w-full items-stretch justify-between bg-gray-300 p-4">
