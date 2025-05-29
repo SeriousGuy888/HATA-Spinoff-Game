@@ -63,6 +63,9 @@ export class TilePalette {
 			img.onerror = (e) => {
 				console.error("Failed to load sprite ", spriteFileName, " -- skipping.", e)
 				this.numImagesPending-- 
+				if (this.numImagesPending === 0) {
+					this.takeSnapshot()
+				}
 			}
 		}
 	}
