@@ -1,14 +1,11 @@
-import type { ExportedTileState, TileGeometryData } from "#shared/types/tile_data_types"
+import type { ExportedTileState } from "#shared/types/tile_data_types"
 import type { ClientCountry } from "$lib/entities/ClientCountry.svelte"
 
-import _tile_geometries from "#shared/data/tile_geometry.json"
 import type { TileData } from "#shared/types/entities"
 import type ClientGame from "./ClientGame.svelte"
-const TILE_GEOMETRIES: Record<string, TileGeometryData> = _tile_geometries as any
 
 export class ClientTile {
 	id: string
-	polygons: [number, number][][] = [] // an array of possibly multiple polygons. all are drawn together in one svg <path> element.
 
 	name = $state<string>("") // name of the tile, used for display purposes
 	terrain = $state<TileTerrain>("land") // type of terrain on this tile
@@ -19,13 +16,6 @@ export class ClientTile {
 
 	constructor(game: ClientGame, id: string, tileData: TileData) {
 		this.id = id
-
-		// Load the tile geometry from the JSON file
-		// This is not given by the server, but instead loaded statically on the client.
-		this.polygons = TILE_GEOMETRIES[id]?.polygons ?? []
-		if (this.polygons.length === 0) {
-			console.warn(`Tile ${id} has no polygons.`)
-		}
 
 		if (tileData) {
 			this.name = tileData.name
@@ -40,7 +30,6 @@ export class ClientTile {
 
 	/**
 	 * Export the tile data to a format that can be saved to a file.
-	 * This data includes only the game state data -- not the tile geometry, as that is handled elsewhere.
 	 */
 	exportState(): ExportedTileState {
 		return {

@@ -31,7 +31,6 @@ export class Tile {
 
 	/**
 	 * Export the tile data to a format that can be saved to a file.
-	 * This data includes only the game state data -- not the tile geometry, as that is handled elsewhere.
 	 */
 	exportState(): ExportedTileState {
 		return {

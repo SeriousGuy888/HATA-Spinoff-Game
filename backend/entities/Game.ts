@@ -145,7 +145,6 @@ export default class Game {
 
 	/**
 	 * Load tiles from JSON data.
-	 * Does not include tile geometry, which is only needed on the client side.
 	 */
 	loadTiles() {
 		const tileIds = Object.keys(TILE_STATES)

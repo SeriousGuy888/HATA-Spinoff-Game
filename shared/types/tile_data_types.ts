@@ -1,9 +1,3 @@
-export interface TileGeometryData {
-	// an array of possibly multiple polygons. all are drawn together in one svg <path> element.
-	// Each coordinate pair is a vertex in the polygon.
-	polygons: [number, number][][]
-}
-
 export interface ExportedTileState {
 	name: string
 	terrain: TileTerrain
