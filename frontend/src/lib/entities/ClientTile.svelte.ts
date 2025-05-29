@@ -6,6 +6,7 @@ import type ClientGame from "./ClientGame.svelte"
 
 export class ClientTile {
 	id: string
+	coordinates: { p: number; q: number }
 
 	name = $state<string>("") // name of the tile, used for display purposes
 	terrain = $state<TileTerrain>("land") // type of terrain on this tile
@@ -14,8 +15,9 @@ export class ClientTile {
 	population = $state<number>(0)
 	industry = $state<number>(0)
 
-	constructor(game: ClientGame, id: string, tileData: TileData) {
+	constructor(game: ClientGame, id: string, p: number, q: number, tileData: TileData) {
 		this.id = id
+		this.coordinates = { p, q }
 
 		if (tileData) {
 			this.name = tileData.name

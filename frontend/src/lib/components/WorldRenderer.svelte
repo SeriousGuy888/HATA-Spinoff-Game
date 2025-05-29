@@ -11,34 +11,41 @@
 	let gameCanvas: GameCanvas
 
 	function updateCanvasDimensions() {
-		if(!canvasState.canvas) {
+		if (!canvasState.canvas) {
 			console.error("Canvas is not defined??")
 			return
 		}
 
 		canvasState.canvas.width = canvasParent.clientWidth
 		canvasState.canvas.height = canvasParent.clientHeight
+		gameCanvas.handleResize()
 	}
 
 	onMount(() => {
 		const { canvas } = canvasState
-		if(canvas) {
+		if (canvas) {
 			let ctx = canvas.getContext("2d")
 			if (ctx == null) {
 				console.error("Canvas 2D context failed to load??")
 			} else {
 				gameCanvas = new GameCanvas(canvas, ctx)
 			}
-	
+
 			updateCanvasDimensions()
 		} else {
 			console.error("Canvas is not defined??")
 		}
 
-		
 		return () => {
 			gameCanvas.destroy()
 		}
+	})
+
+	$effect(() => {
+		canvasState.zoom
+		canvasState.offsetX
+		canvasState.offsetY
+		gameCanvas.handleZoomAndPan()
 	})
 </script>
 

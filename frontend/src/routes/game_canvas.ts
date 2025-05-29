@@ -1,4 +1,3 @@
-import type { TileAxialCoordinateKey } from "#shared/types/tile_data_types"
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
@@ -104,10 +103,26 @@ export class GameCanvas {
 	private readonly palette: TilePalette
 	private nextAnimationFrameId: number
 
+	// initialised as long as handleResize gets called in constructor
+	private cullingBoundCanvasSpace!: {
+		minX: number
+		minY: number
+		maxX: number
+		maxY: number
+	}
+	private cullingBoundWorldSpace!: {
+		minX: number
+		minY: number
+		maxX: number
+		maxY: number
+	}
+
 	constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 		this.canvas = canvas
 		this.ctx = ctx
 		this.palette = new TilePalette()
+
+		this.handleResize()
 
 		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
 	}
@@ -120,6 +135,14 @@ export class GameCanvas {
 		const [worldX, worldY] = canvasSpaceToWorldSpace(canvasX, canvasY)
 		const [p, q] = worldSpaceToAxialInt(worldX, worldY)
 		selectTile(p, q)
+	}
+
+	public handleResize() {
+		this.recalculateCanvasCullingBoundary()
+	}
+
+	public handleZoomAndPan() {
+		this.recalculateWorldCullingBoundary()
 	}
 
 	private drawHexagon(
@@ -180,24 +203,13 @@ export class GameCanvas {
 			return
 		}
 
-		const [cullX, cullY, cullW, cullH] = this.getCullingBoundary()
-		// convert top-left and bottom-right to world space
-		const [minWorldXCull, minWorldYCull] = canvasSpaceToWorldSpace(cullX, cullY)
-		const [maxWorldXCull, maxWorldYCull] = canvasSpaceToWorldSpace(cullX + cullW, cullY + cullH)
-
 		const [selectedP, selectedQ] = getSelectedTileCoords() ?? [null, null]
 		this.ctx.lineWidth = 1
-		for (const _key in game.tiles) {
-			const key = _key as TileAxialCoordinateKey
-
-			const [p, q] = key.split(",").map((v) => parseInt(v))
+		for (const tile of Object.values(game.tiles)) {
+			const { p, q } = tile.coordinates
 			const [x, y] = axialToWorldSpace(p, q)
-			if (
-				x + sideLength < minWorldXCull ||
-				x - sideLength > maxWorldXCull ||
-				y + incircleRadius < minWorldYCull ||
-				y - incircleRadius > maxWorldYCull
-			) {
+
+			if (!this.isHexWithinCullingBoundary(p, q)) {
 				continue
 			}
 
@@ -210,20 +222,49 @@ export class GameCanvas {
 		canvasState.millisecondsElapsedForPreviousFrame = elapsed
 	}
 
-	private getCullingBoundary(): [number, number, number, number] {
+	private isHexWithinCullingBoundary(p: number, q: number) {
+		const { minX, minY, maxX, maxY } = this.cullingBoundWorldSpace
+
+		const [x, y] = axialToWorldSpace(p, q)
+		return (
+			x + sideLength > minX &&
+			x - sideLength < maxX &&
+			y + incircleRadius > minY &&
+			y - incircleRadius < maxY
+		)
+	}
+
+	private recalculateCanvasCullingBoundary() {
 		const { width: canvasWidth, height: canvasHeight } = this.canvas
 
-		const x = canvasWidth * 0.1
-		const y = canvasHeight * 0.1
-		const w = canvasWidth * 0.8
-		const h = canvasHeight * 0.8
+		this.cullingBoundCanvasSpace = {
+			minX: canvasWidth * 0.1,
+			minY: canvasHeight * 0.1,
+			maxX: canvasWidth * 0.9,
+			maxY: canvasHeight * 0.9,
+		}
 
-		return [x, y, w, h]
+		this.recalculateWorldCullingBoundary()
+	}
+
+	private recalculateWorldCullingBoundary() {
+		const { minX, minY, maxX, maxY } = this.cullingBoundCanvasSpace
+		const [minWorldXCull, minWorldYCull] = canvasSpaceToWorldSpace(minX, minY)
+		const [maxWorldXCull, maxWorldYCull] = canvasSpaceToWorldSpace(maxX, maxY)
+
+		this.cullingBoundWorldSpace = {
+			minX: minWorldXCull,
+			minY: minWorldYCull,
+			maxX: maxWorldXCull,
+			maxY: maxWorldYCull,
+		}
 	}
 
 	private drawCullingBoundary() {
 		this.ctx.strokeStyle = "red"
 		this.ctx.lineWidth = 2
-		this.ctx.strokeRect(...this.getCullingBoundary())
+
+		const { minX, minY, maxX, maxY } = this.cullingBoundCanvasSpace
+		this.ctx.strokeRect(minX, minY, maxX - minX, maxY - minY)
 	}
 }

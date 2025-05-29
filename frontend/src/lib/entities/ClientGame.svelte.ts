@@ -71,8 +71,10 @@ export default class ClientGame {
 				continue
 			}
 
+			const [p, q] = id.split(",").map((v) => parseInt(v))
+
 			const tileData = tileIds2TileData[id]
-			this.tiles[id] = new ClientTile(this, id, tileData)
+			this.tiles[id] = new ClientTile(this, id, p, q, tileData)
 		}
 	}
 
