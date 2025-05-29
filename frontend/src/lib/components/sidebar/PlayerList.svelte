@@ -2,7 +2,7 @@
 	import { localState, setPerspectivePlayer } from "$lib/state/local_state.svelte.ts"
 </script>
 
-<details open class="rounded-md bg-gray-100 p-4">
+<details class="rounded-md bg-gray-100 p-4">
 	<summary class="select-none">Player List</summary>
 	<ul class="mt-2 flex flex-col gap-2">
 		{#each localState.game ? Object.values(localState.game.players) : [] as player}

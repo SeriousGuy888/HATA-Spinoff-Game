@@ -8,7 +8,6 @@
 	// This prevents the user from accidentally dragging the camera when they just want to click.
 
 	let canvasParent: HTMLDivElement
-	let gameCanvas: GameCanvas
 
 	function updateCanvasDimensions() {
 		if (!canvasState.canvas) {
@@ -18,7 +17,12 @@
 
 		canvasState.canvas.width = canvasParent.clientWidth
 		canvasState.canvas.height = canvasParent.clientHeight
-		gameCanvas.handleResize()
+
+		if(!canvasState.gameCanvas) {
+			console.error("Game canvas not initialised??")
+			return
+		}
+		canvasState.gameCanvas.handleResize()
 	}
 
 	onMount(() => {
@@ -28,7 +32,7 @@
 			if (ctx == null) {
 				console.error("Canvas 2D context failed to load??")
 			} else {
-				gameCanvas = new GameCanvas(canvas, ctx)
+				canvasState.gameCanvas = new GameCanvas(canvas, ctx)
 			}
 
 			updateCanvasDimensions()
@@ -37,7 +41,7 @@
 		}
 
 		return () => {
-			gameCanvas.destroy()
+			canvasState.gameCanvas?.destroy()
 		}
 	})
 
@@ -45,7 +49,7 @@
 		canvasState.zoom
 		canvasState.offsetX
 		canvasState.offsetY
-		gameCanvas.handleZoomAndPan()
+		canvasState.gameCanvas?.handleZoomAndPan()
 	})
 </script>
 
@@ -77,8 +81,14 @@
 				mouseState.isDragging = true
 			}
 			if (mouseState.isDragging) {
-				canvasState.offsetX -= newX - mouseState.lastDragPosition[0]
-				canvasState.offsetY -= newY - mouseState.lastDragPosition[1]
+				canvasState.gameCanvas?.handleDrag(
+					newX,
+					newY,
+					mouseState.lastDragPosition[0],
+					mouseState.lastDragPosition[1],
+					e.buttons
+				)
+
 				mouseState.lastDragPosition = [newX, newY]
 			}
 		}}
@@ -89,7 +99,7 @@
 				}, 0) // Reset the dragging state after the next event loop
 			} else {
 				const [screenX, screenY] = clientSpaceToCanvasSpace(e.clientX, e.clientY)
-				gameCanvas.click(screenX, screenY)
+				canvasState.gameCanvas?.click(screenX, screenY)
 			}
 		}}
 		onwheel={(e) => {

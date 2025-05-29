@@ -3,6 +3,7 @@ import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
 import { TilePalette } from "./tile_palette"
 import type { ClientTile } from "$lib/entities/ClientTile.svelte"
+import { MapPainter } from "./MapPainter.svelte"
 
 const sideLength = 50 // This is also the hexagon's circumcircle radius
 const circumcircleRadius = sideLength
@@ -63,7 +64,7 @@ function worldSpaceToAxial(x: number, y: number): [number, number] {
  *
  * Return the integer axial coordinates of the hexagon clicked.
  */
-function worldSpaceToAxialInt(x: number, y: number): [number, number] {
+export function worldSpaceToAxialInt(x: number, y: number): [number, number] {
 	const [p, q] = worldSpaceToAxial(x, y)
 
 	// convert axial coordinates to cube coordinates
@@ -101,8 +102,10 @@ function worldSpaceToAxialInt(x: number, y: number): [number, number] {
 export class GameCanvas {
 	private readonly canvas: HTMLCanvasElement
 	private readonly ctx: CanvasRenderingContext2D
-	private readonly palette: TilePalette
 	private nextAnimationFrameId: number
+
+	private readonly palette: TilePalette
+	readonly mapPainter: MapPainter
 
 	// initialised as long as handleResize gets called in constructor
 	private cullingBoundCanvasSpace!: {
@@ -121,7 +124,9 @@ export class GameCanvas {
 	constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 		this.canvas = canvas
 		this.ctx = ctx
+
 		this.palette = new TilePalette()
+		this.mapPainter = new MapPainter()
 
 		this.handleResize()
 
@@ -144,6 +149,23 @@ export class GameCanvas {
 
 	public handleZoomAndPan() {
 		this.recalculateWorldCullingBoundary()
+	}
+
+	/**
+	 * All coordinates should be given in canvas space.
+	 * @param buttons Bitfield representing which mouse buttons are pressed.
+	 * https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+	 */
+	public handleDrag(newX: number, newY: number, oldX: number, oldY: number, buttons: number) {
+		const leftButton = !!(buttons & 0b1)
+		const middleButton = !!(buttons & 0b100)
+
+		if (middleButton || !this.mapPainter.enabled) {
+			canvasState.offsetX -= newX - oldX
+			canvasState.offsetY -= newY - oldY
+		} else if (leftButton) {
+			this.mapPainter.handleDrag(newX, newY, oldX, oldY)
+		}
 	}
 
 	private draw() {
