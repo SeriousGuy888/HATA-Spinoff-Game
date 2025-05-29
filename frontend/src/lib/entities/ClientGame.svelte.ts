@@ -50,6 +50,19 @@ export default class ClientGame {
 		return controlledTiles.reduce((acc, cur) => acc + cur.population, 0)
 	}
 
+	/**
+	 * Get a tile by its axial coordinates.
+	 * Return null if the tile does not exist.
+	 */
+	public getTile(p: number, q: number): ClientTile | null {
+		const key: TileAxialCoordinateKey = `${p},${q}`
+		return this.getTileByKey(key)
+	}
+
+	private getTileByKey(tileKey: TileAxialCoordinateKey): ClientTile | null {
+		return this.tiles[tileKey] ?? null
+	}
+
 	private loadTiles(tileIds2TileData: Record<TileAxialCoordinateKey, TileData>) {
 		for (const _id in tileIds2TileData) {
 			const id = _id as TileAxialCoordinateKey

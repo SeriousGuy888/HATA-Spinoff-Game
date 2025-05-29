@@ -17,13 +17,22 @@ export const mouseState = $state({
 	lastDragPosition: [0, 0],
 })
 
-export const tileSelectionState = $state({
-	selectedTileId: null as string | null, // legacy
-	selectedHex: null as [number, number] | null, // new
-})
+let selectedTileCoords = $state<[number, number] | null>(null)
+
+export function deselectTile() {
+	selectedTileCoords = null
+}
+
+export function selectTile(p: number, q: number) {
+	selectedTileCoords = [p, q]
+}
+
+export function getSelectedTileCoords(): [number, number] | null {
+	return selectedTileCoords
+}
 
 export function getSelectedTile() {
-	if (!tileSelectionState.selectedTileId) {
+	if (!selectedTileCoords) {
 		return null
 	}
 
@@ -31,7 +40,7 @@ export function getSelectedTile() {
 		return null
 	}
 
-	return localState.game.tiles[tileSelectionState.selectedTileId] ?? null
+	return localState.game.getTile(...selectedTileCoords)
 }
 
 /**

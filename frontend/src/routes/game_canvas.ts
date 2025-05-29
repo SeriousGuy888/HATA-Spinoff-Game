@@ -1,7 +1,7 @@
 import type { TileAxialCoordinateKey } from "#shared/types/tile_data_types"
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
-import { canvasState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
+import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
 
 const sideLength = 100 // This is also the hexagon's circumcircle radius
 const incircleDiameter = sideLength * Math.sqrt(3)
@@ -114,7 +114,7 @@ export class GameCanvas {
 	public click(canvasX: number, canvasY: number) {
 		const [worldX, worldY] = canvasSpaceToWorldSpace(canvasX, canvasY)
 		const [p, q] = worldSpaceToAxialInt(worldX, worldY)
-		tileSelectionState.selectedHex = [p, q]
+		selectTile(p, q)
 	}
 
 	private drawHexagon(
@@ -157,14 +157,12 @@ export class GameCanvas {
 		this.ctx.fillStyle = "#fff"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
-		const selectedP = tileSelectionState.selectedHex?.[0]
-		const selectedQ = tileSelectionState.selectedHex?.[1]
-
 		const game = localState.game
 		if (!game) {
 			return
 		}
 
+		const [selectedP, selectedQ] = getSelectedTileCoords() ?? [null, null]
 		for (const _key in game.tiles) {
 			const key = _key as TileAxialCoordinateKey
 
