@@ -25,7 +25,7 @@ const COUNTRY_DATA: Record<
 import _tile_states from "#shared/data/tile_states.json"
 const TILE_STATES: Record<string, ExportedTileState> = _tile_states as any
 
-import { ExportedTileState } from "#shared/types/tile_data_types.ts"
+import { ExportedTileState, TileAxialCoordinateKey } from "#shared/types/tile_data_types.ts"
 import { Player } from "./Player"
 import GameAnnouncer from "./GameAnnouncer"
 import { Server, Socket } from "socket.io"
@@ -145,23 +145,53 @@ export default class Game {
 
 	/**
 	 * Load tiles from JSON data.
+	 * 
+	 * temporarily not loading from json data
 	 */
 	loadTiles() {
-		const tileIds = Object.keys(TILE_STATES)
-		for (const id of tileIds) {
-			if (this.tiles[id]) {
-				console.warn(`Tile ${id} is already loaded. Skipping.`)
-				continue
-			}
+		const width = 100
+		const height = 50
 
-			const defaultState = TILE_STATES[id] ?? null
-			if (!defaultState) {
-				console.warn(`Tile ${id} has no default state. Using empty state.`)
-			}
+		for (let numStepsSoutheast = 0; numStepsSoutheast < width; numStepsSoutheast++) {
+			// For each additional step to the southeast, we are moving...
+			//   + 1   column right
+			//   + 1/2 row    down
+			for (let nthRowFromTheTop = 0; nthRowFromTheTop < height; nthRowFromTheTop++) {
+				// After knowing which row of the current column, calculate the actual q-coord (vertical) of the
+				// target row. The q-coord is the number of times to step south from the current p-coord (along the
+				// current column).
+				// 
+				// To clarify, since the p-axis isn't horizontal (rather 30° clockwise from the horizontal),
+				// every other column is shifted 1 row up to compensate.
+				// This creates a roughly rectangular game board, despite the hexagonal coordinates.
+				const numStepsSouth = nthRowFromTheTop - Math.floor(numStepsSoutheast / 2)
 
-			const tile = new Tile(this, id, defaultState)
-			this.tiles[id] = tile
+				// Put the p,q coordinates into the required string format
+				const key: TileAxialCoordinateKey = `${numStepsSoutheast},${numStepsSouth}`
+
+				if (Object.hasOwn(this.tiles, key)) {
+					console.warn("duplicate key", key)
+				}
+				this.tiles[key] = new Tile(this, key, null)
+			}
 		}
+
+
+		// const tileIds = Object.keys(TILE_STATES)
+		// for (const id of tileIds) {
+		// 	if (this.tiles[id]) {
+		// 		console.warn(`Tile ${id} is already loaded. Skipping.`)
+		// 		continue
+		// 	}
+
+		// 	const defaultState = TILE_STATES[id] ?? null
+		// 	if (!defaultState) {
+		// 		console.warn(`Tile ${id} has no default state. Using empty state.`)
+		// 	}
+
+		// 	const tile = new Tile(this, id, defaultState)
+		// 	this.tiles[id] = tile
+		// }
 	}
 
 	toJson(): GameData {

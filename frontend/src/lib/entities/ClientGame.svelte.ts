@@ -1,4 +1,5 @@
 import type { CountryData, GameData, TileData } from "#shared/types/entities"
+import type { TileAxialCoordinateKey } from "#shared/types/tile_data_types"
 import { ClientCharacter } from "./ClientCharacter.svelte"
 import { ClientCountry } from "./ClientCountry.svelte"
 import { ClientPlayer } from "./ClientPlayer.svelte"
@@ -9,7 +10,7 @@ export default class ClientGame {
 	clock: number = $state(0)
 	players: Record<string, ClientPlayer> = $state({})
 	characters: Record<string, ClientCharacter> = $state({})
-	tiles: Record<string, ClientTile> = $state({})
+	tiles: Record<TileAxialCoordinateKey, ClientTile> = $state({})
 	countries: Record<string, ClientCountry> = $state({})
 
 	constructor(data: GameData) {
@@ -45,12 +46,13 @@ export default class ClientGame {
 	}
 
 	getTotalPopulation(country: ClientCountry) {
-		const controlledTiles = Object.values(this.tiles).filter(tile => tile.controller === country)
+		const controlledTiles = Object.values(this.tiles).filter((tile) => tile.controller === country)
 		return controlledTiles.reduce((acc, cur) => acc + cur.population, 0)
 	}
 
-	private loadTiles(tileIds2TileData: Record<string, TileData>) {
-		for (const id in tileIds2TileData) {
+	private loadTiles(tileIds2TileData: Record<TileAxialCoordinateKey, TileData>) {
+		for (const _id in tileIds2TileData) {
+			const id = _id as TileAxialCoordinateKey
 			if (this.tiles[id]) {
 				console.warn(`Tile ${id} is already loaded. Skipping.`)
 				continue

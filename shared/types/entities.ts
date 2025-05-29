@@ -1,12 +1,12 @@
 import type { ResourceMap } from "./resources"
-import type { TileTerrain } from "./tile_data_types"
+import type { TileAxialCoordinateKey, TileTerrain } from "./tile_data_types"
 
 export type GameData = {
 	isInitialised: boolean
 	clock: number
 	players: Record<string, PlayerData>
 	characters: Record<string, CharacterData>
-	tiles: Record<string, TileData>
+	tiles: Record<TileAxialCoordinateKey, TileData>
 	countries: Record<string, CountryData>
 }
 

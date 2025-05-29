@@ -1,3 +1,5 @@
+export type TileAxialCoordinateKey = `${number},${number}`
+
 export interface ExportedTileState {
 	name: string
 	terrain: TileTerrain

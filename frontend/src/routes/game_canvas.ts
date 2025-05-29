@@ -1,7 +1,7 @@
+import type { TileAxialCoordinateKey } from "#shared/types/tile_data_types"
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/state/coordinates.svelte"
+import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, tileSelectionState } from "$lib/state/ui_state.svelte.ts"
-
-const hexes = Array.from({ length: 20 }, () => Array(20).fill(1))
 
 const sideLength = 100 // This is also the hexagon's circumcircle radius
 const incircleDiameter = sideLength * Math.sqrt(3)
@@ -35,7 +35,7 @@ function axialToWorldSpace(p: number, q: number): [number, number] {
 /**
  * Convert from the x,y cartesian coordinate system of worldspace to the axial
  * coordinate system of the hexagonal gameboard.
- * 
+ *
  * The resulting axial coordinates are NOT INTEGERS.
  * To get the actual hexagon clicked, use worldSpaceToAxialInt instead.
  */
@@ -57,7 +57,7 @@ function worldSpaceToAxial(x: number, y: number): [number, number] {
 /**
  * Convert from the x,y cartesian coordinate system of worldspace to the axial
  * coordinate system of the hexagonal gameboard.
- * 
+ *
  * Return the integer axial coordinates of the hexagon clicked.
  */
 function worldSpaceToAxialInt(x: number, y: number): [number, number] {
@@ -160,11 +160,17 @@ export class GameCanvas {
 		const selectedP = tileSelectionState.selectedHex?.[0]
 		const selectedQ = tileSelectionState.selectedHex?.[1]
 
-		for (let p = 0; p < hexes.length; p++) {
-			for (let q = 0; q < hexes[p].length; q++) {
-				const [x, y] = axialToWorldSpace(p, q)
-				this.drawHexagon(x, y, `${p},${q}`, p == selectedP && q == selectedQ)
-			}
+		const game = localState.game
+		if (!game) {
+			return
+		}
+
+		for (const _key in game.tiles) {
+			const key = _key as TileAxialCoordinateKey
+
+			const [p, q] = key.split(",").map((v) => parseInt(v))
+			const [x, y] = axialToWorldSpace(p, q)
+			this.drawHexagon(x, y, `${p},${q}`, p == selectedP && q == selectedQ)
 		}
 	}
 }
