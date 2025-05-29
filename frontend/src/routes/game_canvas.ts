@@ -2,8 +2,11 @@ import type { TileAxialCoordinateKey } from "#shared/types/tile_data_types"
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
+import { TileAsset, TilePalette } from "./tile_palette"
 
 const sideLength = 50 // This is also the hexagon's circumcircle radius
+const circumcircleRadius = sideLength
+const circumcircleDiameter = circumcircleRadius * 2
 const incircleDiameter = sideLength * Math.sqrt(3)
 const incircleRadius = incircleDiameter / 2
 
@@ -98,11 +101,13 @@ function worldSpaceToAxialInt(x: number, y: number): [number, number] {
 export class GameCanvas {
 	private readonly canvas: HTMLCanvasElement
 	private readonly ctx: CanvasRenderingContext2D
+	private readonly palette: TilePalette
 	private nextAnimationFrameId: number
 
 	constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 		this.canvas = canvas
 		this.ctx = ctx
+		this.palette = new TilePalette()
 
 		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
 	}
@@ -123,30 +128,41 @@ export class GameCanvas {
 		label?: string,
 		isSelected: boolean = false,
 	) {
-		const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
-			const [x, y] = offset
-			return worldSpaceToCanvasSpace(centerWorldX + x, centerWorldY + y)
-		})
+		const zoom = canvasState.zoom
 
-		this.ctx.strokeStyle = "black"
-		this.ctx.beginPath()
-		this.ctx.moveTo(...vertices[vertices.length - 1])
-		for (const vert of vertices) {
-			this.ctx.lineTo(...vert)
-		}
+		const [x, y] = worldSpaceToCanvasSpace(
+			centerWorldX - circumcircleRadius,
+			centerWorldY - incircleRadius,
+		)
+		this.palette.paint(
+			this.ctx,
+			TileAsset.WATER,
+			x,
+			y,
+			circumcircleDiameter * zoom,
+			incircleDiameter * zoom,
+		)
 
 		if (isSelected) {
-			this.ctx.fillStyle = "#aad"
+			const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
+				const [x, y] = offset
+				return worldSpaceToCanvasSpace(centerWorldX + x, centerWorldY + y)
+			})
+
+			this.ctx.beginPath()
+			this.ctx.moveTo(...vertices[vertices.length - 1])
+			for (const vert of vertices) {
+				this.ctx.lineTo(...vert)
+			}
+			this.ctx.fillStyle = "#aad8"
 			this.ctx.fill()
 		}
-
-		this.ctx.stroke()
 
 		if (label) {
 			this.ctx.fillStyle = "black"
 			this.ctx.textBaseline = "middle"
 			this.ctx.textAlign = "center"
-			this.ctx.font = `${(sideLength / 3) * canvasState.zoom}px monospace`
+			this.ctx.font = `${(sideLength / 3) * zoom}px monospace`
 			this.ctx.fillText(label, ...worldSpaceToCanvasSpace(centerWorldX, centerWorldY))
 		}
 	}
