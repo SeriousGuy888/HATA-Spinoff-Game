@@ -146,7 +146,7 @@ export class GameCanvas {
 			this.ctx.fillStyle = "black"
 			this.ctx.textBaseline = "middle"
 			this.ctx.textAlign = "center"
-			this.ctx.font = `${sideLength / 3 * canvasState.zoom}px monospace`
+			this.ctx.font = `${(sideLength / 3) * canvasState.zoom}px monospace`
 			this.ctx.fillText(label, ...worldSpaceToCanvasSpace(centerWorldX, centerWorldY))
 		}
 	}
@@ -164,16 +164,50 @@ export class GameCanvas {
 			return
 		}
 
+		const [cullX, cullY, cullW, cullH] = this.getCullingBoundary()
+		// convert top-left and bottom-right to world space
+		const [minWorldXCull, minWorldYCull] = canvasSpaceToWorldSpace(cullX, cullY)
+		const [maxWorldXCull, maxWorldYCull] = canvasSpaceToWorldSpace(cullX + cullW, cullY + cullH)
+
 		const [selectedP, selectedQ] = getSelectedTileCoords() ?? [null, null]
+		this.ctx.lineWidth = 1
 		for (const _key in game.tiles) {
 			const key = _key as TileAxialCoordinateKey
 
 			const [p, q] = key.split(",").map((v) => parseInt(v))
 			const [x, y] = axialToWorldSpace(p, q)
+			if (
+				x + sideLength < minWorldXCull ||
+				x - sideLength > maxWorldXCull ||
+				y + incircleRadius < minWorldYCull ||
+				y - incircleRadius > maxWorldYCull
+			) {
+				continue
+			}
+
 			this.drawHexagon(x, y, `${p},${q}`, p == selectedP && q == selectedQ)
 		}
 
+		this.drawCullingBoundary()
+
 		const elapsed = performance.now() - start
 		canvasState.millisecondsElapsedForPreviousFrame = elapsed
+	}
+
+	private getCullingBoundary(): [number, number, number, number] {
+		const { width: canvasWidth, height: canvasHeight } = this.canvas
+
+		const x = canvasWidth * 0.1
+		const y = canvasHeight * 0.1
+		const w = canvasWidth * 0.8
+		const h = canvasHeight * 0.8
+
+		return [x, y, w, h]
+	}
+
+	private drawCullingBoundary() {
+		this.ctx.strokeStyle = "red"
+		this.ctx.lineWidth = 2
+		this.ctx.strokeRect(...this.getCullingBoundary())
 	}
 }
