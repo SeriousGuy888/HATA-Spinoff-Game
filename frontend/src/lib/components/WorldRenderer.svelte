@@ -1,6 +1,4 @@
 <script lang="ts">
-	import TileRenderer from "./TileRenderer.svelte"
-	import { MAP_DIMENSIONS } from "$lib/state/map_state.svelte.ts"
 	import { canvasState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
 	import { GameCanvas } from "../../routes/game_canvas.ts"
