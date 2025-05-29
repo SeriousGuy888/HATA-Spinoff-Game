@@ -10,6 +10,7 @@ export const canvasState = $state({
 	offsetX: 0, // where the camera has been panned to
 	offsetY: 0,
 	zoom: 1, // zoom level of the camera
+	millisecondsElapsedForPreviousFrame: 0
 })
 
 export const mouseState = $state({

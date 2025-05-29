@@ -35,6 +35,10 @@
 				stat={`${canvasState.zoom.toFixed(2)}x`}
 				description="Zoom"
 			/>
+			<StatChip
+				stat={`${canvasState.millisecondsElapsedForPreviousFrame.toFixed(0)} ms / frame`}
+				description="Zoom"
+			/>
 		{:else}
 			<p>spectating i guess</p>
 		{/if}

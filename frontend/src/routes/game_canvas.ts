@@ -3,7 +3,7 @@ import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coor
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
 
-const sideLength = 100 // This is also the hexagon's circumcircle radius
+const sideLength = 50 // This is also the hexagon's circumcircle radius
 const incircleDiameter = sideLength * Math.sqrt(3)
 const incircleRadius = incircleDiameter / 2
 
@@ -146,13 +146,15 @@ export class GameCanvas {
 			this.ctx.fillStyle = "black"
 			this.ctx.textBaseline = "middle"
 			this.ctx.textAlign = "center"
-			this.ctx.font = `${48 * canvasState.zoom}px monospace`
+			this.ctx.font = `${sideLength / 3 * canvasState.zoom}px monospace`
 			this.ctx.fillText(label, ...worldSpaceToCanvasSpace(centerWorldX, centerWorldY))
 		}
 	}
 
 	private draw() {
 		this.nextAnimationFrameId = requestAnimationFrame(this.draw.bind(this))
+
+		const start = performance.now()
 
 		this.ctx.fillStyle = "#fff"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
@@ -170,5 +172,8 @@ export class GameCanvas {
 			const [x, y] = axialToWorldSpace(p, q)
 			this.drawHexagon(x, y, `${p},${q}`, p == selectedP && q == selectedQ)
 		}
+
+		const elapsed = performance.now() - start
+		canvasState.millisecondsElapsedForPreviousFrame = elapsed
 	}
 }
