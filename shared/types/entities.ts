@@ -24,7 +24,6 @@ export type CharacterData = {
 
 export type TileData = {
 	id: string
-	name: string
 	terrain: TileTerrain
 	controllerId: string | null // id of the country that controls this tile
 	population: number

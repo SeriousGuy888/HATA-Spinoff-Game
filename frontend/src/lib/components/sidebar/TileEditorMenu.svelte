@@ -16,14 +16,6 @@
 		{:else}
 			<p>Tile ID: {selectedTile.id}</p>
 
-			<label for="tile-name-input">Name:</label>
-			<input
-				id="tile-name-input"
-				type="text"
-				class="rounded-md border px-1"
-				bind:value={selectedTile.name}
-			/>
-
 			<br />
 
 			<label for="terrain-type-selector">Terrain Type:</label>
