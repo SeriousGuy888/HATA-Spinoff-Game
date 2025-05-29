@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte"
-	import WorldRenderer from "./WorldRenderer.svelte"
-	import Sidebar from "./Sidebar.svelte"
+	import WorldRenderer from "../lib/components/WorldRenderer.svelte"
+	import Sidebar from "../lib/components/Sidebar.svelte"
 	import { socket } from "../lib/socket_handler.svelte.ts"
-	import Topbar from "./Topbar.svelte"
+	import Topbar from "../lib/components/Topbar.svelte"
 
 	onDestroy(() => {
 		if (socket) {
