@@ -125,7 +125,7 @@ export class GameCanvas {
 	private drawHexagon(
 		centerWorldX: number,
 		centerWorldY: number,
-		label?: string,
+		label?: string | null,
 		isSelected: boolean = false,
 	) {
 		const zoom = canvasState.zoom
@@ -201,7 +201,7 @@ export class GameCanvas {
 				continue
 			}
 
-			this.drawHexagon(x, y, `${p},${q}`, p == selectedP && q == selectedQ)
+			this.drawHexagon(x, y, null, p == selectedP && q == selectedQ)
 		}
 
 		this.drawCullingBoundary()
