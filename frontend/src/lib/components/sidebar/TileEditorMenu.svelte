@@ -1,8 +1,8 @@
 <script>
 	import { exportTileStates } from "$lib/state/map_state.svelte"
-	import { TILE_TERRAINS } from "$lib/entities/ClientTile.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
 	import { localState } from "$lib/state/local_state.svelte"
+	import { TILE_TERRAINS } from "#shared/types/tile_data_types"
 	let selectedTile = $derived(getSelectedTile())
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
 </script>

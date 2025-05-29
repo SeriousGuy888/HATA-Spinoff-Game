@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TILE_TERRAINS } from "$lib/entities/ClientTile.svelte"
+	import { TILE_TERRAINS } from "#shared/types/tile_data_types"
 	import { canvasState } from "$lib/state/ui_state.svelte"
 	import { MAP_PAINTER_TOOLS } from "../map_rendering/MapPainter.svelte"
 </script>

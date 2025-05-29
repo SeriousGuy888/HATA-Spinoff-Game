@@ -1,12 +1,12 @@
 import { TileData } from "#shared/types/entities.ts"
-import { ExportedTileState, TileTerrain } from "#shared/types/tile_data_types.ts"
+import { ExportedTileState, TILE_TERRAINS, TileTerrain } from "#shared/types/tile_data_types.ts"
 import { Country } from "./Country"
 import Game from "./Game"
 
 export class Tile {
 	id: string
 	name: string = "" // name of the tile, used for display purposes
-	terrain: TileTerrain = "land" // type of terrain on this tile
+	terrain: TileTerrain = TILE_TERRAINS[~~(Math.random() * TILE_TERRAINS.length)] // type of terrain on this tile
 	controller: Country | null = null // the player who controls this tile, or null if no one does
 	population: number = 0
 	industry: number = 0

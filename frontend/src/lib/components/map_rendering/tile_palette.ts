@@ -29,16 +29,21 @@ export class TilePalette {
 
 	getTileSprite(tile: ClientTile): TileSprite {
 		switch (tile.terrain) {
-			case "land":
+			case "grass":
 				return TileSprite.GRASS
-			case "water":
-			case "impassable":
-				return TileSprite.WATER
+			case "sand":
+				return TileSprite.SAND
+			case "coastal_ocean":
+				return TileSprite.SHALLOW_WATER
+			case "deep_ocean":
+				return TileSprite.DEEP_WATER
 		}
 	}
 }
 
 export enum TileSprite {
 	GRASS = "grass.svg",
-	WATER = "water.svg",
+	SAND = "sand.svg",
+	SHALLOW_WATER = "shallow_water.svg",
+	DEEP_WATER = "deep_water.svg",
 }

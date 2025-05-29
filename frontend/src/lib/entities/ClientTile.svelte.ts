@@ -1,4 +1,4 @@
-import type { ExportedTileState } from "#shared/types/tile_data_types"
+import type { ExportedTileState, TileTerrain } from "#shared/types/tile_data_types"
 import type { ClientCountry } from "$lib/entities/ClientCountry.svelte"
 
 import type { TileData } from "#shared/types/entities"
@@ -47,6 +47,3 @@ export class ClientTile {
 		return this.name
 	}
 }
-
-export const TILE_TERRAINS = ["land", "impassable", "water"] as const
-export type TileTerrain = (typeof TILE_TERRAINS)[number]

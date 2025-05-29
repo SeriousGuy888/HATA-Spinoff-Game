@@ -1,4 +1,4 @@
-import { type TileTerrain } from "$lib/entities/ClientTile.svelte"
+import type { TileTerrain } from "#shared/types/tile_data_types"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasSpaceToWorldSpace } from "$lib/util/coordinates.svelte"
 import { worldSpaceToAxialInt } from "./game_canvas"

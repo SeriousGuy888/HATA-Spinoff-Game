@@ -8,4 +8,5 @@ export interface ExportedTileState {
 	industry: number
 }
 
-export type TileTerrain = "land" | "impassable" | "water"
+export const TILE_TERRAINS = ["grass", "sand", "coastal_ocean", "deep_ocean"] as const
+export type TileTerrain = (typeof TILE_TERRAINS)[number]
