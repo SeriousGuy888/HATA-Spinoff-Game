@@ -9,9 +9,8 @@
 
 {#if localState.game}
 	<details class="rounded-md bg-gray-100 p-4">
-		<summary class="select-none">Editor</summary>
+		<summary class="select-none">Tile Property Editor</summary>
 
-		<h2 class="font-bold">Tile Properties</h2>
 		{#if !selectedTile}
 			<p>No tile selected.</p>
 		{:else}

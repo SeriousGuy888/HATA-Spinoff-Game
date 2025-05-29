@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PlayerList from "./PlayerList.svelte"
 	import TileMenu from "./TileMenu.svelte"
-	import MapEditorMenu from "./MapEditorMenu.svelte"
+	import MapEditorMenu from "./TileEditorMenu.svelte"
 	import CountryMenu from "./CountryMenu.svelte"
 </script>
 
