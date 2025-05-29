@@ -52,7 +52,7 @@ export class TilePalette {
 
 			this.numImagesPending++
 			img.onload = () => {
-				console.log("loaded")
+				console.log("loaded", spriteFileName)
 				this.ctx.drawImage(img, x, y)
 				this.numImagesPending--
 
