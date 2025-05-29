@@ -6,6 +6,18 @@
 
 <nav class="flex h-full w-full items-stretch justify-between bg-gray-300 p-4">
 	<section class="flex h-full items-center justify-start gap-4">
+		<StatChip
+			stat={`${canvasState.offsetX.toFixed(0)}, ${canvasState.offsetY.toFixed(0)}`}
+			description="Camera offset"
+		/>
+		<StatChip
+			stat={`${canvasState.zoom.toFixed(2)}x`}
+			description="Zoom"
+		/>
+		<StatChip
+			stat={`${canvasState.millisecondsElapsedForPreviousFrame.toFixed(0)} ms / frame`}
+			description="Zoom"
+		/>
 		{#if localState.game && localState.perspectivePlayer?.controlledCountry}
 			{@const game = localState.game}
 			{@const player = localState.perspectivePlayer}
@@ -27,18 +39,6 @@
 					description="Total Population"
 				/>
 			{/if} -->
-			<StatChip
-				stat={`${canvasState.offsetX.toFixed(0)}, ${canvasState.offsetY.toFixed(0)}`}
-				description="Camera offset"
-			/>
-			<StatChip
-				stat={`${canvasState.zoom.toFixed(2)}x`}
-				description="Zoom"
-			/>
-			<StatChip
-				stat={`${canvasState.millisecondsElapsedForPreviousFrame.toFixed(0)} ms / frame`}
-				description="Zoom"
-			/>
 		{:else}
 			<p>spectating i guess</p>
 		{/if}
