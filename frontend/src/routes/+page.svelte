@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte"
-	import WorldRenderer from "../lib/components/WorldRenderer.svelte"
+	import MapRenderer from "../lib/components/map_rendering/MapRenderer.svelte"
 	import Sidebar from "../lib/components/Sidebar.svelte"
 	import { socket } from "../lib/socket_handler.svelte.ts"
 	import Topbar from "../lib/components/Topbar.svelte"
@@ -20,6 +20,6 @@
 		<Sidebar />
 	</section>
 	<section class="overflow-hidden bg-blue-200">
-		<WorldRenderer />
+		<MapRenderer />
 	</section>
 </main>

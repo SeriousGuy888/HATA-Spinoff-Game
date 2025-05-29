@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { canvasState, changeZoom, mouseState } from "$lib/state/ui_state.svelte.ts"
 	import { onMount } from "svelte"
-	import { GameCanvas } from "../../routes/game_canvas.ts"
+	import { GameCanvas } from "./game_canvas.ts"
 	import { clientSpaceToCanvasSpace } from "$lib/util/coordinates.svelte.ts"
 
 	const DRAGGING_THRESHOLD = 5 // pixels that the mouse must move to start dragging
