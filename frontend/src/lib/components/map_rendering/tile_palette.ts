@@ -5,7 +5,7 @@ const sourceWidth = 100
 const sourceHeight = 87
 
 // Each asset will be prerendered to each of these scales.
-const spriteScales = [0.125, 0.5, 1, 8]
+const spriteScales = [0.125, 0.5, 1, 2, 4, 8]
 const spritesheetGridWidth = sourceWidth * Math.max(...spriteScales)
 const spritesheetGridGap = 3
 
