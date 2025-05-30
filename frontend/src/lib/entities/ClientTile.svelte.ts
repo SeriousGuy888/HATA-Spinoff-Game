@@ -9,9 +9,7 @@ export class ClientTile {
 	coordinates: { p: number; q: number }
 
 	terrain = $state<TileTerrain>("grass") // type of terrain on this tile
-	controller = $state<ClientCountry | null>(null) // the player who controls this tile, or null if no one does
-	population = $state<number>(0)
-	industry = $state<number>(0)
+	controller = $state<ClientCountry | null>(null)
 
 	constructor(game: ClientGame, id: string, p: number, q: number, tileData: TileData) {
 		this.id = id
@@ -20,8 +18,6 @@ export class ClientTile {
 		if (tileData) {
 			this.terrain = tileData.terrain
 			this.controller = tileData.controllerId ? game.getCountry(tileData.controllerId) : null
-			this.population = tileData.population
-			this.industry = tileData.industry
 		}
 	}
 
@@ -32,8 +28,6 @@ export class ClientTile {
 		return {
 			terrain: this.terrain,
 			controller: this.controller?.id ?? null,
-			population: this.population,
-			industry: this.industry,
 		}
 	}
 

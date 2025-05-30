@@ -45,11 +45,6 @@ export default class ClientGame {
 		})
 	}
 
-	getTotalPopulation(country: ClientCountry) {
-		const controlledTiles = Object.values(this.tiles).filter((tile) => tile.controller === country)
-		return controlledTiles.reduce((acc, cur) => acc + cur.population, 0)
-	}
-
 	/**
 	 * Get a tile by its axial coordinates.
 	 * Return null if the tile does not exist.

@@ -26,8 +26,6 @@ export type TileData = {
 	id: string
 	terrain: TileTerrain
 	controllerId: string | null // id of the country that controls this tile
-	population: number
-	industry: number
 }
 
 export type CountryData = {
