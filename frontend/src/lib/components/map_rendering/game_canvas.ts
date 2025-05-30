@@ -214,14 +214,11 @@ export class GameCanvas {
 			centerWorldY - incircleRadius,
 		)
 
-		this.palette.paint(
-			this.ctx,
-			this.palette.getTileSprite(tile),
-			x,
-			y,
-			circumcircleDiameter * zoom,
-			incircleDiameter * zoom,
-		)
+		const width = circumcircleDiameter * zoom
+		const height = incircleDiameter * zoom
+		const tileScale = this.palette.getClosestScale(width)
+
+		this.palette.paint(this.ctx, this.palette.getTileSprite(tile), x, y, width, height, tileScale)
 
 		if (isSelected) {
 			const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {
