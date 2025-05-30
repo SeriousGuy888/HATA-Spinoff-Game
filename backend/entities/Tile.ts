@@ -1,5 +1,5 @@
 import { TileData } from "#shared/types/entities.ts"
-import { ExportedTileState, TileTerrain } from "#shared/types/tile_data_types.ts"
+import { ExportedTileState, TileStructure, TileTerrain } from "#shared/types/tile_data_types.ts"
 import { Country } from "./Country"
 import Game from "./Game"
 
@@ -7,6 +7,7 @@ export class Tile {
 	id: string
 	terrain: TileTerrain = "deep_ocean" // TILE_TERRAINS[~~(Math.random() * TILE_TERRAINS.length)]
 	controller: Country | null = null // the player who controls this tile, or null if no one does
+	structure: TileStructure | null = Math.random() > 0.2 ? null : { type: "house", level: 1 }
 
 	constructor(game: Game, id: string, defaultState: ExportedTileState | null = null) {
 		this.id = id
@@ -40,6 +41,7 @@ export class Tile {
 			id: this.id,
 			terrain: this.terrain,
 			controllerId: this.controller?.id ?? null,
+			structure: this.structure ?? null,
 		}
 	}
 }

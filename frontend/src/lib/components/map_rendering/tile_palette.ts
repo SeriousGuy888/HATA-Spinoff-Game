@@ -142,13 +142,17 @@ export class TilePalette {
 
 	public paint(
 		ctx: CanvasRenderingContext2D,
-		sprite: SpriteId,
+		sprite: SpriteId | null,
 		x: number,
 		y: number,
 		targetWidth: number,
 		targetHeight: number,
 		spriteScale: number = 1,
 	) {
+		if (!sprite) {
+			return
+		}
+
 		if (!this.spritesheet) {
 			console.debug(
 				"Skipped painting tile: the snapshot of prerendered sprites hasn't been taken yet.",
@@ -207,8 +211,18 @@ export function getTerrainSprite(tile: ClientTile): SpriteId {
 	}
 }
 
-export function getStructureSprite(tile: ClientTile): SpriteId {
-	return SpriteId.HOUSE
+export function getStructureSprite(tile: ClientTile): SpriteId | null {
+	const structure = tile.structure
+	if (!structure) {
+		return null
+	}
+
+	switch (structure.type) {
+		case "house":
+			return SpriteId.HOUSE
+		default:
+			return null
+	}
 }
 
 enum SpriteId {

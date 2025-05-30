@@ -1,5 +1,5 @@
 import type { ResourceMap } from "./resources"
-import type { TileAxialCoordinateKey, TileTerrain } from "./tile_data_types"
+import type { TileAxialCoordinateKey, TileStructure, TileTerrain } from "./tile_data_types"
 
 export type GameData = {
 	isInitialised: boolean
@@ -26,6 +26,7 @@ export type TileData = {
 	id: string
 	terrain: TileTerrain
 	controllerId: string | null // id of the country that controls this tile
+	structure: TileStructure | null
 }
 
 export type CountryData = {
