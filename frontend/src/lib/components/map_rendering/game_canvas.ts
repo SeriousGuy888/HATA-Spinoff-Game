@@ -1,7 +1,7 @@
 import { canvasSpaceToWorldSpace, worldSpaceToCanvasSpace } from "$lib/util/coordinates.svelte"
 import { localState } from "$lib/state/local_state.svelte"
 import { canvasState, getSelectedTileCoords, selectTile } from "$lib/state/ui_state.svelte.ts"
-import { TilePalette } from "./tile_palette"
+import { getStructureSprite, getTerrainSprite, TilePalette } from "./tile_palette"
 import type { ClientTile } from "$lib/entities/ClientTile.svelte"
 import { MapPainter } from "./MapPainter.svelte"
 
@@ -218,7 +218,8 @@ export class GameCanvas {
 		const height = incircleDiameter * zoom
 		const tileScale = this.palette.getClosestScale(width)
 
-		this.palette.paint(this.ctx, this.palette.getTileSprite(tile), x, y, width, height, tileScale)
+		this.palette.paint(this.ctx, getTerrainSprite(tile), x, y, width, height, tileScale)
+		this.palette.paint(this.ctx, getStructureSprite(tile), x, y, width, height, tileScale)
 
 		if (isSelected) {
 			const vertices: [number, number][] = hexagonVertexOffsets.map((offset) => {

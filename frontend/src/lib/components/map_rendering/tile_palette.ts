@@ -5,7 +5,7 @@ const sourceWidth = 100
 const sourceHeight = 87
 
 // Each asset will be prerendered to each of these scales.
-const spriteScales = [0.125, 0.5, 1, 2, 4, 8]
+const spriteScales = [0.125, 0.25, 0.5, 1, 2, 4, 8]
 const spritesheetGridWidth = sourceWidth * Math.max(...spriteScales)
 const spritesheetGridGap = 3
 
@@ -29,7 +29,7 @@ export class TilePalette {
 	 * The inner map maps each available scale to the x,y coordinates on the spritesheet where the requested
 	 * sprite at the specified scale can be found.
 	 */
-	private readonly spriteLocations: Map<TileSprite, Map<number, [number, number]>> = new Map()
+	private readonly spriteLocations: Map<SpriteId, Map<number, [number, number]>> = new Map()
 
 	/**
 	 * Because images don't load immediately, we have to wait for the images to resolve before drawing them onto
@@ -39,7 +39,7 @@ export class TilePalette {
 	private numImagesPending = 0
 
 	constructor() {
-		const spriteEntries = Object.values(TileSprite)
+		const spriteEntries = Object.values(SpriteId)
 
 		const spritesheetWidth = (spritesheetGridWidth + spritesheetGridGap) * spriteEntries.length
 		const spritesheetHeight = spriteScales.reduce(
@@ -60,12 +60,12 @@ export class TilePalette {
 		this.preloadImages(spriteEntries)
 	}
 
-	private preloadImages(images: TileSprite[]) {
+	private preloadImages(images: SpriteId[]) {
 		for (let i = 0; i < images.length; i++) {
 			// Create a image, and mark it as pending.
-			const currImageFileName = images[i]
+			const currImagePath = images[i]
 			const image = new Image()
-			image.src = "/tiles/" + currImageFileName
+			image.src = currImagePath
 			this.numImagesPending++
 
 			// Go through each of the scales it has to be rendered at, and mark down where it should be drawn.
@@ -78,16 +78,16 @@ export class TilePalette {
 				alreadyOccupiedHeight += scale * sourceHeight + spritesheetGridGap
 
 				locationsPerScale.set(scale, [stagingX, stagingY])
-				this.spriteLocations.set(currImageFileName, locationsPerScale)
+				this.spriteLocations.set(currImagePath, locationsPerScale)
 			}
 
 			image.onload = () => {
-				console.log("loaded", currImageFileName)
+				console.log("loaded", currImagePath)
 
-				const locationsPerScale = this.spriteLocations.get(currImageFileName)
+				const locationsPerScale = this.spriteLocations.get(currImagePath)
 				if (!locationsPerScale) {
 					console.error(
-						`${currImageFileName} was loaded successfully, but wasn't prerendered because the locations per scale were not correctly set.`,
+						`${currImagePath} was loaded successfully, but wasn't prerendered because the locations per scale were not correctly set.`,
 					)
 					this.numImagesPending--
 					return
@@ -120,7 +120,7 @@ export class TilePalette {
 				}
 			}
 			image.onerror = (e) => {
-				console.error(`Failed to load sprite ${currImageFileName}. Skipping.`, e)
+				console.error(`Failed to load sprite ${currImagePath}. Skipping.`, e)
 				this.numImagesPending--
 				if (this.numImagesPending === 0) {
 					this.freezeSpritesheet()
@@ -142,7 +142,7 @@ export class TilePalette {
 
 	public paint(
 		ctx: CanvasRenderingContext2D,
-		tileImage: TileSprite,
+		sprite: SpriteId,
 		x: number,
 		y: number,
 		targetWidth: number,
@@ -156,9 +156,9 @@ export class TilePalette {
 			return
 		}
 
-		const locationsPerScale = this.spriteLocations.get(tileImage)
+		const locationsPerScale = this.spriteLocations.get(sprite)
 		if (!locationsPerScale || locationsPerScale.size == 0) {
-			console.warn(`image ${tileImage} not loaded. can't draw`)
+			console.warn(`image ${sprite} not loaded. can't draw`)
 			return
 		}
 
@@ -190,27 +190,32 @@ export class TilePalette {
 
 		return closestScale
 	}
+}
 
-	public getTileSprite(tile: ClientTile): TileSprite {
-		switch (tile.terrain) {
-			case "grass":
-				return TileSprite.GRASS
-			case "sand":
-				return TileSprite.SAND
-			case "coastal_ocean":
-				return TileSprite.SHALLOW_WATER
-			case "deep_ocean":
-				return TileSprite.DEEP_WATER
-			default:
-				return TileSprite.INVALID
-		}
+export function getTerrainSprite(tile: ClientTile): SpriteId {
+	switch (tile.terrain) {
+		case "grass":
+			return SpriteId.GRASS
+		case "sand":
+			return SpriteId.SAND
+		case "coastal_ocean":
+			return SpriteId.SHALLOW_WATER
+		case "deep_ocean":
+			return SpriteId.DEEP_WATER
+		default:
+			return SpriteId.INVALID_TERRAIN
 	}
 }
 
-enum TileSprite {
-	GRASS = "grass.svg",
-	SAND = "sand.svg",
-	SHALLOW_WATER = "shallow_water.svg",
-	DEEP_WATER = "deep_water.svg",
-	INVALID = "invalid_terrain.svg",
+export function getStructureSprite(tile: ClientTile): SpriteId {
+	return SpriteId.HOUSE
+}
+
+enum SpriteId {
+	GRASS = "/tiles/grass.svg",
+	SAND = "/tiles/sand.svg",
+	SHALLOW_WATER = "/tiles/shallow_water.svg",
+	DEEP_WATER = "/tiles/deep_water.svg",
+	INVALID_TERRAIN = "/tiles/invalid_terrain.svg",
+	HOUSE = "/structures/house.svg",
 }
