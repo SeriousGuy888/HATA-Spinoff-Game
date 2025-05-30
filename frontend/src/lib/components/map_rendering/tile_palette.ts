@@ -13,8 +13,8 @@ const renderGap = 5 // How many pixels to leave between prerendered images on th
 export class TilePalette {
 	// The offscreen canvas is used to prerender the SVGs into raster images.
 	// This improves performance, since we can then just copy the prerendered versions onto the main canvas.
-	private readonly offscreenCanvas: OffscreenCanvas
-	private readonly ctx!: OffscreenCanvasRenderingContext2D
+	private readonly stagingCanvas: OffscreenCanvas
+	private readonly stagingCtx!: OffscreenCanvasRenderingContext2D
 
 	// This map stores where on the offscreen canvas each sprite was rendered to.
 	private readonly imageLocations: Map<TileSprite, [number, number]> = new Map()
@@ -32,14 +32,14 @@ export class TilePalette {
 
 	constructor() {
 		const spriteEntries = Object.values(TileSprite)
-		this.offscreenCanvas = new OffscreenCanvas(renderWidth * spriteEntries.length, renderHeight)
+		this.stagingCanvas = new OffscreenCanvas(renderWidth * spriteEntries.length, renderHeight)
 
-		const ctx = this.offscreenCanvas.getContext("2d")
+		const ctx = this.stagingCanvas.getContext("2d")
 		if (ctx === null) {
 			console.error("couldn't load offscreen canvas on to render tile sprites")
 			return
 		} else {
-			this.ctx = ctx
+			this.stagingCtx = ctx
 		}
 
 		this.preloadImages(spriteEntries)
@@ -59,7 +59,7 @@ export class TilePalette {
 			this.numImagesPending++
 			img.onload = () => {
 				console.log("loaded", spriteFileName)
-				this.ctx.drawImage(img, 0, 0, sourceWidth, sourceHeight, x, y, renderWidth, renderHeight)
+				this.stagingCtx.drawImage(img, 0, 0, sourceWidth, sourceHeight, x, y, renderWidth, renderHeight)
 				this.numImagesPending--
 
 				if (this.numImagesPending === 0) {
@@ -81,7 +81,7 @@ export class TilePalette {
 		// 	const url = URL.createObjectURL(blob)
 		// 	console.log(url)
 		// })
-		this.snapshot = this.offscreenCanvas.transferToImageBitmap()
+		this.snapshot = this.stagingCanvas.transferToImageBitmap()
 		console.log("Tile sprite prerendering done. Took snapshot of offscreen canvas.")
 	}
 
