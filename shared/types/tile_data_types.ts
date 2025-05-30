@@ -2,7 +2,8 @@ export type TileAxialCoordinateKey = `${number},${number}`
 
 export interface ExportedTileState {
 	terrain: TileTerrain
-	controller: string | null // the id of the country that controls this tile, or null if no one does
+	controller?: string // the id of the country that controls this tile
+	structure?: TileStructure
 }
 
 export const TILE_TERRAINS = ["grass", "sand", "coastal_ocean", "deep_ocean"] as const

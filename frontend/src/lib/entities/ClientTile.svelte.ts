@@ -27,10 +27,12 @@ export class ClientTile {
 	 * Export the tile data to a format that can be saved to a file.
 	 */
 	exportState(): ExportedTileState {
-		return {
+		const state = {
 			terrain: this.terrain,
-			controller: this.controller?.id ?? null,
+			controller: this.controller?.id,
+			structure: this.structure ?? undefined,
 		}
+		return state
 	}
 
 	toString() {

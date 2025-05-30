@@ -7,29 +7,20 @@ export class Tile {
 	id: string
 	terrain: TileTerrain = "deep_ocean" // TILE_TERRAINS[~~(Math.random() * TILE_TERRAINS.length)]
 	controller: Country | null = null // the player who controls this tile, or null if no one does
-	structure: TileStructure | null = Math.random() > 0.2 ? null : { type: "house", level: 1 }
+	structure: TileStructure | null = null
 
-	constructor(game: Game, id: string, defaultState: ExportedTileState | null = null) {
+	constructor(game: Game, id: string, storedState: ExportedTileState | null = null) {
 		this.id = id
 
-		if (defaultState) {
-			this.terrain = defaultState.terrain
-			this.controller = defaultState.controller ? game.getCountry(defaultState.controller) : null
+		if (storedState) {
+			this.terrain = storedState.terrain
+			this.controller = storedState.controller ? game.getCountry(storedState.controller) : null
+			this.structure = storedState.structure ?? null
 		}
 	}
 
 	tick() {
 		// do nothing
-	}
-
-	/**
-	 * Export the tile data to a format that can be saved to a file.
-	 */
-	exportState(): ExportedTileState {
-		return {
-			terrain: this.terrain,
-			controller: this.controller?.id ?? null,
-		}
 	}
 
 	toString() {

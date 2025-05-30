@@ -160,7 +160,7 @@ export default class Game {
 				// After knowing which row of the current column, calculate the actual q-coord (vertical) of the
 				// target row. The q-coord is the number of times to step south from the current p-coord (along the
 				// current column).
-				// 
+				//
 				// To clarify, since the p-axis isn't horizontal (rather 30° clockwise from the horizontal),
 				// every other column is shifted 1 row up to compensate.
 				// This creates a roughly rectangular game board, despite the hexagonal coordinates.
@@ -171,27 +171,17 @@ export default class Game {
 
 				if (Object.hasOwn(this.tiles, key)) {
 					console.warn("duplicate key", key)
+					return
 				}
-				this.tiles[key] = new Tile(this, key, null)
+
+				const storedState = TILE_STATES[key] ?? null
+				if (!storedState) {
+					console.warn(`Tile ${key} has no default state. Using empty state.`)
+				}
+
+				this.tiles[key] = new Tile(this, key, storedState)
 			}
 		}
-
-
-		// const tileIds = Object.keys(TILE_STATES)
-		// for (const id of tileIds) {
-		// 	if (this.tiles[id]) {
-		// 		console.warn(`Tile ${id} is already loaded. Skipping.`)
-		// 		continue
-		// 	}
-
-		// 	const defaultState = TILE_STATES[id] ?? null
-		// 	if (!defaultState) {
-		// 		console.warn(`Tile ${id} has no default state. Using empty state.`)
-		// 	}
-
-		// 	const tile = new Tile(this, id, defaultState)
-		// 	this.tiles[id] = tile
-		// }
 	}
 
 	toJson(): GameData {

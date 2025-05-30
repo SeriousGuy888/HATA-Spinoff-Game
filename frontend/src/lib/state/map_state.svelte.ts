@@ -11,8 +11,13 @@ export const MAP_DIMENSIONS = {
 
 export function exportTileStates(): Record<string, ExportedTileState> {
 	const allTileStates: Record<string, ExportedTileState> = {}
-	for (const id in localState.game?.tiles) {
-		const tile = localState.game?.tiles[id]
+
+	const allTiles = localState.game?.tiles
+	if (!allTiles) {
+		return {}
+	}
+
+	for (const [id, tile] of Object.entries(allTiles)) {
 		allTileStates[id] = tile.exportState()
 	}
 	return allTileStates
