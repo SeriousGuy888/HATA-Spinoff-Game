@@ -5,7 +5,7 @@ import Game from "./Game"
 
 export class Tile {
 	id: string
-	terrain: TileTerrain = TILE_TERRAINS[~~(Math.random() * TILE_TERRAINS.length)] // type of terrain on this tile
+	terrain: TileTerrain = "deep_ocean" // TILE_TERRAINS[~~(Math.random() * TILE_TERRAINS.length)]
 	controller: Country | null = null // the player who controls this tile, or null if no one does
 	population: number = 0
 	industry: number = 0

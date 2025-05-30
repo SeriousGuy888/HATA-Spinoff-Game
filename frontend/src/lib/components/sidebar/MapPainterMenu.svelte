@@ -18,11 +18,17 @@
 				<option value={tool}>{tool.toUpperCase()}</option>
 			{/each}
 		</select>
-		<select bind:value={mapPainter.terrainType}>
+
+		<br />
+		<select bind:value={mapPainter.selectedTerrain}>
 			{#each TILE_TERRAINS as terrain}
 				<option value={terrain}>{terrain.toUpperCase()}</option>
 			{/each}
 		</select>
+
+		<br />
+		<input type="checkbox" id="thick" bind:checked={mapPainter.thickBrush} />
+		<label for="thick">Thick Brush</label>
 
 		<!-- <button
 			class="mt-2 cursor-pointer rounded-md bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
