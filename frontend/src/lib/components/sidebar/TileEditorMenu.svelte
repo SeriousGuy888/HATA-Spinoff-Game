@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 	import { exportTileStates } from "$lib/state/map_state.svelte"
 	import { getSelectedTile } from "$lib/state/ui_state.svelte"
 	import { localState } from "$lib/state/local_state.svelte"
-	import { TILE_TERRAINS } from "#shared/types/tile_data_types"
+	import { TILE_STRUCTURE_TYPES, TILE_TERRAINS } from "#shared/types/tile_data_types"
 	let selectedTile = $derived(getSelectedTile())
 	let selectedCountry = $derived(selectedTile ? selectedTile.controller : null)
 </script>
@@ -45,6 +45,33 @@
 				{#each Object.keys(localState.game.countries) as countryId}
 					<option value={countryId} selected={selectedTile.controller?.id === countryId}>
 						{localState.game.getCountry(countryId)?.name}
+					</option>
+				{/each}
+			</select>
+			<br />
+
+			<label for="structure-type-selector">Structure:</label>
+			<select
+				onchange={(event) => {
+					if (!event.currentTarget.value) {
+						selectedTile.structure = null
+					} else {
+						if (!selectedTile.structure) {
+							// @ts-ignore
+							selectedTile.structure = {}
+						}
+						// @ts-ignore
+						selectedTile.structure.type = event.currentTarget.value
+					}
+				}}
+				id="structure-type-selector"
+				class="rounded-md border px-1"
+				
+			>
+				<option value="" selected={!selectedTile.structure}>(none)</option>
+				{#each TILE_STRUCTURE_TYPES as type}
+					<option value={type} selected={selectedTile.structure?.type === type}>
+						{type.toUpperCase()}
 					</option>
 				{/each}
 			</select>
