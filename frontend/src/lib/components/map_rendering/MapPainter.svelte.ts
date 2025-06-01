@@ -8,7 +8,7 @@ export const MAP_PAINTER_TOOLS = ["brush", "paint_bucket"] as const
 export type MapPainterTool = (typeof MAP_PAINTER_TOOLS)[number]
 
 export class MapPainter {
-	enabled = $state(true)
+	enabled = $state(false)
 	tool = $state<MapPainterTool>("brush")
 	selectedTerrain = $state<TileTerrain>("grass")
 	thickBrush = $state(false)
